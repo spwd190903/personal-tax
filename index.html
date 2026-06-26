@@ -3,71 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Portal & Admin System (Updated)</title>
+    <title>Game Portal System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap');
         body { font-family: 'Prompt', sans-serif; }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col items-center justify-center p-4">
 
-    <div class="w-full max-w-5xl bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden">
+    <div class="w-full max-w-lg bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden mb-4">
         
-        <div id="auth-view" class="p-8 hidden">
-            <h1 class="text-3xl font-bold text-center text-indigo-400 mb-8">🎮 ยินดีต้อนรับสู่ Game Portal</h1>
+        <div id="login-view" class="p-8 hidden">
+            <h1 class="text-3xl font-bold text-center text-indigo-400 mb-2">🎮 Game Portal</h1>
+            <p class="text-slate-400 text-sm text-center mb-8">เข้าสู่ระบบเพื่อเริ่มการผจญภัยของคุณ</p>
             
-            <div class="grid md:grid-cols-2 gap-8 divide-y md:divide-y-0 md:divide-x divide-slate-700">
-                <div class="space-y-6 pb-6 md:pb-0">
-                    <h2 class="text-xl font-semibold text-slate-300">เข้าสู่ระบบ หรือ สมัครสมาชิกใหม่</h2>
-                    
-                    <div>
-                        <label class="block text-sm font-medium text-slate-400 mb-1">เบอร์โทรศัพท์</label>
-                        <input type="tel" id="auth-phone" placeholder="กรอกเบอร์โทรศัพท์" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-indigo-500">
-                    </div>
-                    
-                    <div id="register-fields" class="hidden space-y-4 pt-2 border-t border-slate-700/50">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-400 mb-1">ชื่อผู้เล่น</label>
-                            <input type="text" id="auth-name" placeholder="ตั้งชื่อของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-indigo-500">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-400 mb-1">สังกัด / หน่วยงาน / ทีม</label>
-                            <input type="text" id="auth-affiliation" placeholder="ระบุสังกัดของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-indigo-500">
-                        </div>
-                    </div>
-
-                    <button onclick="handleAuth()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-lg transition duration-200">
-                        ตรวจสอบข้อมูล / เข้าสู่ระบบ
-                    </button>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-1">ชื่อผู้ใช้ (Username)</label>
+                    <input type="text" id="login-username" placeholder="กรอกชื่อผู้ใช้ของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-indigo-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-1">รหัสผ่าน (Password)</label>
+                    <input type="password" id="login-password" placeholder="กรอกรหัสผ่านของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-indigo-500">
                 </div>
 
-                <div class="space-y-6 pt-6 md:pt-0 md:pl-8">
-                    <h2 class="text-xl font-semibold text-red-400">สำหรับผู้ดูแลระบบ (Admin)</h2>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-400 mb-1">รหัสผ่านแอดมิน</label>
-                        <input type="password" id="admin-pass" placeholder="กรอกรหัสผ่านแอดมิน" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-red-500">
-                    </div>
-                    <button onclick="loginAdmin()" class="w-full bg-red-600 hover:bg-red-500 text-white font-medium py-2.5 rounded-lg transition duration-200">
-                        เข้าสู่ระบบแอดมิน
+                <button onclick="handleLogin()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-lg transition duration-200 mt-2">
+                    ลงชื่อเข้าใช้
+                </button>
+
+                <div class="text-center pt-4 border-t border-slate-700/50 mt-4">
+                    <button onclick="showAuthPage('register')" class="text-sm text-indigo-400 hover:underline">
+                        ยังไม่มีบัญชี? สมัครสมาชิกใหม่ที่นี่
                     </button>
                 </div>
             </div>
         </div>
 
-        <div id="player-view" class="p-8 hidden">
+        <div id="register-view" class="p-8 hidden">
+            <h1 class="text-2xl font-bold text-center text-emerald-400 mb-2">📝 สมัครสมาชิกใหม่</h1>
+            <p class="text-slate-400 text-sm text-center mb-6">กรอกข้อมูลให้ครบถ้วนเพื่อสร้างบัญชี</p>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-1">ชื่อผู้ใช้ (Username) <span class="text-xs text-rose-400">(ใช้สำหรับเข้าสู่ระบบ / แก้ไขไม่ได้)</span></label>
+                    <input type="text" id="reg-username" placeholder="ตั้งชื่อผู้ใช้ภาษาอังกฤษ/ตัวเลข" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-1">รหัสผ่าน (Password)</label>
+                    <input type="password" id="reg-password" placeholder="ตั้งรหัสผ่านของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-1">ชื่อเล่น (Nickname) <span class="text-xs text-emerald-400">(เปลี่ยนได้ตลอดเวลาในเกม)</span></label>
+                    <input type="text" id="reg-nickname" placeholder="ตั้งชื่อเล่นของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-1">เบอร์โทรศัพท์</label>
+                    <input type="tel" id="reg-phone" placeholder="กรอกเบอร์โทรศัพท์ของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-1">สังกัด / หน่วยงาน / ทีม</label>
+                    <input type="text" id="reg-affiliation" placeholder="ระบุสังกัดของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
+                </div>
+
+                <button onclick="handleRegister()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2.5 rounded-lg transition duration-200 mt-2">
+                    สร้างบัญชีผู้ใช้
+                </button>
+
+                <div class="text-center pt-4 border-t border-slate-700/50 mt-4">
+                    <button onclick="showAuthPage('login')" class="text-sm text-emerald-400 hover:underline">
+                        มีบัญชีอยู่แล้ว? กลับไปหน้าเข้าสู่ระบบ
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="player-view" class="p-8 hidden max-w-5xl">
             <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-slate-700 pb-6 mb-6 gap-4">
                 <div>
-                    <div class="flex items-center gap-3">
-                        <h2 class="text-2xl font-bold text-indigo-400" id="player-display-name">ผู้เล่น</h2>
-                        <button onclick="toggleEditName()" class="text-xs bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded text-slate-300">เปลี่ยนชื่อ</button>
+                    <div class="flex items-baseline gap-2 flex-wrap">
+                        <h2 class="text-2xl font-bold text-indigo-400" id="player-display-nickname">ชื่อเล่น</h2>
+                        <span class="text-xs text-slate-400 bg-slate-700/50 px-2 py-0.5 rounded" id="player-display-username">@username</span>
+                        <button onclick="toggleEditNickname()" class="text-[11px] bg-slate-700 hover:bg-slate-600 px-2 py-0.5 rounded text-slate-300">เปลี่ยนชื่อเล่น</button>
                     </div>
-                    <p class="text-sm text-slate-400 mt-1" id="player-display-affiliation">สังกัด: -</p>
+                    <p class="text-sm text-slate-300 mt-1" id="player-display-affiliation">สังกัด: -</p>
                     <p class="text-xs text-slate-500" id="player-display-phone">เบอร์โทร: -</p>
                     
-                    <div id="edit-name-box" class="hidden mt-3 flex gap-2">
-                        <input type="text" id="new-name-input" class="bg-slate-700 border border-slate-600 rounded px-2 py-1 text-sm text-white focus:outline-none">
-                        <button onclick="saveNewName()" class="bg-emerald-600 hover:bg-emerald-500 px-3 py-1 rounded text-xs font-medium">บันทึก</button>
+                    <div id="edit-nickname-box" class="hidden mt-3 flex gap-2">
+                        <input type="text" id="new-nickname-input" class="bg-slate-700 border border-slate-600 rounded px-2 py-1 text-sm text-white focus:outline-none">
+                        <button onclick="saveNewNickname()" class="bg-emerald-600 hover:bg-emerald-500 px-3 py-1 rounded text-xs font-medium">บันทึก</button>
                     </div>
                 </div>
                 
@@ -117,274 +141,10 @@
             </div>
         </div>
 
-        <div id="admin-view" class="p-8 hidden">
+        <div id="admin-view" class="p-8 hidden max-w-5xl">
             <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-6">
                 <div>
                     <h2 class="text-2xl font-bold text-red-400">🕵️ ระบบจัดการแดชบอร์ดแอดมิน</h2>
                     <p class="text-sm text-slate-400 mt-1">จำนวนสมาชิกในระบบทั้งหมด: <span id="admin-total-users" class="font-bold text-white">0</span> คน</p>
                 </div>
-                <button onclick="logout()" class="bg-slate-700 hover:bg-slate-600 text-slate-300 px-4 py-2 rounded-lg text-sm font-medium transition duration-200">
-                    ออกจากระบบแอดมิน
-                </button>
-            </div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm text-slate-300">
-                    <thead class="bg-slate-700 text-slate-200 uppercase text-xs">
-                        <tr>
-                            <th class="px-4 py-3">ชื่อผู้เล่น</th>
-                            <th class="px-4 py-3">สังกัด</th>
-                            <th class="px-4 py-3">เบอร์โทรศัพท์</th>
-                            <th class="px-4 py-3 text-center">ด่านที่เล่นถึง</th>
-                            <th class="px-4 py-3 text-right">คะแนนรวม</th>
-                            <th class="px-4 py-3 text-center">จัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-user-table" class="divide-y divide-slate-700">
-                        </tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
-
-    <script>
-        let db = JSON.parse(localStorage.getItem('game_users_db')) || {};
-        let currentUserPhone = localStorage.getItem('game_current_user') || null;
-        let isAdminLoggedIn = localStorage.getItem('game_admin_logged') === 'true';
-
-        window.onload = function() {
-            if (isAdminLoggedIn) {
-                showView('admin');
-            } else if (currentUserPhone && db[currentUserPhone]) {
-                showView('player');
-            } else {
-                showView('auth');
-            }
-        };
-
-        function showView(view) {
-            document.getElementById('auth-view').classList.add('hidden');
-            document.getElementById('player-view').classList.add('hidden');
-            document.getElementById('admin-view').classList.add('hidden');
-
-            if (view === 'auth') {
-                document.getElementById('auth-view').classList.remove('hidden');
-                document.getElementById('register-fields').classList.add('hidden');
-                document.getElementById('auth-phone').value = '';
-                document.getElementById('auth-name').value = '';
-                document.getElementById('auth-affiliation').value = '';
-            } else if (view === 'player') {
-                document.getElementById('player-view').classList.remove('hidden');
-                renderPlayerMap();
-            } else if (view === 'admin') {
-                document.getElementById('admin-view').classList.remove('hidden');
-                renderAdminDashboard();
-            }
-        }
-
-        // ================= ฟังก์ชัน ระบบ AUTH & REGISTER =================
-        function handleAuth() {
-            const phone = document.getElementById('auth-phone').value.trim();
-            const registerFields = document.getElementById('register-fields');
-            const nameInput = document.getElementById('auth-name').value.trim();
-            const affiliationInput = document.getElementById('auth-affiliation').value.trim();
-
-            if (!phone) {
-                alert('กรุณากรอกเบอร์โทรศัพท์ด้วยครับ');
-                return;
-            }
-
-            // เคสที่ 1: เบอร์นี้เคยสมัครแล้ว -> ทำการล็อกอินให้ทันที
-            if (db[phone]) {
-                currentUserPhone = phone;
-                localStorage.setItem('game_current_user', phone);
-                showView('player');
-                return;
-            }
-
-            // เคสที่ 2: เบอร์ใหม่ยังไม่เคยสมัคร -> แสดงช่องกรอกชื่อและสังกัดเพื่อสมัคร
-            if (registerFields.classList.contains('hidden')) {
-                registerFields.classList.remove('hidden');
-                alert('ไม่พบเบอร์โทรนี้ในระบบ ระบบเปิดช่องให้กรอก ชื่อ และ สังกัด เพื่อลงทะเบียนใหม่แล้วครับ');
-                return;
-            }
-
-            // ตรวจสอบการกรอกข้อมูลสมัครใหม่
-            if (!nameInput || !affiliationInput) {
-                alert('กรุณากรอกข้อมูล ชื่อ และ สังกัด ให้ครบถ้วนเพื่อสมัครสมาชิก');
-                return;
-            }
-
-            // บันทึกยูสเซอร์ใหม่ลงฐานข้อมูล
-            db[phone] = {
-                name: nameInput,
-                affiliation: affiliationInput,
-                phone: phone,
-                currentLevel: 1, 
-                score: 0
-            };
-            saveDB();
-
-            currentUserPhone = phone;
-            localStorage.setItem('game_current_user', phone);
-            showView('player');
-        }
-
-        function toggleEditName() {
-            const box = document.getElementById('edit-name-box');
-            box.classList.toggle('hidden');
-            if(!box.classList.contains('hidden')) {
-                document.getElementById('new-name-input').value = db[currentUserPhone].name;
-            }
-        }
-
-        function saveNewName() {
-            const newName = document.getElementById('new-name-input').value.trim();
-            if(!newName) return alert('ชื่อต้องไม่ว่างเปล่า');
-            
-            db[currentUserPhone].name = newName;
-            saveDB();
-            toggleEditName();
-            renderPlayerMap();
-        }
-
-        // ================= ฟังก์ชัน ระบบแอดมิน =================
-        function loginAdmin() {
-            const password = document.getElementById('admin-pass').value;
-            if (password === 'coco') {
-                isAdminLoggedIn = true;
-                localStorage.setItem('game_admin_logged', 'true');
-                showView('admin');
-                document.getElementById('admin-pass').value = '';
-            } else {
-                alert('รหัสผ่านแอดมินไม่ถูกต้อง!');
-            }
-        }
-
-        function renderAdminDashboard() {
-            const usersArray = Object.values(db);
-            document.getElementById('admin-total-users').innerText = usersArray.length;
-            
-            const tableBody = document.getElementById('admin-user-table');
-            tableBody.innerHTML = '';
-
-            if(usersArray.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-slate-500">ยังไม่มีผู้เล่นสมัครเข้ามาในระบบ</td></tr>`;
-                return;
-            }
-
-            usersArray.forEach(user => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-750 border-b border-slate-700/50";
-                tr.innerHTML = `
-                    <td class="px-4 py-3 font-medium text-white">${escapeHtml(user.name)}</td>
-                    <td class="px-4 py-3 text-slate-300">${escapeHtml(user.affiliation || '-')}</td>
-                    <td class="px-4 py-3 text-slate-400">${escapeHtml(user.phone)}</td>
-                    <td class="px-4 py-3 text-center">
-                        <span class="px-2 py-1 rounded text-xs font-semibold ${user.currentLevel > 4 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-cyan-500/20 text-cyan-400'}">
-                            ${user.currentLevel > 4 ? 'จบเกมแล้ว' : 'ด่าน ' + user.currentLevel}
-                        </span>
-                    </td>
-                    <td class="px-4 py-3 text-right font-bold text-amber-400">${user.score} แต้ม</td>
-                    <td class="px-4 py-3 text-center">
-                        <button onclick="deleteUser('${user.phone}')" class="bg-rose-600/20 hover:bg-rose-600 hover:text-white text-rose-400 text-xs px-2 py-1 rounded transition duration-150">
-                            🗑️ ลบผู้เล่น
-                        </button>
-                    </td>
-                `;
-                tableBody.appendChild(tr);
-            });
-        }
-
-        // ฟังก์ชันสำหรับแอดมินสั่งลบผู้เล่นออกจากระบบ
-        function deleteUser(phone) {
-            const user = db[phone];
-            if (!user) return;
-
-            if (confirm(`คุณแน่ใจหรือไม่ที่จะลบผู้เล่น "${user.name}" (เบอร์: ${user.phone}) ออกจากระบบ? ข้อมูลทั้งหมดจะหายไปถาวร`)) {
-                delete db[phone];
-                saveDB();
-                renderAdminDashboard(); // โหลดตารางใหม่หลังจากลบข้อมูล
-                alert('ลบข้อมูลผู้เล่นเรียบร้อยแล้ว');
-            }
-        }
-
-        // ================= ฟังก์ชัน แผนที่และการเล่นเกม =================
-        function renderPlayerMap() {
-            const user = db[currentUserPhone];
-            if (!user) { 
-                logout(); 
-                return; 
-            }
-            
-            document.getElementById('player-display-name').innerText = user.name;
-            document.getElementById('player-display-affiliation').innerText = `สังกัด: ${user.affiliation || 'ไม่ได้ระบุ'}`;
-            document.getElementById('player-display-phone').innerText = `เบอร์โทร: ${user.phone}`;
-            document.getElementById('player-score').innerText = user.score;
-            document.getElementById('player-level').innerText = user.currentLevel > 4 ? 'ผ่านทุกด่านแล้ว 🎉' : `ด่าน ${user.currentLevel}`;
-
-            for (let i = 1; i <= 4; i++) {
-                const btn = document.getElementById(`btn-lv${i}`);
-                const statusText = document.getElementById(`status-lv${i}`);
-                
-                btn.className = "p-6 rounded-xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 shadow-md ";
-
-                if (user.currentLevel === i) {
-                    btn.classList.add("bg-indigo-600", "hover:bg-indigo-500", "text-white", "cursor-pointer");
-                    statusText.innerText = "⭐ คลิกเพื่อเล่นด่านนี้";
-                    btn.disabled = false;
-                } else if (user.currentLevel > i) {
-                    btn.classList.add("bg-emerald-900/40", "border", "border-emerald-500/30", "text-emerald-400", "cursor-not-allowed");
-                    statusText.innerText = "✅ ผ่านแล้ว";
-                    btn.disabled = true;
-                } else {
-                    btn.classList.add("bg-slate-800", "border", "border-slate-700", "text-slate-500", "cursor-not-allowed");
-                    statusText.innerText = "🔒 ล็อกอยู่";
-                    btn.disabled = true;
-                }
-            }
-        }
-
-        function playGame(level) {
-            const user = db[currentUserPhone];
-            if (user.currentLevel !== level) return;
-
-            const earnedPoints = Math.floor(Math.random() * 401) + 100;
-            user.score += earnedPoints;
-            user.currentLevel += 1; 
-            
-            saveDB();
-            alert(`🎉 คุณผ่าน ด่านที่ ${level} แล้ว!\nได้รับคะแนน: +${earnedPoints} แต้ม`);
-            renderPlayerMap();
-        }
-
-        function resetGameProgress() {
-            if(confirm("คุณต้องการรีเซ็ตด่านและล้างคะแนนทั้งหมดเป็น 0 เพื่อเริ่มเล่นใหม่ใช่ไหม?")) {
-                db[currentUserPhone].currentLevel = 1;
-                db[currentUserPhone].score = 0;
-                saveDB();
-                renderPlayerMap();
-                alert("รีเซ็ตระบบการเล่นเรียบร้อยแล้ว ขอให้สนุกอีกครั้งครับ!");
-            }
-        }
-
-        // ================= ฟังก์ชันตัวช่วยส่วนกลาง =================
-        function logout() {
-            currentUserPhone = null;
-            isAdminLoggedIn = false;
-            localStorage.removeItem('game_current_user');
-            localStorage.removeItem('game_admin_logged');
-            showView('auth');
-        }
-
-        function saveDB() {
-            localStorage.setItem('game_users_db', JSON.stringify(db));
-        }
-
-        function escapeHtml(text) {
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
-    </script>
-</body>
-</html>
+                <button onclick="logout()" class="bg-slate-700 hover:bg
