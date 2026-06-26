@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Portal System</title>
+    <title>Game Portal System (Complete Version)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&display=swap');
@@ -14,67 +14,108 @@
 
     <div id="main-container" class="w-full max-w-lg bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden mb-4">
         
-        <div id="login-view" class="p-8 hidden">
+        <form id="login-view" onsubmit="event.preventDefault(); handleLogin();" class="p-8 hidden space-y-4">
             <h1 class="text-3xl font-bold text-center text-indigo-400 mb-2">🎮 Game Portal</h1>
-            <p class="text-slate-400 text-sm text-center mb-8">เข้าสู่ระบบเพื่อเริ่มการผจญภัยของคุณ</p>
+            <p class="text-slate-400 text-sm text-center mb-6">เข้าสู่ระบบเพื่อเริ่มการผจญภัยของคุณ</p>
             
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-slate-400 mb-1">ชื่อผู้ใช้ (Username)</label>
-                    <input type="text" id="login-username" placeholder="กรอกชื่อผู้ใช้ของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-indigo-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-slate-400 mb-1">รหัสผ่าน (Password)</label>
-                    <input type="password" id="login-password" placeholder="กรอกรหัสผ่านของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-indigo-500">
-                </div>
-
-                <button onclick="handleLogin()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-lg transition duration-200 mt-2">
-                    ลงชื่อเข้าใช้
-                </button>
-
-                <div class="text-center pt-4 border-t border-slate-700/50 mt-4">
-                    <button onclick="switchPage('register')" class="text-sm text-indigo-400 hover:underline">
-                        ยังไม่มีบัญชี? สมัครสมาชิกใหม่ที่นี่
-                    </button>
-                </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-400 mb-1">ชื่อผู้ใช้ (Username)</label>
+                <input type="text" id="login-username" placeholder="กรอกชื่อผู้ใช้ของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-indigo-500" required>
             </div>
-        </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-400 mb-1">รหัสผ่าน (Password)</label>
+                <input type="password" id="login-password" placeholder="กรอกรหัสผ่านของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-indigo-500" required>
+            </div>
 
-        <div id="register-view" class="p-8 hidden">
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-2.5 rounded-lg transition duration-200 mt-2">
+                ลงชื่อเข้าใช้ (หรือกด Enter)
+            </button>
+
+            <div class="flex justify-between pt-4 border-t border-slate-700/50 mt-4 text-xs">
+                <button type="button" onclick="switchPage('register')" class="text-indigo-400 hover:underline">
+                    สมัครสมาชิกใหม่ที่นี่
+                </button>
+                <button type="button" onclick="switchPage('forgot')" class="text-rose-400 hover:underline">
+                    ลืมรหัสผ่าน?
+                </button>
+            </div>
+        </form>
+
+        <form id="register-view" onsubmit="event.preventDefault(); handleRegister();" class="p-8 hidden space-y-4">
             <h1 class="text-2xl font-bold text-center text-emerald-400 mb-2">📝 สมัครสมาชิกใหม่</h1>
             <p class="text-slate-400 text-sm text-center mb-6">กรอกข้อมูลให้ครบถ้วนเพื่อสร้างบัญชี</p>
             
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-slate-400 mb-1">ชื่อผู้ใช้ (Username) <span class="text-xs text-rose-400">(ใช้ล็อกอิน / แก้ไขไม่ได้)</span></label>
-                    <input type="text" id="reg-username" placeholder="ตั้งชื่อผู้ใช้ภาษาอังกฤษ/ตัวเลข" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-slate-400 mb-1">รหัสผ่าน (Password)</label>
-                    <input type="password" id="reg-password" placeholder="ตั้งรหัสผ่านของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-slate-400 mb-1">ชื่อเล่น (Nickname) <span class="text-xs text-emerald-400">(เปลี่ยนได้ตลอดเวลาในเกม)</span></label>
-                    <input type="text" id="reg-nickname" placeholder="ตั้งชื่อเล่นของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-slate-400 mb-1">เบอร์โทรศัพท์</label>
-                    <input type="tel" id="reg-phone" placeholder="กรอกเบอร์โทรศัพท์ของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-slate-400 mb-1">สังกัด / หน่วยงาน / ทีม</label>
-                    <input type="text" id="reg-affiliation" placeholder="ระบุสังกัดของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500">
-                </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-400 mb-1">ชื่อผู้ใช้ (Username) <span class="text-xs text-rose-400">(ใช้ล็อกอิน / แก้ไขไม่ได้)</span></label>
+                <input type="text" id="reg-username" placeholder="ตั้งชื่อผู้ใช้ภาษาอังกฤษ/ตัวเลข" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-400 mb-1">รหัสผ่าน (Password)</label>
+                <input type="password" id="reg-password" placeholder="ตั้งรหัสผ่านของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-400 mb-1">ชื่อเล่น (Nickname) <span class="text-xs text-emerald-400">(เปลี่ยนได้ตลอดเวลาในเกม)</span></label>
+                <input type="text" id="reg-nickname" placeholder="ตั้งชื่อเล่นของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-400 mb-1">เบอร์โทรศัพท์ <span class="text-xs text-amber-400">(สำคัญ! ใช้กู้คืนรหัสผ่านด้วย OTP)</span></label>
+                <input type="tel" id="reg-phone" placeholder="กรอกเบอร์โทรศัพท์ของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500" required>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-slate-400 mb-1">สังกัด / หน่วยงาน / ทีม</label>
+                <input type="text" id="reg-affiliation" placeholder="ระบุสังกัดของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500" required>
+            </div>
 
-                <button onclick="handleRegister()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2.5 rounded-lg transition duration-200 mt-2">
-                    สร้างบัญชีผู้ใช้
+            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2.5 rounded-lg transition duration-200 mt-2">
+                สร้างบัญชีผู้ใช้ (หรือกด Enter)
+            </button>
+
+            <div class="text-center pt-4 border-t border-slate-700/50 mt-4">
+                <button type="button" onclick="switchPage('login')" class="text-sm text-emerald-400 hover:underline">
+                    มีบัญชีอยู่แล้ว? กลับไปหน้าเข้าสู่ระบบ
                 </button>
+            </div>
+        </form>
 
-                <div class="text-center pt-4 border-t border-slate-700/50 mt-4">
-                    <button onclick="switchPage('login')" class="text-sm text-emerald-400 hover:underline">
-                        มีบัญชีอยู่แล้ว? กลับไปหน้าเข้าสู่ระบบ
-                    </button>
+        <div id="forgot-view" class="p-8 hidden space-y-4">
+            <h1 class="text-2xl font-bold text-center text-rose-400 mb-2">🔒 กู้คืนรหัสผ่าน</h1>
+            <p class="text-slate-400 text-sm text-center mb-6">ยืนยันตัวตนด้วยเบอร์โทรศัพท์เพื่อรับรหัส OTP</p>
+
+            <form id="forgot-step1" onsubmit="event.preventDefault(); requestOTP();" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-1">ชื่อผู้ใช้ (Username)</label>
+                    <input type="text" id="forgot-username" placeholder="กรอกชื่อผู้ใช้ของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-rose-500" required>
                 </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-1">เบอร์โทรศัพท์ที่ลงทะเบียนไว้</label>
+                    <input type="tel" id="forgot-phone" placeholder="กรอกเบอร์โทรศัพท์" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-rose-500" required>
+                </div>
+                <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 text-white font-medium py-2.5 rounded-lg transition duration-200">
+                    ขอรับรหัส OTP ยืนยัน
+                </button>
+            </form>
+
+            <form id="forgot-step2" onsubmit="event.preventDefault(); verifyAndChangePassword();" class="space-y-4 hidden pt-4 border-t border-slate-700">
+                <div class="bg-amber-500/10 border border-amber-500/20 text-amber-400 p-3 rounded-lg text-xs text-center">
+                    ระบบได้ส่ง OTP ไปที่เบอร์ของคุณแล้ว (ในระบบทดสอบ รหัสจะเด้งขึ้นเป็น Alert แจ้งเตือน)
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-1 text-emerald-400">กรอกรหัส OTP 6 หลัก</label>
+                    <input type="text" id="forgot-otp" maxlength="6" placeholder="XXXXXX" class="w-full text-center tracking-widest text-lg font-bold bg-slate-700 border border-emerald-600 rounded-lg px-4 py-2 text-white focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-400 mb-1">ตั้งรหัสผ่านใหม่ (New Password)</label>
+                    <input type="password" id="forgot-new-password" placeholder="ตั้งรหัสผ่านใหม่ของคุณ" class="w-full bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-emerald-500" required>
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2.5 rounded-lg transition duration-200">
+                    ยืนยันการเปลี่ยนรหัสผ่าน
+                </button>
+            </form>
+
+            <div class="text-center pt-2">
+                <button type="button" onclick="switchPage('login')" class="text-xs text-slate-400 hover:underline">
+                    ← ยกเลิกและกลับไปหน้าล็อกอิน
+                </button>
             </div>
         </div>
 
@@ -157,6 +198,7 @@
                     <thead class="bg-slate-700 text-slate-200 uppercase text-xs">
                         <tr>
                             <th class="px-4 py-3">ชื่อผู้ใช้ (Username)</th>
+                            <th class="px-4 py-3 text-amber-400">รหัสผ่าน (Password)</th>
                             <th class="px-4 py-3">ชื่อเล่น (Nickname)</th>
                             <th class="px-4 py-3">สังกัด</th>
                             <th class="px-4 py-3">เบอร์โทรศัพท์</th>
@@ -177,21 +219,24 @@
         <button onclick="toggleAdminLoginForm()" class="text-xs text-slate-600 hover:text-slate-400 transition duration-150">
             🔒 เข้าสู่ระบบในฐานะผู้ดูแลระบบ
         </button>
-        <div id="admin-login-box" class="hidden mt-2 p-3 bg-slate-800 border border-slate-700 rounded-xl max-w-xs mx-auto space-y-2">
-            <input type="password" id="admin-pass" placeholder="รหัสผ่านแอดมิน" class="w-full bg-slate-700 border border-slate-600 rounded px-2 py-1 text-xs text-white focus:outline-none">
-            <button onclick="loginAdmin()" class="w-full bg-red-950/40 hover:bg-red-900 border border-red-800 text-red-400 text-xs py-1 rounded transition">
+        <form id="admin-login-box" onsubmit="event.preventDefault(); loginAdmin();" class="hidden mt-2 p-3 bg-slate-800 border border-slate-700 rounded-xl max-w-xs mx-auto space-y-2">
+            <input type="password" id="admin-pass" placeholder="รหัสผ่านแอดมิน" class="w-full bg-slate-700 border border-slate-600 rounded px-2 py-1 text-xs text-white focus:outline-none" required>
+            <button type="submit" class="w-full bg-red-950/40 hover:bg-red-900 border border-red-800 text-red-400 text-xs py-1 rounded transition">
                 ยืนยันรหัสผ่าน
             </button>
-        </div>
+        </form>
     </div>
 
 
     <script>
-        let db = JSON.parse(localStorage.getItem('game_users_db_v3')) || {};
-        let currentLoggedUser = localStorage.getItem('game_current_user_v3') || null;
+        let db = JSON.parse(localStorage.getItem('game_users_db_v4')) || {};
+        let currentLoggedUser = localStorage.getItem('game_current_user_v4') || null;
         let isAdminLoggedIn = localStorage.getItem('game_admin_logged') === 'true';
 
-        // บังคับให้โหลดหน้าให้ถูกต้องเมื่อเปิดเว็บครั้งแรก
+        // ตัวแปรเก็บสถานะการจำลองรหัส OTP ชั่วคราวสำหรับการเปลี่ยนรหัสผ่าน
+        let generatedOTP = null;
+        let targetOTPUsername = null;
+
         window.onload = function() {
             if (isAdminLoggedIn) {
                 switchPage('admin');
@@ -202,15 +247,14 @@
             }
         };
 
-        // ฟังก์ชันหลักในการสลับหน้าจอ (แก้ไขไม่ให้บั๊กแล้ว)
+        // ฟังก์ชันในการสลับหน้าจออย่างเสถียร
         function switchPage(pageName) {
-            // ซ่อนทุกหน้าต่างหลักก่อน
             document.getElementById('login-view').classList.add('hidden');
             document.getElementById('register-view').classList.add('hidden');
+            document.getElementById('forgot-view').classList.add('hidden');
             document.getElementById('player-view').classList.add('hidden');
             document.getElementById('admin-view').classList.add('hidden');
             
-            // แสดงปุ่มเข้าแอดมินมินิมอลไว้เสมอ ยกเว้นเวลาล็อกอินเข้าเนื้อหาไปแล้ว
             document.getElementById('admin-gate').classList.remove('hidden');
 
             const container = document.getElementById('main-container');
@@ -221,249 +265,8 @@
             } else if (pageName === 'register') {
                 container.className = "w-full max-w-lg bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden mb-4";
                 document.getElementById('register-view').classList.remove('hidden');
-            } else if (pageName === 'player') {
-                container.className = "w-full max-w-5xl bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden mb-4";
-                document.getElementById('player-view').classList.remove('hidden');
-                document.getElementById('admin-gate').classList.add('hidden');
-                renderPlayerMap();
-            } else if (pageName === 'admin') {
-                container.className = "w-full max-w-5xl bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden mb-4";
-                document.getElementById('admin-view').classList.remove('hidden');
-                document.getElementById('admin-gate').classList.add('hidden');
-                renderAdminDashboard();
-            }
-        }
-
-        // ================= ฟังก์ชันสมัครสมาชิก =================
-        function handleRegister() {
-            const username = document.getElementById('reg-username').value.trim();
-            const password = document.getElementById('reg-password').value;
-            const nickname = document.getElementById('reg-nickname').value.trim();
-            const phone = document.getElementById('reg-phone').value.trim();
-            const affiliation = document.getElementById('reg-affiliation').value.trim();
-
-            if (!username || !password || !nickname || !phone || !affiliation) {
-                alert('กรุณากรอกข้อมูลสำหรับการสมัครสมาชิกให้ครบถ้วนทุกช่องครับ');
-                return;
-            }
-
-            if (db[username]) {
-                alert('ชื่อผู้ใช้ (Username) นี้ถูกใช้งานไปแล้ว กรุณาตั้งชื่ออื่นครับ');
-                return;
-            }
-
-            const isPhoneDup = Object.values(db).some(user => user.phone === phone);
-            if (isPhoneDup) {
-                alert('เบอร์โทรศัพท์นี้เคยสมัครในระบบแล้ว ไม่สามารถสมัครซ้ำได้ครับ');
-                return;
-            }
-
-            db[username] = {
-                username: username,
-                password: password,
-                nickname: nickname,
-                phone: phone,
-                affiliation: affiliation,
-                currentLevel: 1,
-                score: 0
-            };
-            saveDB();
-
-            alert('สมัครสมาชิกสำเร็จเรียบร้อยแล้ว!');
-            
-            document.getElementById('reg-username').value = '';
-            document.getElementById('reg-password').value = '';
-            document.getElementById('reg-nickname').value = '';
-            document.getElementById('reg-phone').value = '';
-            document.getElementById('reg-affiliation').value = '';
-            
-            switchPage('login');
-        }
-
-        // ================= ฟังก์ชันเข้าสู่ระบบ =================
-        function handleLogin() {
-            const username = document.getElementById('login-username').value.trim();
-            const password = document.getElementById('login-password').value;
-
-            if (!username || !password) {
-                alert('กรุณากรอกทั้งชื่อผู้ใช้และรหัสผ่านครับ');
-                return;
-            }
-
-            const user = db[username];
-            if (user && user.password === password) {
-                currentLoggedUser = username;
-                localStorage.setItem('game_current_user_v3', username);
-                switchPage('player');
-                
-                document.getElementById('login-username').value = '';
-                document.getElementById('login-password').value = '';
-            } else {
-                alert('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณาตรวจสอบอีกครั้งครับ');
-            }
-        }
-
-        function toggleEditNickname() {
-            const box = document.getElementById('edit-nickname-box');
-            box.classList.toggle('hidden');
-            if(!box.classList.contains('hidden')) {
-                document.getElementById('new-nickname-input').value = db[currentLoggedUser].nickname;
-            }
-        }
-
-        function saveNewNickname() {
-            const newNickname = document.getElementById('new-nickname-input').value.trim();
-            if(!newNickname) return alert('ชื่อเล่นต้องไม่ว่างเปล่า');
-            
-            db[currentLoggedUser].nickname = newNickname;
-            saveDB();
-            toggleEditNickname();
-            renderPlayerMap();
-        }
-
-        // ================= ฟังก์ชันแอดมิน =================
-        function toggleAdminLoginForm() {
-            document.getElementById('admin-login-box').classList.toggle('hidden');
-        }
-
-        function loginAdmin() {
-            const password = document.getElementById('admin-pass').value;
-            if (password === 'coco') {
-                isAdminLoggedIn = true;
-                localStorage.setItem('game_admin_logged', 'true');
-                switchPage('admin');
-                document.getElementById('admin-pass').value = '';
-                document.getElementById('admin-login-box').classList.add('hidden');
-            } else {
-                alert('รหัสผ่านแอดมินไม่ถูกต้อง!');
-            }
-        }
-
-        function renderAdminDashboard() {
-            const usersArray = Object.values(db);
-            document.getElementById('admin-total-users').innerText = usersArray.length;
-            
-            const tableBody = document.getElementById('admin-user-table');
-            tableBody.innerHTML = '';
-
-            if(usersArray.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-slate-500">ยังไม่มีผู้เล่นสมัครเข้ามาในระบบ</td></tr>`;
-                return;
-            }
-
-            usersArray.forEach(user => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-750 border-b border-slate-700/50";
-                tr.innerHTML = `
-                    <td class="px-4 py-3 font-medium text-indigo-400">${escapeHtml(user.username)}</td>
-                    <td class="px-4 py-3 text-white">${escapeHtml(user.nickname || '-')}</td>
-                    <td class="px-4 py-3 text-slate-300">${escapeHtml(user.affiliation || '-')}</td>
-                    <td class="px-4 py-3 text-slate-400">${escapeHtml(user.phone)}</td>
-                    <td class="px-4 py-3 text-center">
-                        <span class="px-2 py-1 rounded text-xs font-semibold ${user.currentLevel > 4 ? 'bg-emerald-500/20 text-emerald-400' : 'bg-cyan-500/20 text-cyan-400'}">
-                            ${user.currentLevel > 4 ? 'จบเกมแล้ว' : 'ด่าน ' + user.currentLevel}
-                        </span>
-                    </td>
-                    <td class="px-4 py-3 text-right font-bold text-amber-400">${user.score} แต้ม</td>
-                    <td class="px-4 py-3 text-center">
-                        <button onclick="deleteUser('${user.username}')" class="bg-rose-600/20 hover:bg-rose-600 hover:text-white text-rose-400 text-xs px-2 py-1 rounded transition duration-150">
-                            🗑️ ลบผู้เล่น
-                        </button>
-                    </td>
-                `;
-                tableBody.appendChild(tr);
-            });
-        }
-
-        function deleteUser(username) {
-            const user = db[username];
-            if (!user) return;
-
-            if (confirm(`คุณแน่ใจหรือไม่ที่จะลบผู้เล่น "${user.nickname}" (Username: ${user.username}) ออกจากระบบ?`)) {
-                delete db[username];
-                saveDB();
-                renderAdminDashboard();
-                alert('ลบข้อมูลผู้เล่นเรียบร้อยแล้ว');
-            }
-        }
-
-        // ================= ฟังก์ชันแผนที่เกม =================
-        function renderPlayerMap() {
-            const user = db[currentLoggedUser];
-            if (!user) { 
-                logout(); 
-                return; 
-            }
-            
-            document.getElementById('player-display-nickname').innerText = user.nickname;
-            document.getElementById('player-display-username').innerText = `@${user.username}`;
-            document.getElementById('player-display-affiliation').innerText = `สังกัด: ${user.affiliation || 'ไม่ได้ระบุ'}`;
-            document.getElementById('player-display-phone').innerText = `เบอร์โทร: ${user.phone}`;
-            document.getElementById('player-score').innerText = user.score;
-            document.getElementById('player-level').innerText = user.currentLevel > 4 ? 'ผ่านทุกด่านแล้ว 🎉' : `ด่าน ${user.currentLevel}`;
-
-            for (let i = 1; i <= 4; i++) {
-                const btn = document.getElementById(`btn-lv${i}`);
-                const statusText = document.getElementById(`status-lv${i}`);
-                
-                btn.className = "p-6 rounded-xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 shadow-md ";
-
-                if (user.currentLevel === i) {
-                    btn.classList.add("bg-indigo-600", "hover:bg-indigo-500", "text-white", "cursor-pointer");
-                    statusText.innerText = "⭐ คลิกเพื่อเล่นด่านนี้";
-                    btn.disabled = false;
-                } else if (user.currentLevel > i) {
-                    btn.classList.add("bg-emerald-900/40", "border", "border-emerald-500/30", "text-emerald-400", "cursor-not-allowed");
-                    statusText.innerText = "✅ ผ่านแล้ว";
-                    btn.disabled = true;
-                } else {
-                    btn.classList.add("bg-slate-800", "border", "border-slate-700", "text-slate-500", "cursor-not-allowed");
-                    statusText.innerText = "🔒 ล็อกอยู่";
-                    btn.disabled = true;
-                }
-            }
-        }
-
-        function playGame(level) {
-            const user = db[currentLoggedUser];
-            if (user.currentLevel !== level) return;
-
-            const earnedPoints = Math.floor(Math.random() * 401) + 100;
-            user.score += earnedPoints;
-            user.currentLevel += 1; 
-            
-            saveDB();
-            alert(`🎉 คุณผ่าน ด่านที่ ${level} แล้ว!\nได้รับคะแนน: +${earnedPoints} แต้ม`);
-            renderPlayerMap();
-        }
-
-        function resetGameProgress() {
-            if(confirm("คุณต้องการรีเซ็ตด่านและล้างคะแนนทั้งหมดเป็น 0 เพื่อเริ่มเล่นใหม่ใช่ไหม?")) {
-                db[currentLoggedUser].currentLevel = 1;
-                db[currentLoggedUser].score = 0;
-                saveDB();
-                renderPlayerMap();
-                alert("รีเซ็ตระบบการเล่นเรียบร้อยแล้ว ขอให้สนุกอีกครั้งครับ!");
-            }
-        }
-
-        // ================= ฟังก์ชันส่วนกลาง =================
-        function logout() {
-            currentLoggedUser = null;
-            isAdminLoggedIn = false;
-            localStorage.removeItem('game_current_user_v3');
-            localStorage.removeItem('game_admin_logged');
-            switchPage('login');
-        }
-
-        function saveDB() {
-            localStorage.setItem('game_users_db_v3', JSON.stringify(db));
-        }
-
-        function escapeHtml(text) {
-            if (!text) return '';
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
-    </script>
-</body>
-</html>
+            } else if (pageName === 'forgot') {
+                container.className = "w-full max-w-lg bg-slate-800 rounded-2xl shadow-2xl border border-slate-700 overflow-hidden mb-4";
+                document.getElementById('forgot-view').classList.remove('hidden');
+                // รีเซ็ตหน้าฟอร์มลืมรหัสให้เริ่มที่ขั้นแรกเสมอ
+                document.getElementById('forgot-
