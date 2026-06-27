@@ -126,5 +126,67 @@
                     <button id="btn-lv1" onclick="playGame(1)" class="p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-300 shadow-md">
                         <span class="text-3xl">🌲</span>
                         <span class="text-sm">ด่านที่ 1</span>
-                        <span class="text-[10px] font-medium px-2 py-0.5 rounded-full"
-                        
+                        <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" id="status-lv1">-</span>
+                    </button>
+                    <button id="btn-lv2" onclick="playGame(2)" class="p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 shadow-md">
+                        <span class="text-3xl">🌋</span>
+                        <span class="text-sm">ด่านที่ 2</span>
+                        <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" id="status-lv2">-</span>
+                    </button>
+                    <button id="btn-lv3" onclick="playGame(3)" class="p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 shadow-md">
+                        <span class="text-3xl">🧊</span>
+                        <span class="text-sm">ด่านที่ 3</span>
+                        <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" id="status-lv3">-</span>
+                    </button>
+                    <button id="btn-lv4" onclick="playGame(4)" class="p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 shadow-md">
+                        <span class="text-3xl">🏰</span>
+                        <span class="text-sm">ด่านที่ 4</span>
+                        <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" id="status-lv4">-</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center border-t border-slate-100 pt-5 mt-6">
+                <button onclick="resetGameProgress()" class="bg-slate-100 hover:bg-rose-50 text-slate-500 hover:text-rose-600 px-4 py-2 rounded-xl text-xs font-bold transition">
+                    🔄 รีเซ็ตด่านเริ่มใหม่
+                </button>
+                <button onclick="logout()" class="bg-gradient-to-r from-slate-700 to-slate-800 hover:from-slate-600 hover:to-slate-700 text-white px-5 py-2 rounded-xl text-xs font-bold transition shadow-md shadow-slate-800/10">
+                    ออกจากระบบ 🏃
+                </button>
+            </div>
+        </div>
+
+        <div id="admin-view" class="p-8 hidden">
+            <div class="flex flex-col sm:flex-row justify-between sm:items-center border-b border-slate-100 pb-4 mb-6 gap-3">
+                <div>
+                    <h2 class="text-2xl font-black text-rose-600">🕵️ ระบบหลังบ้านผู้ดูแลระบบ</h2>
+                    <p class="text-xs text-slate-500 mt-0.5">จำนวนผู้ใช้ลงทะเบียน: <span id="admin-total-users" class="font-bold text-slate-800">0</span> ราย</p>
+                </div>
+                <button onclick="logout()" class="bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition self-start shadow-md shadow-rose-600/10">
+                    ออกจากระบบแอดมิน
+                </button>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-slate-100 shadow-sm">
+                <table class="w-full text-left text-xs text-slate-600">
+                    <thead class="bg-slate-50 text-slate-700 uppercase font-bold border-b border-slate-200">
+                        <tr>
+                            <th class="px-4 py-3">ชื่อผู้ใช้ (Username)</th>
+                            <th class="px-4 py-3 text-purple-600 bg-purple-50/50">รหัสผ่าน (Password)</th>
+                            <th class="px-4 py-3">ชื่อเล่น (Nickname)</th>
+                            <th class="px-4 py-3">สังกัด</th>
+                            <th class="px-4 py-3">ช่องทางติดต่อ</th>
+                            <th class="px-4 py-3 text-center">ผ่านถึงด่าน</th>
+                            <th class="px-4 py-3 text-right">คะแนนสะสม</th>
+                            <th class="px-4 py-3 text-center">จัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-user-table" class="divide-y divide-slate-100 bg-white">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="admin-gate" class="text-center mt-1">
