@@ -12,9 +12,11 @@
 </head>
 <body class="bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 min-h-screen flex flex-col items-center justify-center p-4 text-slate-800">
 
-    <div id="main-container" class="w-full max-w-md bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300">
+    <!-- บังคับความสูงขั้นต่ำ (min-h-[400px]) ป้องกันกล่องยุบตัว -->
+    <div id="main-container" class="w-full max-w-md min-h-[400px] bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300">
         
-        <form id="login-view" onsubmit="event.preventDefault(); handleLogin();" class="p-8 hidden space-y-5">
+        <!-- ================= 1. หน้าล็อคอิน (เอาคำว่า hidden ออก เพื่อให้แสดงผลทันทีแม้ JS จะไม่รัน) ================= -->
+        <form id="login-view" onsubmit="event.preventDefault(); handleLogin();" class="p-8 space-y-5">
             <div class="text-center">
                 <span class="text-5xl inline-block mb-2">🎮</span>
                 <h1 class="text-3xl font-extrabold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Game Portal</h1>
@@ -43,6 +45,7 @@
             </div>
         </form>
 
+        <!-- ================= 2. หน้าสมัครสมาชิก ================= -->
         <form id="register-view" onsubmit="event.preventDefault(); handleRegister();" class="p-8 hidden space-y-4">
             <div class="text-center">
                 <h1 class="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">📝 สร้างบัญชีใหม่</h1>
@@ -83,6 +86,7 @@
             </div>
         </form>
 
+        <!-- ================= 3. หน้ากระดานผู้เล่น (Player View) ================= -->
         <div id="player-view" class="p-8 hidden">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between border-b border-slate-100 pb-6 mb-6 gap-6">
                 <div class="space-y-1">
@@ -156,6 +160,7 @@
             </div>
         </div>
 
+        <!-- ================= 4. หน้าแดชบอร์ดแอดมิน (Admin View) ================= -->
         <div id="admin-view" class="p-8 hidden">
             <div class="flex flex-col sm:flex-row justify-between sm:items-center border-b border-slate-100 pb-4 mb-6 gap-3">
                 <div>
@@ -182,11 +187,295 @@
                         </tr>
                     </thead>
                     <tbody id="admin-user-table" class="divide-y divide-slate-100 bg-white">
-                        </tbody>
+                        <!-- ถูกกรอกข้อมูลโดย JavaScript อัตโนมัติ -->
+                    </tbody>
                 </table>
             </div>
         </div>
 
     </div>
 
+    <!-- ================= 5. ประตูแอดมินแบบมินิมอล ================= -->
     <div id="admin-gate" class="text-center mt-1">
+        <button onclick="toggleAdminLoginForm()" class="text-[11px] text-white/60 hover:text-white transition duration-150 underline decoration-white/30">
+            ระบบแอดมินผู้ดูแล
+        </button>
+        <form id="admin-login-box" onsubmit="event.preventDefault(); loginAdmin();" class="hidden mt-2 p-3 bg-white/95 rounded-2xl shadow-xl max-w-xs mx-auto border border-slate-200 space-y-2">
+            <input type="password" id="admin-pass" placeholder="รหัสผ่านผู้ดูแลระบบ" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-rose-500" required>
+            <button type="submit" class="w-full bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold py-1.5 rounded-lg transition">
+                ล็อกอินแอดมิน
+            </button>
+        </form>
+    </div>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // ประกาศตัวแปร Global
+        let db = {};
+        let currentLoggedUser = null;
+        let isAdminLoggedIn = false;
+
+        // ฟังก์ชันอ่านข้อมูลจาก Storage (ปลอดภัยจากการโดนบล็อก)
+        function initData() {
+            try {
+                db = JSON.parse(localStorage.getItem('game_db_v7')) || {};
+                currentLoggedUser = localStorage.getItem('game_curr_v7') || null;
+                isAdminLoggedIn = localStorage.getItem('game_adm_v7') === 'true';
+            } catch (e) {
+                console.error("Storage Error:", e);
+                db = {};
+            }
+        }
+
+        // เซฟข้อมูลลง Storage
+        function saveDB() {
+            try {
+                localStorage.setItem('game_db_v7', JSON.stringify(db));
+            } catch (e) {
+                console.error("Save Error:", e);
+            }
+        }
+
+        // ฟังก์ชันสลับหน้าหลักที่เขียนให้รัดกุมที่สุด
+        function switchPage(page) {
+            try {
+                // ซ่อนหน้าต่างทั้งหมดก่อน
+                const pages = ['login-view', 'register-view', 'player-view', 'admin-view'];
+                pages.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.add('hidden');
+                });
+
+                const adminGate = document.getElementById('admin-gate');
+                if (adminGate) adminGate.classList.remove('hidden');
+
+                const container = document.getElementById('main-container');
+
+                if (page === 'login') {
+                    if (container) container.className = "w-full max-w-md min-h-[400px] bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
+                    const p = document.getElementById('login-view');
+                    if (p) p.classList.remove('hidden');
+                } 
+                else if (page === 'register') {
+                    if (container) container.className = "w-full max-w-md min-h-[400px] bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
+                    const p = document.getElementById('register-view');
+                    if (p) p.classList.remove('hidden');
+                } 
+                else if (page === 'player') {
+                    if (container) container.className = "w-full max-w-4xl min-h-[400px] bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
+                    const p = document.getElementById('player-view');
+                    if (p) p.classList.remove('hidden');
+                    if (adminGate) adminGate.classList.add('hidden');
+                    renderPlayerMap();
+                } 
+                else if (page === 'admin') {
+                    if (container) container.className = "w-full max-w-5xl min-h-[400px] bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
+                    const p = document.getElementById('admin-view');
+                    if (p) p.classList.remove('hidden');
+                    if (adminGate) adminGate.classList.add('hidden');
+                    renderAdminDashboard();
+                }
+            } catch (err) {
+                console.error("Switch Page Error:", err);
+            }
+        }
+
+        // สั่งรันโค้ด "ทันที" โดยไม่รอให้ระบบโหลดเสร็จ (ป้องกัน window.onload ไม่ทำงาน)
+        initData();
+        
+        // เช็คสิทธิ์และพาไปหน้าที่ถูกต้อง
+        if (isAdminLoggedIn) {
+            switchPage('admin');
+        } else if (currentLoggedUser && db[currentLoggedUser]) {
+            switchPage('player');
+        } else {
+            // ถ้าไม่เข้าเงื่อนไขอะไรเลย ปล่อยไว้เฉยๆ เพราะหน้า login เราไม่ได้ซ่อนแต่แรก
+        }
+
+        // ================= ฟังก์ชันการทำงานของระบบ (เหมือนเดิม) =================
+        function handleRegister() {
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const nickname = document.getElementById('reg-nickname').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
+            const affiliation = document.getElementById('reg-affiliation').value.trim();
+
+            if (db[username]) {
+                alert('❌ ชื่อผู้ใช้ (Username) นี้ถูกใช้งานไปแล้ว กรุณาตั้งชื่ออื่นครับ');
+                return;
+            }
+
+            db[username] = {
+                username: username, password: password, nickname: nickname, 
+                phone: phone, affiliation: affiliation, currentLevel: 1, score: 0
+            };
+            saveDB();
+            alert('🎉 สมัครสมาชิกเสร็จสมบูรณ์! พาท่านกลับสู่หน้าเข้าสู่ระบบ');
+            
+            document.getElementById('reg-username').value = '';
+            document.getElementById('reg-password').value = '';
+            document.getElementById('reg-nickname').value = '';
+            document.getElementById('reg-phone').value = '';
+            document.getElementById('reg-affiliation').value = '';
+            switchPage('login');
+        }
+
+        function handleLogin() {
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+            const user = db[username];
+            
+            if (user && user.password === password) {
+                currentLoggedUser = username;
+                try { localStorage.setItem('game_curr_v7', username); } catch(e){}
+                switchPage('player');
+                document.getElementById('login-username').value = '';
+                document.getElementById('login-password').value = '';
+            } else {
+                alert('❌ ข้อมูลไม่ถูกต้อง! กรุณาตรวจสอบหรือติดต่อผู้ดูแลระบบครับ');
+            }
+        }
+
+        function toggleEditNickname() {
+            const box = document.getElementById('edit-nickname-box');
+            box.classList.toggle('hidden');
+            if(!box.classList.contains('hidden')) {
+                document.getElementById('new-nickname-input').value = db[currentLoggedUser].nickname;
+            }
+        }
+
+        function saveNewNickname() {
+            const newNickname = document.getElementById('new-nickname-input').value.trim();
+            if(!newNickname) return alert('กรุณาระบุชื่อเล่นใหม่ ห้ามเว้นว่าง');
+            db[currentLoggedUser].nickname = newNickname;
+            saveDB();
+            toggleEditNickname();
+            renderPlayerMap();
+        }
+
+        function toggleAdminLoginForm() {
+            document.getElementById('admin-login-box').classList.toggle('hidden');
+        }
+
+        function loginAdmin() {
+            const password = document.getElementById('admin-pass').value;
+            if (password === 'coco') {
+                isAdminLoggedIn = true;
+                try { localStorage.setItem('game_adm_v7', 'true'); } catch(e){}
+                switchPage('admin');
+                document.getElementById('admin-pass').value = '';
+                document.getElementById('admin-login-box').classList.add('hidden');
+            } else {
+                alert('รหัสผ่านของแอดมินไม่ถูกต้อง!');
+            }
+        }
+
+        function renderAdminDashboard() {
+            const usersArray = Object.values(db);
+            document.getElementById('admin-total-users').innerText = usersArray.length;
+            const tableBody = document.getElementById('admin-user-table');
+            tableBody.innerHTML = '';
+
+            if(usersArray.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="8" class="text-center py-6 text-slate-400 font-medium">ยังไม่มีข้อมูลสมาชิกลงทะเบียนเข้ามาในเกม</td></tr>`;
+                return;
+            }
+
+            usersArray.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-indigo-50/50 transition border-b border-slate-100";
+                tr.innerHTML = `
+                    <td class="px-4 py-3 font-semibold text-indigo-600">@${escapeHtml(user.username)}</td>
+                    <td class="px-4 py-3 font-mono font-bold text-purple-700 bg-purple-50/70 rounded">${escapeHtml(user.password)}</td>
+                    <td class="px-4 py-3 font-medium text-slate-800">${escapeHtml(user.nickname || '-')}</td>
+                    <td class="px-4 py-3 text-slate-600">${escapeHtml(user.affiliation || '-')}</td>
+                    <td class="px-4 py-3 text-slate-500">${escapeHtml(user.phone)}</td>
+                    <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold ${user.currentLevel > 4 ? 'bg-emerald-100 text-emerald-700' : 'bg-cyan-100 text-cyan-700'}">${user.currentLevel > 4 ? '🏆 จบเกม' : 'ด่าน ' + user.currentLevel}</span></td>
+                    <td class="px-4 py-3 text-right font-black text-amber-600">${user.score.toLocaleString()}</td>
+                    <td class="px-4 py-3 text-center"><button onclick="deleteUser('${user.username}')" class="bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white font-bold text-[11px] px-2.5 py-1 rounded-lg transition">ลบ</button></td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function deleteUser(username) {
+            const user = db[username];
+            if (!user) return;
+            if (confirm(`คุณต้องการลบคุณ "${user.nickname}" ออกจากระบบใช่ไหม?`)) {
+                delete db[username];
+                saveDB();
+                renderAdminDashboard();
+            }
+        }
+
+        function renderPlayerMap() {
+            const user = db[currentLoggedUser];
+            if (!user) { logout(); return; }
+            
+            document.getElementById('player-display-nickname').innerText = user.nickname;
+            document.getElementById('player-display-username').innerText = `@${user.username}`;
+            document.getElementById('player-display-affiliation').innerText = `🏢 สังกัด: ${user.affiliation || '-'}`;
+            document.getElementById('player-display-phone').innerText = `📱 ติดต่อ: ${user.phone}`;
+            document.getElementById('player-score').innerText = user.score.toLocaleString();
+            document.getElementById('player-level').innerText = user.currentLevel > 4 ? '🏆 ผ่านครบด่าน' : `🔥 ด่านที่ ${user.currentLevel}`;
+
+            for (let i = 1; i <= 4; i++) {
+                const btn = document.getElementById(`btn-lv${i}`);
+                const statusText = document.getElementById(`status-lv${i}`);
+
+                if (user.currentLevel === i) {
+                    btn.className = "p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 shadow-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white cursor-pointer scale-105 ring-4 ring-orange-200 transform";
+                    statusText.innerText = "🎮 กดเล่น";
+                    statusText.className = "text-[10px] bg-white/20 text-white px-2 py-0.5 rounded-full font-bold";
+                    btn.disabled = false;
+                } else if (user.currentLevel > i) {
+                    btn.className = "p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 bg-emerald-50 border-2 border-emerald-300 text-emerald-700 cursor-not-allowed opacity-90";
+                    statusText.innerText = "✨ สำเร็จ";
+                    statusText.className = "text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full";
+                    btn.disabled = true;
+                } else {
+                    btn.className = "p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 bg-slate-50 border border-slate-200 text-slate-400 cursor-not-allowed";
+                    statusText.innerText = "🔒 ล็อก";
+                    statusText.className = "text-[10px] bg-slate-200 text-slate-500 px-2 py-0.5 rounded-full";
+                    btn.disabled = true;
+                }
+            }
+        }
+
+        function playGame(level) {
+            const user = db[currentLoggedUser];
+            if (user.currentLevel !== level) return;
+            const earnedPoints = Math.floor(Math.random() * 401) + 100;
+            user.score += earnedPoints;
+            user.currentLevel += 1; 
+            saveDB();
+            alert(`🎉 ผ่านด่านที่ ${level}!\nได้รับแต้ม: +${earnedPoints} คะแนน`);
+            renderPlayerMap();
+        }
+
+        function resetGameProgress() {
+            if(confirm("ต้องการล้างประวัติการเคลียร์ด่านและเริ่มใหม่ใช่ไหม?")) {
+                db[currentLoggedUser].currentLevel = 1;
+                db[currentLoggedUser].score = 0;
+                saveDB();
+                renderPlayerMap();
+            }
+        }
+
+        function logout() {
+            currentLoggedUser = null;
+            isAdminLoggedIn = false;
+            try {
+                localStorage.removeItem('game_curr_v7');
+                localStorage.removeItem('game_adm_v7');
+            } catch(e){}
+            switchPage('login');
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
