@@ -36,12 +36,9 @@
                 🚀 ลงชื่อเข้าใช้ (หรือกด Enter)
             </button>
 
-            <div class="flex justify-between pt-4 border-t border-slate-100 mt-4 text-xs font-medium">
+            <div class="text-center pt-4 border-t border-slate-100 mt-4 text-xs font-medium">
                 <button type="button" onclick="switchPage('register')" class="text-indigo-600 hover:text-indigo-800 hover:underline">
-                    ✨ ยังไม่มีบัญชี? สมัครที่นี่
-                </button>
-                <button type="button" onclick="switchPage('forgot')" class="text-rose-500 hover:text-rose-700 hover:underline">
-                    🔑 ลืมรหัสผ่านใช่ไหม?
+                    ✨ ยังไม่มีบัญชี? สมัครสมาชิกใหม่ที่นี่
                 </button>
             </div>
         </form>
@@ -66,8 +63,8 @@
                     <input type="text" id="reg-nickname" placeholder="ตั้งชื่อเล่นสุดเท่ของคุณ" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 transition" required>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-600 mb-1">เบอร์โทรศัพท์ <span class="text-amber-600 font-normal">(ใช้กู้คืนรหัสผ่านผ่านระบบ OTP)</span></label>
-                    <input type="tel" id="reg-phone" placeholder="เช่น 0812345678" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 transition" required>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">เบอร์โทรศัพท์ / ช่องทางติดต่อ</label>
+                    <input type="text" id="reg-phone" placeholder="กรอกเบอร์โทรศัพท์หรืออีเมล" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-900 focus:outline-none focus:ring-4 focus:ring-emerald-100 focus:border-emerald-500 transition" required>
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-600 mb-1">สังกัด / หน่วยงาน / ทีม</label>
@@ -86,50 +83,6 @@
             </div>
         </form>
 
-        <div id="forgot-view" class="p-8 hidden space-y-4">
-            <div class="text-center">
-                <h1 class="text-2xl font-bold text-rose-500">🔒 กู้คืนรหัสผ่านด้วย OTP</h1>
-                <p class="text-slate-500 text-xs mt-1">ยืนยันตัวตนด้วยชื่อผู้ใช้และเบอร์โทรที่ลงทะเบียนไว้</p>
-            </div>
-
-            <form id="forgot-step1" onsubmit="event.preventDefault(); requestOTP();" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-semibold text-slate-600 mb-1">ชื่อผู้ใช้ (Username)</label>
-                    <input type="text" id="forgot-username" placeholder="กรอกชื่อผู้ใช้ของคุณ" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-900 focus:outline-none focus:border-rose-400 transition" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-slate-600 mb-1">เบอร์โทรศัพท์</label>
-                    <input type="tel" id="forgot-phone" placeholder="กรอกเบอร์โทรศัพท์ที่ใช้สมัคร" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-900 focus:outline-none focus:border-rose-400 transition" required>
-                </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-rose-500 to-pink-500 text-white font-bold py-2.5 rounded-xl transition shadow-lg shadow-rose-500/20">
-                    📥 ขอรับรหัส OTP
-                </button>
-            </form>
-
-            <form id="forgot-step2" onsubmit="event.preventDefault(); verifyAndChangePassword();" class="space-y-4 hidden pt-4 border-t border-slate-100">
-                <div class="bg-amber-50 text-amber-700 border border-amber-200 p-3 rounded-xl text-xs text-center font-medium">
-                    รหัส OTP ถูกส่งไปยังเบอร์โทรของคุณเรียบร้อยแล้ว!
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-emerald-600 text-center mb-1">กรอกรหัส OTP 6 หลัก</label>
-                    <input type="text" id="forgot-otp" maxlength="6" placeholder="XXXXXX" class="w-full text-center tracking-widest text-2xl font-extrabold bg-slate-50 border border-emerald-400 rounded-xl px-4 py-2 text-slate-900 focus:outline-none" required>
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-slate-600 mb-1">ตั้งรหัสผ่านใหม่ (New Password)</label>
-                    <input type="password" id="forgot-new-password" placeholder="ป้อนรหัสผ่านใหม่ของคุณ" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-slate-900 focus:outline-none focus:border-emerald-400 transition" required>
-                </div>
-                <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold py-2.5 rounded-xl transition shadow-lg shadow-emerald-500/20">
-                    💾 บันทึกรหัสผ่านใหม่
-                </button>
-            </form>
-
-            <div class="text-center pt-2">
-                <button type="button" onclick="switchPage('login')" class="text-xs text-slate-400 hover:text-slate-600 hover:underline">
-                    ← ยกเลิกและกลับไปหน้าล็อกอิน
-                </button>
-            </div>
-        </div>
-
         <div id="player-view" class="p-8 hidden">
             <div class="flex flex-col lg:flex-row lg:items-center justify-between border-b border-slate-100 pb-6 mb-6 gap-6">
                 <div class="space-y-1">
@@ -147,7 +100,7 @@
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 text-xs text-slate-500 pt-1 font-medium">
                         <p id="player-display-affiliation">🏢 สังกัด: -</p>
-                        <p id="player-display-phone">📱 เบอร์โทร: -</p>
+                        <p id="player-display-phone">📱 ติดต่อ: -</p>
                     </div>
                 </div>
                 
@@ -175,17 +128,17 @@
                         <span class="text-sm">ด่านที่ 1</span>
                         <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" id="status-lv1">-</span>
                     </button>
-                    <button id="btn-lv2" onclick="playGame(2)" class="p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-300 shadow-md">
+                    <button id="btn-lv2" onclick="playGame(2)" class="p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 shadow-md">
                         <span class="text-3xl">🌋</span>
                         <span class="text-sm">ด่านที่ 2</span>
                         <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" id="status-lv2">-</span>
                     </button>
-                    <button id="btn-lv3" onclick="playGame(3)" class="p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-300 shadow-md">
+                    <button id="btn-lv3" onclick="playGame(3)" class="p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 shadow-md">
                         <span class="text-3xl">🧊</span>
                         <span class="text-sm">ด่านที่ 3</span>
                         <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" id="status-lv3">-</span>
                     </button>
-                    <button id="btn-lv4" onclick="playGame(4)" class="p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-300 shadow-md">
+                    <button id="btn-lv4" onclick="playGame(4)" class="p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 shadow-md">
                         <span class="text-3xl">🏰</span>
                         <span class="text-sm">ด่านที่ 4</span>
                         <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" id="status-lv4">-</span>
@@ -222,7 +175,7 @@
                             <th class="px-4 py-3 text-purple-600 bg-purple-50/50">รหัสผ่าน (Password)</th>
                             <th class="px-4 py-3">ชื่อเล่น (Nickname)</th>
                             <th class="px-4 py-3">สังกัด</th>
-                            <th class="px-4 py-3">เบอร์โทรศัพท์</th>
+                            <th class="px-4 py-3">ช่องทางติดต่อ</th>
                             <th class="px-4 py-3 text-center">ผ่านถึงด่าน</th>
                             <th class="px-4 py-3 text-right">คะแนนสะสม</th>
                             <th class="px-4 py-3 text-center">จัดการ</th>
@@ -250,13 +203,10 @@
 
 
     <script>
-        // ใช้ Database เวอร์ชัน 5 เพื่อไม่ให้ปนเปื้อนข้อมูลเก่า
-        let db = JSON.parse(localStorage.getItem('game_users_db_v5')) || {};
-        let currentLoggedUser = localStorage.getItem('game_current_user_v5') || null;
-        let isAdminLoggedIn = localStorage.getItem('game_admin_logged_v5') === 'true';
-
-        let generatedOTP = null;
-        let targetOTPUsername = null;
+        // ใช้ Database เวอร์ชัน 6 เพื่อความสดใหม่ของระบบ
+        let db = JSON.parse(localStorage.getItem('game_users_db_v6')) || {};
+        let currentLoggedUser = localStorage.getItem('game_current_user_v6') || null;
+        let isAdminLoggedIn = localStorage.getItem('game_admin_logged_v6') === 'true';
 
         // เริ่มต้นตรวจสอบสิทธิ์เมื่อเปิดหน้าเว็บ
         window.onload = function() {
@@ -269,11 +219,10 @@
             }
         };
 
-        // ฟังก์ชันควบคุมการสลับหน้าจอและขยายขนาดกล่องคอนเทนเนอร์ให้ยืดหยุ่นสอดคล้องกับเนื้อหา
+        // ฟังก์ชันควบคุมการสลับหน้าจอและขยายขนาดกล่องคอนเทนเนอร์ให้สอดคล้องกับเนื้อหา
         function switchPage(pageName) {
             document.getElementById('login-view').classList.add('hidden');
             document.getElementById('register-view').classList.add('hidden');
-            document.getElementById('forgot-view').classList.add('hidden');
             document.getElementById('player-view').classList.add('hidden');
             document.getElementById('admin-view').classList.add('hidden');
             document.getElementById('admin-gate').classList.remove('hidden');
@@ -286,23 +235,12 @@
             } else if (pageName === 'register') {
                 container.className = "w-full max-w-md bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
                 document.getElementById('register-view').classList.remove('hidden');
-            } else if (pageName === 'forgot') {
-                container.className = "w-full max-w-md bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
-                document.getElementById('forgot-view').classList.remove('hidden');
-                document.getElementById('forgot-step1').classList.remove('hidden');
-                document.getElementById('forgot-step2').classList.add('hidden');
-                document.getElementById('forgot-username').value = '';
-                document.getElementById('forgot-phone').value = '';
-                generatedOTP = null;
-                targetOTPUsername = null;
             } else if (pageName === 'player') {
-                // ขยายหน้าต่างให้กว้างขึ้นสำหรับแสดงหน้าแผนที่เกมและข้อมูลผู้เล่นพร้อมกันแบบจัดเต็ม
                 container.className = "w-full max-w-4xl bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
                 document.getElementById('player-view').classList.remove('hidden');
                 document.getElementById('admin-gate').classList.add('hidden');
                 renderPlayerMap();
             } else if (pageName === 'admin') {
-                // ขยายหน้าจอให้กว้างที่สุดเพื่อให้ผู้ดูแลเห็นตารางฐานข้อมูลและรหัสผ่านได้ถนัดสายตา
                 container.className = "w-full max-w-5xl bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
                 document.getElementById('admin-view').classList.remove('hidden');
                 document.getElementById('admin-gate').classList.add('hidden');
@@ -320,12 +258,6 @@
 
             if (db[username]) {
                 alert('❌ ชื่อผู้ใช้ (Username) นี้ถูกใช้งานไปแล้ว กรุณาตั้งชื่ออื่นครับ');
-                return;
-            }
-
-            const isPhoneDup = Object.values(db).some(user => user.phone === phone);
-            if (isPhoneDup) {
-                alert('❌ เบอร์โทรศัพท์นี้เคยผูกกับไอดีอื่นในระบบแล้ว ไม่สามารถใช้ซ้ำได้ครับ');
                 return;
             }
 
@@ -361,70 +293,21 @@
             if (user) {
                 if (user.password === password) {
                     currentLoggedUser = username;
-                    localStorage.setItem('game_current_user_v5', username);
+                    localStorage.setItem('game_current_user_v6', username);
                     switchPage('player');
                     
                     document.getElementById('login-username').value = '';
                     document.getElementById('login-password').value = '';
                 } else {
-                    // หากใส่รหัสผ่านไม่ถูกต้อง จะเด้งกล่องข้อความถามความสมัครใจในการกู้คืนตามเงื่อนไข
-                    if (confirm('❌ รหัสผ่านไม่ถูกต้อง! คุณลืมรหัสผ่านใช่หรือไม่?')) {
-                        switchPage('forgot');
-                        document.getElementById('forgot-username').value = username;
-                    }
+                    // แจ้งเตือนเมื่อรหัสผิด ให้ติดต่อแอดมิน (เพราะแอดมินเห็นรหัสผ่านของทุกคน)
+                    alert('❌ รหัสผ่านไม่ถูกต้อง! กรุณาตรวจสอบอีกครั้ง หรือติดต่อผู้ดูแลระบบเพื่อขอรหัสผ่านของคุณครับ');
                 }
             } else {
-                alert('❌ ไม่พบชื่อผู้ใช้นี้ในฐานข้อมูล โปรแกรมกรอกข้อมูลให้ถูกต้องหรือสมัครไอดีใหม่ครับ');
+                alert('❌ ไม่พบชื่อผู้ใช้นี้ในฐานข้อมูล กรุณาตรวจสอบการสะกดหรือสมัครไอดีใหม่ครับ');
             }
         }
 
-        // ================= ฟังก์ชันลืมรหัสผ่านส่ง OTP ยืนยันไปยังเบอร์โทร =================
-        function requestOTP() {
-            const username = document.getElementById('forgot-username').value.trim();
-            const phone = document.getElementById('forgot-phone').value.trim();
-
-            const user = db[username];
-
-            if (user && user.phone === phone) {
-                // ทำการสุ่มรหัส OTP 6 หลักเพื่อความปลอดภัยทดสอบระบบ
-                generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-                targetOTPUsername = username;
-
-                // แจ้งเตือนเสมือนส่ง SMS ไปยังมือถือผู้เล่นจริงๆ
-                alert(`📱 [ระบบส่งข้อความ SMS จำลอง]\nรหัส OTP เพื่อใช้ยืนยันการตั้งรหัสผ่านใหม่คือ: ${generatedOTP}\n(ระบบได้ทำการส่งไปยังเบอร์ ${phone} เรียบร้อยแล้ว)`);
-
-                document.getElementById('forgot-step1').classList.add('hidden');
-                document.getElementById('forgot-step2').classList.remove('hidden');
-                document.getElementById('forgot-otp').value = '';
-                document.getElementById('forgot-new-password').value = '';
-            } else {
-                alert('❌ ข้อมูลไม่ตรงกัน! ชื่อผู้ใช้และเบอร์โทรศัพท์ระบุไม่ถูกต้องตามฐานข้อมูล');
-            }
-        }
-
-        function verifyAndChangePassword() {
-            const inputOTP = document.getElementById('forgot-otp').value.trim();
-            const newPassword = document.getElementById('forgot-new-password').value;
-
-            if (inputOTP !== generatedOTP) {
-                alert('❌ รหัส OTP ไม่ถูกต้อง กรุณาตรวจสอบและป้อนรหัสใหม่อีกครั้ง');
-                return;
-            }
-
-            if (!newPassword) {
-                alert('กรุณากรอกรหัสผ่านใหม่ที่ต้องการตั้งค่า');
-                return;
-            }
-
-            // เขียนทับด้วยรหัสผ่านใหม่เรียบร้อย
-            db[targetOTPUsername].password = newPassword;
-            saveDB();
-
-            alert('✨ สำเร็จ! รหัสผ่านของคุณถูกเปลี่ยนใหม่แล้ว ลองเข้าสู่ระบบด้วยรหัสผ่านใหม่ได้เลยครับ');
-            switchPage('login');
-        }
-
-        // ระบบแก้ไขเฉพาะชื่อเล่น
+        // ระบบแก้ไขชื่อเล่นภายในเกม
         function toggleEditNickname() {
             const box = document.getElementById('edit-nickname-box');
             box.classList.toggle('hidden');
@@ -452,7 +335,7 @@
             const password = document.getElementById('admin-pass').value;
             if (password === 'coco') {
                 isAdminLoggedIn = true;
-                localStorage.setItem('game_admin_logged_v5', 'true');
+                localStorage.setItem('game_admin_logged_v6', 'true');
                 switchPage('admin');
                 document.getElementById('admin-pass').value = '';
                 document.getElementById('admin-login-box').classList.add('hidden');
@@ -489,108 +372,4 @@
                     </td>
                     <td class="px-4 py-3 text-right font-black text-amber-600">${user.score.toLocaleString()} แต้ม</td>
                     <td class="px-4 py-3 text-center">
-                        <button onclick="deleteUser('${user.username}')" class="bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white font-bold text-[11px] px-2.5 py-1 rounded-lg transition duration-150">
-                            ลบผู้เล่น
-                        </button>
-                    </td>
-                `;
-                tableBody.appendChild(tr);
-            });
-        }
-
-        function deleteUser(username) {
-            const user = db[username];
-            if (!user) return;
-
-            if (confirm(`คุณต้องการลบคุณ "${user.nickname}"ออกจากฐานข้อมูลระบบถาวรใช่ไหม?`)) {
-                delete db[username];
-                saveDB();
-                renderAdminDashboard();
-                alert('ลบข้อมูลเรียบร้อยแล้ว');
-            }
-        }
-
-        // ================= ฟังก์ชันควบคุมการเล่นเกมบนแผนที่การเล่น =================
-        function renderPlayerMap() {
-            const user = db[currentLoggedUser];
-            if (!user) { 
-                logout(); 
-                return; 
-            }
-            
-            document.getElementById('player-display-nickname').innerText = user.nickname;
-            document.getElementById('player-display-username').innerText = `@${user.username}`;
-            document.getElementById('player-display-affiliation').innerText = `🏢 สังกัด: ${user.affiliation || 'ไม่ได้ระบุ'}`;
-            document.getElementById('player-display-phone').innerText = `📱 เบอร์โทร: ${user.phone}`;
-            document.getElementById('player-score').innerText = user.score.toLocaleString();
-            document.getElementById('player-level').innerText = user.currentLevel > 4 ? '🏆 ผ่านครบด่าน' : `🔥 ด่านที่ ${user.currentLevel}`;
-
-            for (let i = 1; i <= 4; i++) {
-                const btn = document.getElementById(`btn-lv${i}`);
-                const statusText = document.getElementById(`status-lv${i}`);
-
-                if (user.currentLevel === i) {
-                    // ด่านปัจจุบันที่ต้องกดเล่น สไตล์สีส้มประกายทอง (Vibrant Amber)
-                    btn.className = "p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 shadow-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white cursor-pointer scale-105 ring-4 ring-orange-200 transform";
-                    statusText.innerText = "🎮 กดที่นี่เพื่อเล่น";
-                    statusText.className = "text-[10px] bg-white/20 text-white px-2 py-0.5 rounded-full font-bold";
-                    btn.disabled = false;
-                } else if (user.currentLevel > i) {
-                    // ด่านที่เคยผ่านไปแล้ว สไตล์สีเขียวสดชื่น (Vibrant Emerald)
-                    btn.className = "p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 bg-emerald-50 border-2 border-emerald-300 text-emerald-700 cursor-not-allowed opacity-90";
-                    statusText.innerText = "✨ สำเร็จแล้ว";
-                    statusText.className = "text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full";
-                    btn.disabled = true;
-                } else {
-                    // ด่านที่โดนล็อก สไตล์สีเทาจาง (Locked state)
-                    btn.className = "p-5 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 bg-slate-50 border border-slate-200 text-slate-400 cursor-not-allowed";
-                    statusText.innerText = "🔒 ล็อก";
-                    statusText.className = "text-[10px] bg-slate-200 text-slate-500 px-2 py-0.5 rounded-full";
-                    btn.disabled = true;
-                }
-            }
-        }
-
-        function playGame(level) {
-            const user = db[currentLoggedUser];
-            if (user.currentLevel !== level) return;
-
-            const earnedPoints = Math.floor(Math.random() * 401) + 100;
-            user.score += earnedPoints;
-            user.currentLevel += 1; 
-            
-            saveDB();
-            alert(`🎉 ยินดีด้วยคุณผ่านด่านภารกิจที่ ${level}!\nได้รับแต้มสะสมพลังงาน: +${earnedPoints} คะแนน`);
-            renderPlayerMap();
-        }
-
-        function resetGameProgress() {
-            if(confirm("ต้องการล้างประวัติการเคลียร์ด่านเกมทั้งหมดและเริ่มเล่นที่ด่าน 1 ใหม่ใช่ไหม?")) {
-                db[currentLoggedUser].currentLevel = 1;
-                db[currentLoggedUser].score = 0;
-                saveDB();
-                renderPlayerMap();
-                alert("ระบบได้ทำรีเซ็ตแผนที่เกาะผจญภัยเรียบร้อยแล้ว!");
-            }
-        }
-
-        // ================= ส่วนจัดการการล้างสถานะล็อกเอาท์ =================
-        function logout() {
-            currentLoggedUser = null;
-            isAdminLoggedIn = false;
-            localStorage.removeItem('game_current_user_v5');
-            localStorage.removeItem('game_admin_logged_v5');
-            switchPage('login');
-        }
-
-        function saveDB() {
-            localStorage.setItem('game_users_db_v5', JSON.stringify(db));
-        }
-
-        function escapeHtml(text) {
-            if (!text) return '';
-            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
-    </script>
-</body>
-</html>
+                        <button onclick="deleteUser('${user.username}')" class="bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white font-bold text-
