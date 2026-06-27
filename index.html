@@ -214,6 +214,7 @@
         let db = {};
         let currentLoggedUser = null;
         let isAdminLoggedIn = false;
+        let loginAttemptCount = 0; // ตัวแปรเก็บจำนวนครั้งที่กรอกชื่อผู้ใช้ผิด
 
         // ฟังก์ชันอ่านข้อมูลจาก Storage (ปลอดภัยจากการโดนบล็อก)
         function initData() {
@@ -325,14 +326,31 @@
             const password = document.getElementById('login-password').value;
             const user = db[username];
             
-            if (user && user.password === password) {
-                currentLoggedUser = username;
-                try { localStorage.setItem('game_curr_v7', username); } catch(e){}
-                switchPage('player');
-                document.getElementById('login-username').value = '';
-                document.getElementById('login-password').value = '';
+            if (user) {
+                // กรณีพบผู้ใช้ในระบบ ให้ล้างค่าการนับจำนวนผิดพลาด
+                loginAttemptCount = 0;
+
+                if (user.password === password) {
+                    currentLoggedUser = username;
+                    try { localStorage.setItem('game_curr_v7', username); } catch(e){}
+                    switchPage('player');
+                    document.getElementById('login-username').value = '';
+                    document.getElementById('login-password').value = '';
+                } else {
+                    alert('❌ รหัสผ่านไม่ถูกต้อง! กรุณาตรวจสอบหรือติดต่อผู้ดูแลระบบครับ');
+                }
             } else {
-                alert('❌ ข้อมูลไม่ถูกต้อง! กรุณาตรวจสอบหรือติดต่อผู้ดูแลระบบครับ');
+                // กรณีไม่พบชื่อผู้ใช้
+                loginAttemptCount++;
+                if (loginAttemptCount > 1) {
+                    alert('❌ ไม่พบชื่อผู้ใช้นี้เกิน 1 ครั้ง ระบบจะพาท่านไปยังหน้าสมัครสมาชิกโดยอัตโนมัติครับ');
+                    loginAttemptCount = 0; // รีเซ็ตการนับ
+                    switchPage('register');
+                    // เอาชื่อที่พิมพ์ผิดไปกรอกไว้ให้ในหน้าสมัครสมาชิกเลยเพื่อความสะดวก
+                    document.getElementById('reg-username').value = username;
+                } else {
+                    alert('❌ ไม่พบชื่อผู้ใช้นี้ในฐานข้อมูล กรุณาตรวจสอบการสะกดหรือสมัครไอดีใหม่ครับ');
+                }
             }
         }
 
