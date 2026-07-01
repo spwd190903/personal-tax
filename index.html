@@ -138,7 +138,7 @@
                         <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" id="status-lv2">-</span>
                     </button>
                     <button id="btn-lv3" onclick="playGame(3)" class="p-4 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 shadow-md">
-                        <span class="text-3xl">💰</span>
+                        <span class="text-3xl">🧊</span>
                         <span class="text-xs sm:text-sm text-center">ด่านค่าลดหย่อน</span>
                         <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" id="status-lv3">-</span>
                     </button>
@@ -186,6 +186,80 @@
                     
                     <div id="lv1-options-container" class="grid grid-cols-1 gap-3">
                         <!-- ปุ่มจะถูกสร้างด้วย JavaScript อัตโนมัติ -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button onclick="switchPage('player')" class="text-xs text-slate-400 hover:text-slate-600 underline">
+                    🏳️ ยอมแพ้และกลับไปแผนที่
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= ด่านที่ 2: มินิเกมค่าใช้จ่าย (Level 2 Game View) ================= -->
+        <div id="level2-view" class="p-6 sm:p-8 hidden flex flex-col h-full min-h-[500px]">
+            <div class="flex justify-between items-center mb-4">
+                <div class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                    <span>ด่านค่าใช้จ่าย</span>
+                    <span class="bg-purple-600 text-white px-2 py-0.5 rounded-full ml-1" id="lv2-progress-text">1/20</span>
+                </div>
+                <div class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                    ⭐ แต้มสะสม: <span id="lv2-score-display" class="text-lg">0</span>
+                </div>
+            </div>
+
+            <div class="w-full bg-slate-100 rounded-full h-2.5 mb-6 shadow-inner overflow-hidden">
+                <div id="lv2-progress-bar" class="bg-gradient-to-r from-purple-400 to-pink-500 h-2.5 rounded-full transition-all duration-500 ease-out" style="width: 5%"></div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-6 items-start justify-center w-full max-w-4xl mx-auto flex-grow">
+                <!-- ฝั่งโจทย์ -->
+                <div id="lv2-question-card" class="bg-white border-2 border-slate-100 rounded-3xl p-6 shadow-xl w-full md:w-3/5 text-center transition-transform duration-300">
+                    <span id="lv2-icon" class="text-6xl block mb-4 animate-bounce">🧾</span>
+                    <h3 id="lv2-question-text" class="text-lg sm:text-xl font-bold text-slate-800 mb-6 leading-relaxed">
+                        โจทย์...
+                    </h3>
+                    
+                    <!-- สำหรับข้อ 1-10 แบบตัวเลือก -->
+                    <div id="lv2-options-container" class="grid grid-cols-1 gap-3 hidden">
+                        <!-- ปุ่มจะถูกสร้างด้วย JavaScript อัตโนมัติ -->
+                    </div>
+
+                    <!-- สำหรับข้อ 11-20 แบบพิมพ์ตอบ -->
+                    <div id="lv2-input-container" class="hidden flex flex-col gap-3">
+                        <input type="number" id="lv2-answer-input" placeholder="กรอกตัวเลขค่าใช้จ่ายที่หักได้ (บาท)" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-center text-lg font-bold text-slate-800 focus:outline-none focus:border-purple-500">
+                        <button id="lv2-submit-btn" onclick="handleLv2Input()" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-xl transition shadow-md">ตอบคำถาม</button>
+                    </div>
+                </div>
+
+                <!-- ฝั่งเครื่องคิดเลข -->
+                <div class="bg-slate-800 rounded-3xl p-5 shadow-2xl w-full md:w-2/5 max-w-xs mx-auto text-white">
+                    <div class="text-center text-xs text-slate-400 mb-2 font-semibold">เครื่องคิดเลขช่วยคำนวณ 🧮</div>
+                    <input type="text" id="calc-display" readonly class="w-full bg-slate-900 border border-slate-700 text-right p-3 rounded-xl mb-4 font-mono text-2xl text-emerald-400 tracking-wider shadow-inner outline-none">
+                    <div class="grid grid-cols-4 gap-2">
+                        <button onclick="calcClear()" class="col-span-2 bg-rose-500 hover:bg-rose-400 py-2 rounded-lg font-bold">AC</button>
+                        <button onclick="calcDel()" class="bg-amber-500 hover:bg-amber-400 py-2 rounded-lg font-bold">Del</button>
+                        <button onclick="calcAppend('/')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">÷</button>
+                        
+                        <button onclick="calcAppend('7')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">7</button>
+                        <button onclick="calcAppend('8')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">8</button>
+                        <button onclick="calcAppend('9')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">9</button>
+                        <button onclick="calcAppend('*')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">×</button>
+                        
+                        <button onclick="calcAppend('4')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">4</button>
+                        <button onclick="calcAppend('5')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">5</button>
+                        <button onclick="calcAppend('6')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">6</button>
+                        <button onclick="calcAppend('-')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">-</button>
+                        
+                        <button onclick="calcAppend('1')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">1</button>
+                        <button onclick="calcAppend('2')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">2</button>
+                        <button onclick="calcAppend('3')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">3</button>
+                        <button onclick="calcAppend('+')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">+</button>
+                        
+                        <button onclick="calcAppend('0')" class="col-span-2 bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">0</button>
+                        <button onclick="calcAppend('.')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">.</button>
+                        <button onclick="calcResult()" class="bg-emerald-500 hover:bg-emerald-400 py-2 rounded-lg font-bold">=</button>
                     </div>
                 </div>
             </div>
@@ -279,7 +353,7 @@
         // ฟังก์ชันสลับหน้าต่าง
         function switchPage(page) {
             try {
-                const pages = ['login-view', 'register-view', 'player-view', 'admin-view', 'level1-view'];
+                const pages = ['login-view', 'register-view', 'player-view', 'admin-view', 'level1-view', 'level2-view'];
                 pages.forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.classList.add('hidden');
@@ -310,6 +384,12 @@
                 else if (page === 'level1') {
                     if (container) container.className = "w-full max-w-2xl min-h-[500px] bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
                     const p = document.getElementById('level1-view');
+                    if (p) p.classList.remove('hidden');
+                    if (adminGate) adminGate.classList.add('hidden');
+                }
+                else if (page === 'level2') {
+                    if (container) container.className = "w-full max-w-5xl min-h-[500px] bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
+                    const p = document.getElementById('level2-view');
                     if (p) p.classList.remove('hidden');
                     if (adminGate) adminGate.classList.add('hidden');
                 }
@@ -518,7 +598,7 @@
             { icon: "👴", text: "เงินบำนาญที่ได้รับหลังเกษียณอายุราชการ", type: "ม.40(1)", wrong: ["ม.40(2)", "ม.40(8)", "ได้รับยกเว้นภาษี"] },
             { icon: "💻", text: "รับจ้างออกแบบเว็บไซต์เป็นรายครั้ง (ฟรีแลนซ์)", type: "ม.40(2)", wrong: ["ม.40(1)", "ม.40(3)", "ม.40(7)"] },
             { icon: "📚", text: "ส่วนแบ่งรายได้จากการขายนิยายบนแอปพลิเคชัน", type: "ม.40(3)", wrong: ["ม.40(2)", "ม.40(8)", "ม.40(4)"] },
-            { icon: "💰", text: "กำไรจากการเทรดคริปโทเคอร์เรนซี (Cryptocurrency)", type: "ม.40(4)", wrong: ["ม.40(8)", "ม.40(2)", "ได้รับยกเว้นภาษี"] },
+            { icon: "🪙", text: "กำไรจากการเทรดคริปโทเคอร์เรนซี (Cryptocurrency)", type: "ม.40(4)", wrong: ["ม.40(8)", "ม.40(2)", "ได้รับยกเว้นภาษี"] },
             { icon: "🚜", text: "ให้เช่ารถแบ็คโฮและเครื่องจักรทางการเกษตร", type: "ม.40(5)", wrong: ["ม.40(2)", "ม.40(8)", "ม.40(7)"] },
             { icon: "⚖️", text: "รายได้จากการว่าความของทนายความอิสระ", type: "ม.40(6)", wrong: ["ม.40(2)", "ม.40(1)", "ม.40(8)"] },
             { icon: "🏭", text: "รับทำเฟอร์นิเจอร์บิวท์อินสั่งทำ (ผู้ทำจัดหาไม้และวัสดุเองทั้งหมด)", type: "ม.40(7)", wrong: ["ม.40(2)", "ม.40(8)", "ม.40(6)"] },
@@ -647,6 +727,223 @@
             }, 500);
         }
 
+        // ================= มินิเกมด่าน 2 (ค่าใช้จ่าย) =================
+        const level2BankPart1 = [
+            { icon: "💼", text: "เงินได้ประเภท 40(1) และ 40(2) หักค่าใช้จ่ายเหมาได้เท่าไหร่?", type: "choice", answer: "50% ไม่เกิน 100,000 บาท", wrong: ["30%", "60%", "หักไม่ได้เลย"] },
+            { icon: "📝", text: "ค่าลิขสิทธิ์ (ม.40(3)) หักค่าใช้จ่ายเหมาได้สูงสุดเท่าไหร่?", type: "choice", answer: "50% ไม่เกิน 100,000 บาท", wrong: ["30%", "10%", "หักตามจริงเท่านั้น"] },
+            { icon: "🎵", text: "ดอกเบี้ยและเงินปันผล (ม.40(4)) หักค่าใช้จ่ายได้เท่าไหร่?", type: "choice", answer: "หักไม่ได้เลย", wrong: ["60%", "30%", "50% ไม่เกิน 100,000 บาท"] },
+            { icon: "🏠", text: "การให้เช่าบ้าน/อาคาร (ม.40(5)) หักค่าใช้จ่ายเหมาได้เท่าไหร่?", type: "choice", answer: "30%", wrong: ["10%", "20%", "60%"] },
+            { icon: "🚗", text: "การให้เช่ายานพาหนะ (ม.40(5)) หักค่าใช้จ่ายเหมาได้เท่าไหร่?", type: "choice", answer: "30%", wrong: ["10%", "20%", "60%"] },
+            { icon: "👨‍⚕️", text: "ประกอบโรคศิลปะ/แพทย์ (ม.40(6)) หักค่าใช้จ่ายเหมาได้เท่าไหร่?", type: "choice", answer: "60%", wrong: ["30%", "50%", "10%"] },
+            { icon: "⚖️", text: "วิชาชีพอิสระ วิศวกร, ทนายความ (ม.40(6)) หักค่าใช้จ่ายเหมาได้เท่าไหร่?", type: "choice", answer: "30%", wrong: ["60%", "50%", "10%"] },
+            { icon: "🏗️", text: "รับเหมาก่อสร้าง (ม.40(7)) หักค่าใช้จ่ายเหมาได้เท่าไหร่?", type: "choice", answer: "60%", wrong: ["30%", "50%", "หักตามจริงเท่านั้น"] },
+            { icon: "📦", text: "ขายสินค้าออนไลน์/ธุรกิจ (ม.40(8)) หักค่าใช้จ่ายเหมาได้เท่าไหร่?", type: "choice", answer: "60%", wrong: ["30%", "50%", "10%"] },
+            { icon: "📄", text: "การหักค่าใช้จ่ายแบบ 'ตามจริง' จำเป็นต้องมีสิ่งใด?", type: "choice", answer: "ใบเสร็จรับเงิน/หลักฐาน", wrong: ["สมุดบัญชีธนาคาร", "บัตรประชาชน", "รูปถ่ายสถานที่"] }
+        ];
+
+        const level2BankPart2 = [
+            { icon: "🧮", text: "สมชายมีเงินเดือนทั้งปี (ม.40(1)) 100,000 บาท เขาจะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 50000 },
+            { icon: "🧮", text: "สมศรีมีเงินเดือนรวมทั้งปี 500,000 บาท เธอจะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 100000 },
+            { icon: "🧮", text: "สมปองเป็นนายหน้าอิสระ (ม.40(2)) ได้เงิน 80,000 บาท หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 40000 },
+            { icon: "🧮", text: "สมชายมีเงินเดือน 300,000 และนายหน้า 100,000 บาท รวมหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 100000 },
+            { icon: "🧮", text: "สมหมายได้เงินค่าลิขสิทธิ์ (ม.40(3)) 150,000 บาท หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 75000 },
+            { icon: "🧮", text: "สมหญิงได้ดอกเบี้ยเงินฝาก (ม.40(4)) 20,000 บาท หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 0 },
+            { icon: "🧮", text: "สมเกียรติให้เช่าบ้าน (ม.40(5)) ได้เงิน 200,000 บาท เลือกหักเหมา จะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 60000 },
+            { icon: "🧮", text: "หมอสมศักดิ์เปิดคลินิก (ม.40(6)) มีรายได้ 1,000,000 บาท เลือกหักเหมา จะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 600000 },
+            { icon: "🧮", text: "วิศวกรสมพลรับออกแบบ (ม.40(6)) มีรายได้ 1,000,000 บาท เลือกหักเหมา จะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 300000 },
+            { icon: "🧮", text: "สมพรขายเสื้อผ้าออนไลน์ (ม.40(8)) มีรายได้ 500,000 บาท เลือกหักเหมา จะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 300000 }
+        ];
+
+        let currentLv2Questions = [];
+        let currentLv2Index = 0;
+        let lv2CurrentScore = 0;
+        let isLv2Answering = false;
+
+        function startLevel2Game() {
+            switchPage('level2');
+            
+            // สุ่ม 10 ข้อแรก และ 10 ข้อหลัง แล้วนำมาต่อกัน (เพื่อให้ข้อช้อยส์ขึ้นก่อน ข้อพิมพ์ตอบตามหลังเสมอ)
+            let part1 = shuffleArray([...level2BankPart1]);
+            let part2 = shuffleArray([...level2BankPart2]);
+            currentLv2Questions = part1.concat(part2);
+            
+            currentLv2Index = 0;
+            lv2CurrentScore = 0;
+            isLv2Answering = false;
+            
+            document.getElementById('lv2-score-display').innerText = '0';
+            calcClear(); // เคลียร์หน้าจอเครื่องคิดเลขเตรียมไว้
+            renderLv2Question();
+        }
+
+        function renderLv2Question() {
+            if (currentLv2Index >= currentLv2Questions.length) {
+                finishLevel2Game();
+                return;
+            }
+
+            const qData = currentLv2Questions[currentLv2Index];
+            const progressPercent = (currentLv2Index / 20) * 100;
+            document.getElementById('lv2-progress-bar').style.width = `${progressPercent === 0 ? 5 : progressPercent}%`;
+            document.getElementById('lv2-progress-text').innerText = `${currentLv2Index + 1}/20`;
+            
+            const card = document.getElementById('lv2-question-card');
+            card.classList.remove('scale-95', 'opacity-50'); 
+            document.getElementById('lv2-icon').innerText = qData.icon;
+            document.getElementById('lv2-question-text').innerText = qData.text;
+
+            const optsContainer = document.getElementById('lv2-options-container');
+            const inputContainer = document.getElementById('lv2-input-container');
+
+            if (qData.type === 'choice') {
+                optsContainer.classList.remove('hidden');
+                inputContainer.classList.add('hidden');
+                
+                let options = [
+                    { text: qData.answer, isCorrect: true },
+                    { text: qData.wrong[0], isCorrect: false },
+                    { text: qData.wrong[1], isCorrect: false },
+                    { text: qData.wrong[2], isCorrect: false }
+                ];
+                options = shuffleArray(options);
+                optsContainer.innerHTML = ''; 
+
+                options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = "w-full py-3 px-4 bg-slate-50 border-2 border-slate-200 hover:border-purple-400 hover:bg-purple-50 text-slate-700 font-semibold rounded-xl transition duration-200 shadow-sm text-sm sm:text-base";
+                    btn.innerText = opt.text;
+                    btn.onclick = () => handleLv2Choice(btn, opt.isCorrect);
+                    optsContainer.appendChild(btn);
+                });
+            } else {
+                optsContainer.classList.add('hidden');
+                inputContainer.classList.remove('hidden');
+                
+                const inputField = document.getElementById('lv2-answer-input');
+                inputField.value = '';
+                inputField.classList.remove('border-emerald-500', 'border-rose-500', 'bg-emerald-50', 'bg-rose-50', 'text-emerald-700', 'text-rose-700');
+                
+                const submitBtn = document.getElementById('lv2-submit-btn');
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'ตอบคำถาม';
+            }
+            
+            isLv2Answering = false;
+        }
+
+        function handleLv2Choice(btnElement, isCorrect) {
+            if (isLv2Answering) return; 
+            isLv2Answering = true;
+
+            const allBtns = document.getElementById('lv2-options-container').querySelectorAll('button');
+            allBtns.forEach(b => b.disabled = true);
+
+            if (isCorrect) {
+                btnElement.classList.replace('bg-slate-50', 'bg-emerald-500');
+                btnElement.classList.replace('border-slate-200', 'border-emerald-600');
+                btnElement.classList.replace('text-slate-700', 'text-white');
+                btnElement.classList.add('scale-105', 'transform');
+                
+                lv2CurrentScore += 20;
+                document.getElementById('lv2-score-display').innerText = lv2CurrentScore;
+            } else {
+                btnElement.classList.replace('bg-slate-50', 'bg-rose-500');
+                btnElement.classList.replace('border-slate-200', 'border-rose-600');
+                btnElement.classList.replace('text-slate-700', 'text-white');
+                btnElement.classList.add('animate-pulse');
+
+                allBtns.forEach(b => {
+                    const currentQ = currentLv2Questions[currentLv2Index];
+                    if (b.innerText === currentQ.answer) {
+                        b.classList.replace('bg-slate-50', 'bg-emerald-100');
+                        b.classList.replace('border-slate-200', 'border-emerald-400');
+                        b.classList.replace('text-slate-700', 'text-emerald-800');
+                    }
+                });
+            }
+
+            setTimeout(() => {
+                const card = document.getElementById('lv2-question-card');
+                card.classList.add('scale-95', 'opacity-50'); 
+                setTimeout(() => {
+                    currentLv2Index++;
+                    renderLv2Question();
+                }, 200);
+            }, 1200);
+        }
+
+        function handleLv2Input() {
+            if (isLv2Answering) return;
+            
+            const inputEl = document.getElementById('lv2-answer-input');
+            const btn = document.getElementById('lv2-submit-btn');
+            const val = inputEl.value.trim();
+            if (val === '') return;
+
+            isLv2Answering = true;
+            btn.disabled = true;
+
+            const currentQ = currentLv2Questions[currentLv2Index];
+            if (parseFloat(val) === currentQ.answer) {
+                inputEl.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
+                btn.innerText = '✅ ถูกต้อง!';
+                lv2CurrentScore += 20;
+                document.getElementById('lv2-score-display').innerText = lv2CurrentScore;
+            } else {
+                inputEl.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-700');
+                inputEl.value = `ผิด! (ตอบ: ${currentQ.answer})`;
+                btn.innerText = '❌ ผิดพลาด';
+            }
+
+            setTimeout(() => {
+                const card = document.getElementById('lv2-question-card');
+                card.classList.add('scale-95', 'opacity-50'); 
+                setTimeout(() => {
+                    currentLv2Index++;
+                    renderLv2Question();
+                }, 200);
+            }, 1500);
+        }
+
+        function finishLevel2Game() {
+            const user = db[currentLoggedUser];
+            document.getElementById('lv2-progress-bar').style.width = `100%`;
+            
+            setTimeout(() => {
+                user.score += lv2CurrentScore;
+                user.currentLevel = 3; 
+                saveDB();
+                alert(`🎉 ภารกิจสำเร็จ!\nคุณตอบคำถามได้คะแนน: +${lv2CurrentScore} แต้ม\n\nระบบปลดล็อก "ด่านค่าลดหย่อน" ให้คุณแล้ว!`);
+                switchPage('player');
+            }, 500);
+        }
+
+        // ================= ระบบเครื่องคิดเลข (ด่าน 2) =================
+        function calcAppend(val) {
+            document.getElementById('calc-display').value += val;
+        }
+        function calcClear() {
+            document.getElementById('calc-display').value = '';
+        }
+        function calcDel() {
+            const display = document.getElementById('calc-display');
+            display.value = display.value.slice(0, -1);
+        }
+        function calcResult() {
+            const display = document.getElementById('calc-display');
+            try {
+                // อนุญาตเฉพาะตัวเลขและเครื่องหมายคณิตศาสตร์พื้นฐานเพื่อความปลอดภัย
+                const expr = display.value.replace(/[^0-9+\-*/.]/g, '');
+                if(expr) {
+                    const result = Function('"use strict";return (' + expr + ')')();
+                    display.value = result;
+                }
+            } catch(e) {
+                display.value = 'Error';
+                setTimeout(calcClear, 1000);
+            }
+        }
+
         // ================= ฟังก์ชันเข้าเล่นเกม (ทั่วไป) =================
         function playGame(level) {
             const user = db[currentLoggedUser];
@@ -654,6 +951,9 @@
             
             if (level === 1) {
                 startLevel1Game();
+                return;
+            } else if (level === 2) {
+                startLevel2Game();
                 return;
             }
             
