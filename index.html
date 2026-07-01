@@ -15,7 +15,7 @@
     <!-- บังคับความสูงขั้นต่ำ (min-h-[400px]) ป้องกันกล่องยุบตัว -->
     <div id="main-container" class="w-full max-w-md min-h-[400px] bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300">
         
-        <!-- ================= 1. หน้าล็อคอิน (เอาคำว่า hidden ออก เพื่อให้แสดงผลทันทีแม้ JS จะไม่รัน) ================= -->
+        <!-- ================= 1. หน้าล็อคอิน ================= -->
         <form id="login-view" onsubmit="event.preventDefault(); handleLogin();" class="p-8 space-y-5">
             <div class="text-center">
                 <span class="text-5xl inline-block mb-2">🎮</span>
@@ -162,10 +162,10 @@
 
         <!-- ================= ด่านที่ 1: มินิเกมเงินได้พึงประเมิน (Level 1 Game View) ================= -->
         <div id="level1-view" class="p-6 sm:p-8 hidden flex flex-col h-full min-h-[500px]">
-            <!-- ส่วนหัวของเกม (Header & Progress) -->
+            <!-- ส่วนหัวของเกม -->
             <div class="flex justify-between items-center mb-4">
                 <div class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                    <span>ด่านที่ 1</span>
+                    <span>ด่านเงินได้พึงประเมิน</span>
                     <span class="bg-indigo-600 text-white px-2 py-0.5 rounded-full ml-1" id="lv1-progress-text">1/20</span>
                 </div>
                 <div class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
@@ -173,12 +173,10 @@
                 </div>
             </div>
 
-            <!-- หลอดความคืบหน้า (Progress Bar) -->
             <div class="w-full bg-slate-100 rounded-full h-2.5 mb-6 shadow-inner overflow-hidden">
                 <div id="lv1-progress-bar" class="bg-gradient-to-r from-emerald-400 to-teal-500 h-2.5 rounded-full transition-all duration-500 ease-out" style="width: 5%"></div>
             </div>
 
-            <!-- การ์ดคำถาม (Question Card) -->
             <div class="flex-grow flex flex-col items-center justify-center w-full max-w-lg mx-auto">
                 <div id="lv1-question-card" class="bg-white border-2 border-slate-100 rounded-3xl p-6 sm:p-8 shadow-xl w-full text-center transition-transform duration-300 transform scale-100">
                     <span id="lv1-icon" class="text-6xl block mb-4 animate-bounce">💰</span>
@@ -186,7 +184,6 @@
                         คุณสมชายได้รับเงินเดือนประจำและโบนัสปลายปี
                     </h3>
                     
-                    <!-- ปุ่มตัวเลือก (Options) -->
                     <div id="lv1-options-container" class="grid grid-cols-1 gap-3">
                         <!-- ปุ่มจะถูกสร้างด้วย JavaScript อัตโนมัติ -->
                     </div>
@@ -254,36 +251,34 @@
         let db = {};
         let currentLoggedUser = null;
         let isAdminLoggedIn = false;
-        let loginAttemptCount = 0; // ตัวแปรเก็บจำนวนครั้งที่กรอกชื่อผู้ใช้ผิด
+        let loginAttemptCount = 0;
         
         // ชื่อด่านสำหรับแสดงผล
         const levelNames = ["เงินได้พึงประเมิน", "ค่าใช้จ่าย", "ค่าลดหย่อน", "คำนวณภาษี"];
 
-        // ฟังก์ชันอ่านข้อมูลจาก Storage (ปลอดภัยจากการโดนบล็อก)
+        // ฟังก์ชันอ่านข้อมูลจาก Storage (ปรับเป็น v8 เพื่อล้างบัคที่ค้างเก่า)
         function initData() {
             try {
-                db = JSON.parse(localStorage.getItem('game_db_v7')) || {};
-                currentLoggedUser = localStorage.getItem('game_curr_v7') || null;
-                isAdminLoggedIn = localStorage.getItem('game_adm_v7') === 'true';
+                db = JSON.parse(localStorage.getItem('game_db_v8')) || {};
+                currentLoggedUser = localStorage.getItem('game_curr_v8') || null;
+                isAdminLoggedIn = localStorage.getItem('game_adm_v8') === 'true';
             } catch (e) {
                 console.error("Storage Error:", e);
                 db = {};
             }
         }
 
-        // เซฟข้อมูลลง Storage
         function saveDB() {
             try {
-                localStorage.setItem('game_db_v7', JSON.stringify(db));
+                localStorage.setItem('game_db_v8', JSON.stringify(db));
             } catch (e) {
                 console.error("Save Error:", e);
             }
         }
 
-        // ฟังก์ชันสลับหน้าหลักที่เขียนให้รัดกุมที่สุด
+        // ฟังก์ชันสลับหน้าต่าง
         function switchPage(page) {
             try {
-                // ซ่อนหน้าต่างทั้งหมดก่อน
                 const pages = ['login-view', 'register-view', 'player-view', 'admin-view', 'level1-view'];
                 pages.forEach(id => {
                     const el = document.getElementById(id);
@@ -330,9 +325,186 @@
             }
         }
 
-        // ================= ฟังก์ชันมินิเกม ด่านที่ 1 (เงินได้พึงประเมิน) =================
-        
-        // คลังคำถาม 20 ข้อ
+        // เริ่มต้นการทำงานทันที
+        initData();
+        if (isAdminLoggedIn) {
+            switchPage('admin');
+        } else if (currentLoggedUser && db[currentLoggedUser]) {
+            switchPage('player');
+        } else {
+            // ปล่อยให้หน้า login แสดงอยู่
+        }
+
+        // ================= ฟังก์ชันระบบ =================
+        function handleRegister() {
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value;
+            const nickname = document.getElementById('reg-nickname').value.trim();
+            const phone = document.getElementById('reg-phone').value.trim();
+            const affiliation = document.getElementById('reg-affiliation').value.trim();
+
+            if (db[username]) {
+                alert('❌ ชื่อผู้ใช้ (Username) นี้ถูกใช้งานไปแล้ว กรุณาตั้งชื่ออื่นครับ');
+                return;
+            }
+
+            db[username] = {
+                username: username, password: password, nickname: nickname, 
+                phone: phone, affiliation: affiliation, currentLevel: 1, score: 0
+            };
+            saveDB();
+            alert('🎉 สมัครสมาชิกเสร็จสมบูรณ์! พาท่านกลับสู่หน้าเข้าสู่ระบบ');
+            
+            document.getElementById('reg-username').value = '';
+            document.getElementById('reg-password').value = '';
+            document.getElementById('reg-nickname').value = '';
+            document.getElementById('reg-phone').value = '';
+            document.getElementById('reg-affiliation').value = '';
+            switchPage('login');
+        }
+
+        function handleLogin() {
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+            const user = db[username];
+            
+            if (user) {
+                loginAttemptCount = 0;
+                if (user.password === password) {
+                    currentLoggedUser = username;
+                    try { localStorage.setItem('game_curr_v8', username); } catch(e){}
+                    switchPage('player');
+                    document.getElementById('login-username').value = '';
+                    document.getElementById('login-password').value = '';
+                } else {
+                    alert('❌ รหัสผ่านไม่ถูกต้อง! กรุณาตรวจสอบหรือติดต่อผู้ดูแลระบบครับ');
+                }
+            } else {
+                loginAttemptCount++;
+                if (loginAttemptCount > 1) {
+                    alert('❌ ไม่พบชื่อผู้ใช้นี้เกิน 1 ครั้ง ระบบจะพาท่านไปยังหน้าสมัครสมาชิกโดยอัตโนมัติครับ');
+                    loginAttemptCount = 0;
+                    switchPage('register');
+                    document.getElementById('reg-username').value = username;
+                } else {
+                    alert('❌ ไม่พบชื่อผู้ใช้นี้ในฐานข้อมูล กรุณาตรวจสอบการสะกดหรือสมัครไอดีใหม่ครับ');
+                }
+            }
+        }
+
+        function toggleEditNickname() {
+            const box = document.getElementById('edit-nickname-box');
+            box.classList.toggle('hidden');
+            if(!box.classList.contains('hidden')) {
+                document.getElementById('new-nickname-input').value = db[currentLoggedUser].nickname;
+            }
+        }
+
+        function saveNewNickname() {
+            const newNickname = document.getElementById('new-nickname-input').value.trim();
+            if(!newNickname) return alert('กรุณาระบุชื่อเล่นใหม่ ห้ามเว้นว่าง');
+            db[currentLoggedUser].nickname = newNickname;
+            saveDB();
+            toggleEditNickname();
+            renderPlayerMap();
+        }
+
+        function toggleAdminLoginForm() {
+            document.getElementById('admin-login-box').classList.toggle('hidden');
+        }
+
+        function loginAdmin() {
+            const password = document.getElementById('admin-pass').value;
+            if (password === 'coco') {
+                isAdminLoggedIn = true;
+                try { localStorage.setItem('game_adm_v8', 'true'); } catch(e){}
+                switchPage('admin');
+                document.getElementById('admin-pass').value = '';
+                document.getElementById('admin-login-box').classList.add('hidden');
+            } else {
+                alert('รหัสผ่านของแอดมินไม่ถูกต้อง!');
+            }
+        }
+
+        function renderAdminDashboard() {
+            const usersArray = Object.values(db);
+            document.getElementById('admin-total-users').innerText = usersArray.length;
+            const tableBody = document.getElementById('admin-user-table');
+            tableBody.innerHTML = '';
+
+            if(usersArray.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="8" class="text-center py-6 text-slate-400 font-medium">ยังไม่มีข้อมูลสมาชิกลงทะเบียนเข้ามาในเกม</td></tr>`;
+                return;
+            }
+
+            usersArray.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-indigo-50/50 transition border-b border-slate-100";
+                
+                let levelText = user.currentLevel > 4 ? '🏆 จบเกม' : 'ด่าน ' + levelNames[user.currentLevel - 1];
+
+                tr.innerHTML = `
+                    <td class="px-4 py-3 font-semibold text-indigo-600">@${escapeHtml(user.username)}</td>
+                    <td class="px-4 py-3 font-mono font-bold text-purple-700 bg-purple-50/70 rounded">${escapeHtml(user.password)}</td>
+                    <td class="px-4 py-3 font-medium text-slate-800">${escapeHtml(user.nickname || '-')}</td>
+                    <td class="px-4 py-3 text-slate-600">${escapeHtml(user.affiliation || '-')}</td>
+                    <td class="px-4 py-3 text-slate-500">${escapeHtml(user.phone)}</td>
+                    <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold ${user.currentLevel > 4 ? 'bg-emerald-100 text-emerald-700' : 'bg-cyan-100 text-cyan-700'}">${levelText}</span></td>
+                    <td class="px-4 py-3 text-right font-black text-amber-600">${user.score.toLocaleString()}</td>
+                    <td class="px-4 py-3 text-center"><button onclick="deleteUser('${user.username}')" class="bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white font-bold text-[11px] px-2.5 py-1 rounded-lg transition">ลบ</button></td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function deleteUser(username) {
+            const user = db[username];
+            if (!user) return;
+            if (confirm(`คุณต้องการลบคุณ "${user.nickname}" ออกจากระบบใช่ไหม?`)) {
+                delete db[username];
+                saveDB();
+                renderAdminDashboard();
+            }
+        }
+
+        // ================= ฟังก์ชันกระดานผู้เล่นและแผนที่ =================
+        function renderPlayerMap() {
+            const user = db[currentLoggedUser];
+            if (!user) { logout(); return; }
+            
+            document.getElementById('player-display-nickname').innerText = user.nickname;
+            document.getElementById('player-display-username').innerText = `@${user.username}`;
+            document.getElementById('player-display-affiliation').innerText = `🏢 สังกัด: ${user.affiliation || '-'}`;
+            document.getElementById('player-display-phone').innerText = `📱 ติดต่อ: ${user.phone}`;
+            document.getElementById('player-score').innerText = user.score.toLocaleString();
+            
+            let displayLevelText = user.currentLevel > 4 ? '🏆 ผ่านครบด่าน' : `🔥 ด่าน${levelNames[user.currentLevel - 1]}`;
+            document.getElementById('player-level').innerText = displayLevelText;
+
+            for (let i = 1; i <= 4; i++) {
+                const btn = document.getElementById(`btn-lv${i}`);
+                const statusText = document.getElementById(`status-lv${i}`);
+
+                if (user.currentLevel === i) {
+                    btn.className = "p-4 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 shadow-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white cursor-pointer scale-105 ring-4 ring-orange-200 transform";
+                    statusText.innerText = "🎮 กดเล่น";
+                    statusText.className = "text-[10px] bg-white/20 text-white px-2 py-0.5 rounded-full font-bold";
+                    btn.disabled = false;
+                } else if (user.currentLevel > i) {
+                    btn.className = "p-4 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 bg-emerald-50 border-2 border-emerald-300 text-emerald-700 cursor-not-allowed opacity-90";
+                    statusText.innerText = "✨ สำเร็จ";
+                    statusText.className = "text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full";
+                    btn.disabled = true;
+                } else {
+                    btn.className = "p-4 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 bg-slate-50 border border-slate-200 text-slate-400 cursor-not-allowed";
+                    statusText.innerText = "🔒 ล็อก";
+                    statusText.className = "text-[10px] bg-slate-200 text-slate-500 px-2 py-0.5 rounded-full";
+                    btn.disabled = true;
+                }
+            }
+        }
+
+        // ================= มินิเกมด่าน 1 (เงินได้พึงประเมิน) =================
         const level1Bank = [
             { icon: "💼", text: "เงินเดือนประจำ และโบนัสปลายปีที่บริษัทจ่ายให้", type: "40(1)", wrong: ["40(2) รับจ้างอิสระ", "40(8) ธุรกิจพาณิชย์", "ได้รับยกเว้นภาษี"] },
             { icon: "📝", text: "ค่านายหน้าจากการชี้ช่องขายที่ดินให้เพื่อน", type: "40(2)", wrong: ["40(1) เงินเดือน", "40(6) วิชาชีพอิสระ", "40(8) ธุรกิจพาณิชย์"] },
@@ -361,7 +533,6 @@
         let lv1CurrentScore = 0;
         let isAnswering = false;
 
-        // ฟังก์ชันสุ่ม Array (Fisher-Yates Shuffle)
         function shuffleArray(array) {
             let curId = array.length;
             while (0 !== curId) {
@@ -376,8 +547,6 @@
 
         function startLevel1Game() {
             switchPage('level1');
-            
-            // สุ่มลำดับคำถามทั้ง 20 ข้อใหม่ทุกครั้งที่เริ่มเล่น
             currentLv1Questions = shuffleArray([...level1Bank]);
             currentQuestionIndex = 0;
             lv1CurrentScore = 0;
@@ -394,19 +563,15 @@
             }
 
             const qData = currentLv1Questions[currentQuestionIndex];
-            
-            // อัปเดต UI Progress
             const progressPercent = ((currentQuestionIndex) / 20) * 100;
             document.getElementById('lv1-progress-bar').style.width = `${progressPercent === 0 ? 5 : progressPercent}%`;
             document.getElementById('lv1-progress-text').innerText = `${currentQuestionIndex + 1}/20`;
             
-            // อัปเดตข้อความคำถาม
             const card = document.getElementById('lv1-question-card');
-            card.classList.remove('scale-95', 'opacity-50'); // รีเซ็ตแอนิเมชัน
+            card.classList.remove('scale-95', 'opacity-50'); 
             document.getElementById('lv1-icon').innerText = qData.icon;
             document.getElementById('lv1-question-text').innerText = qData.text;
 
-            // สร้างปุ่มตัวเลือก และสุ่มตำแหน่ง
             let options = [
                 { text: qData.type, isCorrect: true },
                 { text: qData.wrong[0], isCorrect: false },
@@ -416,7 +581,7 @@
             options = shuffleArray(options);
 
             const container = document.getElementById('lv1-options-container');
-            container.innerHTML = ''; // ล้างของเก่า
+            container.innerHTML = ''; 
 
             options.forEach(opt => {
                 const btn = document.createElement('button');
@@ -425,36 +590,30 @@
                 btn.onclick = () => handleLv1Answer(btn, opt.isCorrect);
                 container.appendChild(btn);
             });
-            
             isAnswering = false;
         }
 
         function handleLv1Answer(btnElement, isCorrect) {
-            if (isAnswering) return; // ป้องกันการกดรัวๆ
+            if (isAnswering) return; 
             isAnswering = true;
 
             const allBtns = document.getElementById('lv1-options-container').querySelectorAll('button');
-            
-            // ปิดการกดปุ่มอื่น
             allBtns.forEach(b => b.disabled = true);
 
             if (isCorrect) {
-                // เอฟเฟกต์ตอบถูก (เขียว)
                 btnElement.classList.replace('bg-slate-50', 'bg-emerald-500');
                 btnElement.classList.replace('border-slate-200', 'border-emerald-600');
                 btnElement.classList.replace('text-slate-700', 'text-white');
                 btnElement.classList.add('scale-105', 'transform');
                 
-                lv1CurrentScore += 20; // ข้อละ 20 แต้ม
+                lv1CurrentScore += 20;
                 document.getElementById('lv1-score-display').innerText = lv1CurrentScore;
             } else {
-                // เอฟเฟกต์ตอบผิด (แดงสั่นๆ)
                 btnElement.classList.replace('bg-slate-50', 'bg-rose-500');
                 btnElement.classList.replace('border-slate-200', 'border-rose-600');
                 btnElement.classList.replace('text-slate-700', 'text-white');
                 btnElement.classList.add('animate-pulse');
 
-                // ไฮไลต์ข้อที่ถูกด้วยสีเขียว
                 allBtns.forEach(b => {
                     const currentQ = currentLv1Questions[currentQuestionIndex];
                     if (b.innerText === currentQ.type) {
@@ -465,47 +624,39 @@
                 });
             }
 
-            // หน่วงเวลา 1.2 วินาที ก่อนไปข้อถัดไป
             setTimeout(() => {
                 const card = document.getElementById('lv1-question-card');
-                card.classList.add('scale-95', 'opacity-50'); // แอนิเมชันย่อการ์ด
-                
+                card.classList.add('scale-95', 'opacity-50'); 
                 setTimeout(() => {
                     currentQuestionIndex++;
                     renderLv1Question();
-                }, 200); // รอให้ย่อเสร็จค่อยเปลี่ยนข้อ
+                }, 200);
             }, 1200);
         }
 
         function finishLevel1Game() {
             const user = db[currentLoggedUser];
-            
-            // อัปเดตหลอดเต็ม
             document.getElementById('lv1-progress-bar').style.width = `100%`;
             
             setTimeout(() => {
                 user.score += lv1CurrentScore;
-                user.currentLevel = 2; // ผ่านด่าน 1
+                user.currentLevel = 2; 
                 saveDB();
-                
                 alert(`🎉 ภารกิจสำเร็จ!\nคุณตอบถูกและได้รับคะแนนสะสม: +${lv1CurrentScore} แต้ม\n\nระบบปลดล็อก "ด่านค่าใช้จ่าย" ให้คุณแล้ว!`);
                 switchPage('player');
             }, 500);
         }
 
-        // ================= สิ้นสุดมินิเกม ด่านที่ 1 =================
-
+        // ================= ฟังก์ชันเข้าเล่นเกม (ทั่วไป) =================
         function playGame(level) {
             const user = db[currentLoggedUser];
             if (user.currentLevel !== level) return;
             
-            // เพิ่มการตรวจเช็ค ถ้าด่าน 1 ให้เปิดมินิเกม
             if (level === 1) {
                 startLevel1Game();
                 return;
             }
             
-            // สำหรับด่านอื่นๆ (2,3,4) จำลองการเล่นไปก่อน
             const earnedPoints = Math.floor(Math.random() * 401) + 100;
             user.score += earnedPoints;
             user.currentLevel += 1; 
@@ -527,8 +678,8 @@
             currentLoggedUser = null;
             isAdminLoggedIn = false;
             try {
-                localStorage.removeItem('game_curr_v7');
-                localStorage.removeItem('game_adm_v7');
+                localStorage.removeItem('game_curr_v8');
+                localStorage.removeItem('game_adm_v8');
             } catch(e){}
             switchPage('login');
         }
