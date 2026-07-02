@@ -139,7 +139,7 @@
                         <span class="text-[9px] text-emerald-600 font-bold hidden" id="score-lv2">Best: 0</span>
                     </button>
                     <button id="btn-lv3" onclick="playGame(3)" class="p-4 rounded-2xl font-bold flex flex-col items-center justify-center gap-2 transition duration-200 shadow-md">
-                        <span class="text-3xl">🧊</span>
+                        <span class="text-3xl">🛡️</span>
                         <span class="text-xs sm:text-sm text-center">ด่านค่าลดหย่อน</span>
                         <span class="text-[10px] font-medium px-2 py-0.5 rounded-full" id="status-lv3">-</span>
                         <span class="text-[9px] text-emerald-600 font-bold hidden" id="score-lv3">Best: 0</span>
@@ -225,33 +225,102 @@
                     </div>
                 </div>
 
+                <!-- ฝั่งเครื่องคิดเลข ด่าน 2 -->
                 <div class="bg-slate-800 rounded-3xl p-5 shadow-2xl w-full md:w-2/5 max-w-xs mx-auto text-white">
                     <div class="text-center text-xs text-slate-400 mb-2 font-semibold">เครื่องคิดเลขช่วยคำนวณ 🧮✨</div>
-                    <input type="text" id="calc-display" readonly class="w-full bg-slate-900 border border-slate-700 text-right p-3 rounded-xl mb-4 font-mono text-2xl text-emerald-400 tracking-wider shadow-inner outline-none">
+                    <input type="text" id="calc-display-lv2" readonly class="w-full bg-slate-900 border border-slate-700 text-right p-3 rounded-xl mb-4 font-mono text-2xl text-emerald-400 tracking-wider shadow-inner outline-none">
                     <div class="grid grid-cols-4 gap-2">
-                        <button type="button" onclick="calcClear()" class="bg-rose-500 hover:bg-rose-400 py-2 rounded-lg font-bold">AC</button>
-                        <button type="button" onclick="calcDel()" class="bg-amber-500 hover:bg-amber-400 py-2 rounded-lg font-bold">Del</button>
-                        <button type="button" onclick="calcAppend('%')" class="bg-sky-500 hover:bg-sky-400 py-2 rounded-lg font-bold">%</button>
-                        <button type="button" onclick="calcAppend('/')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">÷</button>
+                        <button type="button" onclick="calcClearLv2()" class="bg-rose-500 hover:bg-rose-400 py-2 rounded-lg font-bold">AC</button>
+                        <button type="button" onclick="calcDelLv2()" class="bg-amber-500 hover:bg-amber-400 py-2 rounded-lg font-bold">Del</button>
+                        <button type="button" onclick="calcAppendLv2('%')" class="bg-sky-500 hover:bg-sky-400 py-2 rounded-lg font-bold">%</button>
+                        <button type="button" onclick="calcAppendLv2('/')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">÷</button>
                         
-                        <button type="button" onclick="calcAppend('7')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">7</button>
-                        <button type="button" onclick="calcAppend('8')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">8</button>
-                        <button type="button" onclick="calcAppend('9')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">9</button>
-                        <button type="button" onclick="calcAppend('*')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">×</button>
+                        <button type="button" onclick="calcAppendLv2('7')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">7</button>
+                        <button type="button" onclick="calcAppendLv2('8')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">8</button>
+                        <button type="button" onclick="calcAppendLv2('9')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">9</button>
+                        <button type="button" onclick="calcAppendLv2('*')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">×</button>
                         
-                        <button type="button" onclick="calcAppend('4')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">4</button>
-                        <button type="button" onclick="calcAppend('5')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">5</button>
-                        <button type="button" onclick="calcAppend('6')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">6</button>
-                        <button type="button" onclick="calcAppend('-')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">-</button>
+                        <button type="button" onclick="calcAppendLv2('4')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">4</button>
+                        <button type="button" onclick="calcAppendLv2('5')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">5</button>
+                        <button type="button" onclick="calcAppendLv2('6')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">6</button>
+                        <button type="button" onclick="calcAppendLv2('-')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">-</button>
                         
-                        <button type="button" onclick="calcAppend('1')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">1</button>
-                        <button type="button" onclick="calcAppend('2')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">2</button>
-                        <button type="button" onclick="calcAppend('3')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">3</button>
-                        <button type="button" onclick="calcAppend('+')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">+</button>
+                        <button type="button" onclick="calcAppendLv2('1')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">1</button>
+                        <button type="button" onclick="calcAppendLv2('2')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">2</button>
+                        <button type="button" onclick="calcAppendLv2('3')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">3</button>
+                        <button type="button" onclick="calcAppendLv2('+')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">+</button>
                         
-                        <button type="button" onclick="calcAppend('0')" class="col-span-2 bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">0</button>
-                        <button type="button" onclick="calcAppend('.')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">.</button>
-                        <button type="button" onclick="calcResult()" class="bg-emerald-500 hover:bg-emerald-400 py-2 rounded-lg font-bold">=</button>
+                        <button type="button" onclick="calcAppendLv2('0')" class="col-span-2 bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">0</button>
+                        <button type="button" onclick="calcAppendLv2('.')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">.</button>
+                        <button type="button" onclick="calcResultLv2()" class="bg-emerald-500 hover:bg-emerald-400 py-2 rounded-lg font-bold">=</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button onclick="switchPage('player')" class="text-xs text-slate-400 hover:text-slate-600 underline">
+                    🏳️ ออกจากการเล่น (ไม่บันทึกคะแนนรอบนี้)
+                </button>
+            </div>
+        </div>
+
+        <!-- ================= ด่านที่ 3 ================= -->
+        <div id="level3-view" class="p-6 sm:p-8 hidden flex flex-col h-full min-h-[500px]">
+            <div class="flex justify-between items-center mb-4">
+                <div class="bg-cyan-100 text-cyan-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                    <span>ด่านค่าลดหย่อน</span>
+                    <span class="bg-cyan-600 text-white px-2 py-0.5 rounded-full ml-1" id="lv3-progress-text">1/30</span>
+                </div>
+                <div class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                    ⭐ แต้มรอบนี้: <span id="lv3-score-display" class="text-lg">0</span>
+                </div>
+            </div>
+
+            <div class="w-full bg-slate-100 rounded-full h-2.5 mb-6 shadow-inner overflow-hidden">
+                <div id="lv3-progress-bar" class="bg-gradient-to-r from-cyan-400 to-blue-500 h-2.5 rounded-full transition-all duration-500 ease-out" style="width: 3.33%"></div>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-6 items-start justify-center w-full max-w-4xl mx-auto flex-grow">
+                <div id="lv3-question-card" class="bg-white border-2 border-slate-100 rounded-3xl p-6 shadow-xl w-full md:w-3/5 text-center transition-transform duration-300">
+                    <span id="lv3-icon" class="text-6xl block mb-4 animate-bounce">🛡️</span>
+                    <h3 id="lv3-question-text" class="text-lg sm:text-xl font-bold text-slate-800 mb-6 leading-relaxed">โจทย์...</h3>
+                    
+                    <div id="lv3-options-container" class="grid grid-cols-1 gap-3 hidden"></div>
+
+                    <div id="lv3-input-container" class="hidden flex flex-col gap-3">
+                        <input type="number" id="lv3-answer-input" onkeydown="if(event.key === 'Enter'){ event.preventDefault(); handleLv3Input(); }" placeholder="กรอกตัวเลขค่าลดหย่อนรวม (บาท)" class="w-full bg-slate-50 border-2 border-slate-200 rounded-xl px-4 py-3 text-center text-lg font-bold text-slate-800 focus:outline-none focus:border-cyan-500">
+                        <button id="lv3-submit-btn" onclick="handleLv3Input()" class="w-full py-3 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl transition shadow-md">ตอบคำถาม 🎯</button>
+                    </div>
+                </div>
+
+                <!-- ฝั่งเครื่องคิดเลข ด่าน 3 -->
+                <div class="bg-slate-800 rounded-3xl p-5 shadow-2xl w-full md:w-2/5 max-w-xs mx-auto text-white">
+                    <div class="text-center text-xs text-slate-400 mb-2 font-semibold">เครื่องคิดเลขช่วยคำนวณ 🧮✨</div>
+                    <input type="text" id="calc-display-lv3" readonly class="w-full bg-slate-900 border border-slate-700 text-right p-3 rounded-xl mb-4 font-mono text-2xl text-cyan-400 tracking-wider shadow-inner outline-none">
+                    <div class="grid grid-cols-4 gap-2">
+                        <button type="button" onclick="calcClearLv3()" class="bg-rose-500 hover:bg-rose-400 py-2 rounded-lg font-bold">AC</button>
+                        <button type="button" onclick="calcDelLv3()" class="bg-amber-500 hover:bg-amber-400 py-2 rounded-lg font-bold">Del</button>
+                        <button type="button" onclick="calcAppendLv3('%')" class="bg-sky-500 hover:bg-sky-400 py-2 rounded-lg font-bold">%</button>
+                        <button type="button" onclick="calcAppendLv3('/')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">÷</button>
+                        
+                        <button type="button" onclick="calcAppendLv3('7')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">7</button>
+                        <button type="button" onclick="calcAppendLv3('8')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">8</button>
+                        <button type="button" onclick="calcAppendLv3('9')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">9</button>
+                        <button type="button" onclick="calcAppendLv3('*')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">×</button>
+                        
+                        <button type="button" onclick="calcAppendLv3('4')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">4</button>
+                        <button type="button" onclick="calcAppendLv3('5')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">5</button>
+                        <button type="button" onclick="calcAppendLv3('6')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">6</button>
+                        <button type="button" onclick="calcAppendLv3('-')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">-</button>
+                        
+                        <button type="button" onclick="calcAppendLv3('1')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">1</button>
+                        <button type="button" onclick="calcAppendLv3('2')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">2</button>
+                        <button type="button" onclick="calcAppendLv3('3')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">3</button>
+                        <button type="button" onclick="calcAppendLv3('+')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">+</button>
+                        
+                        <button type="button" onclick="calcAppendLv3('0')" class="col-span-2 bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">0</button>
+                        <button type="button" onclick="calcAppendLv3('.')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">.</button>
+                        <button type="button" onclick="calcResultLv3()" class="bg-cyan-500 hover:bg-cyan-400 py-2 rounded-lg font-bold">=</button>
                     </div>
                 </div>
             </div>
@@ -310,20 +379,20 @@
 
     <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
-        // โครงสร้าง Database เวอร์ชัน 9 รองรับการเก็บคะแนนแยกรายด่านและระบบ Replay
+        // โครงสร้าง Database เวอร์ชัน 10 รองรับการเก็บคะแนนด่าน 3
         let db = {};
         let currentLoggedUser = null;
         let isAdminLoggedIn = false;
         let loginAttemptCount = 0;
-        let currentPlayingLevel = 0; // บอกว่ากำลังกดเล่นด่านไหนอยู่
+        let currentPlayingLevel = 0; 
         
         const levelNames = ["เงินได้พึงประเมิน", "ค่าใช้จ่าย", "ค่าลดหย่อน", "คำนวณภาษี"];
 
         function initData() {
             try {
-                db = JSON.parse(localStorage.getItem('game_db_v9')) || {};
-                currentLoggedUser = localStorage.getItem('game_curr_v9') || null;
-                isAdminLoggedIn = localStorage.getItem('game_adm_v9') === 'true';
+                db = JSON.parse(localStorage.getItem('game_db_v10')) || {};
+                currentLoggedUser = localStorage.getItem('game_curr_v10') || null;
+                isAdminLoggedIn = localStorage.getItem('game_adm_v10') === 'true';
             } catch (e) {
                 console.error("Storage Error:", e);
                 db = {};
@@ -332,7 +401,7 @@
 
         function saveDB() {
             try {
-                localStorage.setItem('game_db_v9', JSON.stringify(db));
+                localStorage.setItem('game_db_v10', JSON.stringify(db));
             } catch (e) { console.error("Save Error:", e); }
         }
 
@@ -342,7 +411,7 @@
 
         function switchPage(page) {
             try {
-                const pages = ['login-view', 'register-view', 'player-view', 'admin-view', 'level1-view', 'level2-view'];
+                const pages = ['login-view', 'register-view', 'player-view', 'admin-view', 'level1-view', 'level2-view', 'level3-view'];
                 pages.forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.classList.add('hidden');
@@ -370,6 +439,11 @@
                 else if (page === 'level2') {
                     if (container) container.className = "w-full max-w-5xl min-h-[500px] bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
                     document.getElementById('level2-view').classList.remove('hidden');
+                    if (adminGate) adminGate.classList.add('hidden');
+                }
+                else if (page === 'level3') {
+                    if (container) container.className = "w-full max-w-5xl min-h-[500px] bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
+                    document.getElementById('level3-view').classList.remove('hidden');
                     if (adminGate) adminGate.classList.add('hidden');
                 }
                 else if (page === 'admin') {
@@ -419,7 +493,7 @@
                 loginAttemptCount = 0;
                 if (user.password === password) {
                     currentLoggedUser = username;
-                    try { localStorage.setItem('game_curr_v9', username); } catch(e){}
+                    try { localStorage.setItem('game_curr_v10', username); } catch(e){}
                     switchPage('player');
                     document.getElementById('login-username').value = '';
                     document.getElementById('login-password').value = '';
@@ -460,7 +534,7 @@
             const password = document.getElementById('admin-pass').value;
             if (password === 'coco') {
                 isAdminLoggedIn = true;
-                try { localStorage.setItem('game_adm_v9', 'true'); } catch(e){}
+                try { localStorage.setItem('game_adm_v10', 'true'); } catch(e){}
                 switchPage('admin');
                 document.getElementById('admin-pass').value = '';
                 document.getElementById('admin-login-box').classList.add('hidden');
@@ -489,7 +563,6 @@
                     <td class="px-4 py-3 font-mono font-bold text-purple-700 bg-purple-50/70 rounded">${escapeHtml(user.password)}</td>
                     <td class="px-4 py-3 font-medium text-slate-800">${escapeHtml(user.nickname || '-')}</td>
                     <td class="px-4 py-3 text-slate-600">${escapeHtml(user.affiliation || '-')}</td>
-                    <td class="px-4 py-3 text-slate-500">${escapeHtml(user.phone)}</td>
                     <td class="px-4 py-3 text-center"><span class="px-2 py-1 rounded-full text-[10px] font-bold ${user.currentLevel > 4 ? 'bg-emerald-100 text-emerald-700' : 'bg-cyan-100 text-cyan-700'}">${levelText}</span></td>
                     <td class="px-4 py-3 text-right font-black text-amber-600">${totalS.toLocaleString()}</td>
                     <td class="px-4 py-3 text-center"><button onclick="deleteUser('${user.username}')" class="bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white font-bold text-[11px] px-2.5 py-1 rounded-lg transition">ลบ</button></td>
@@ -533,13 +606,11 @@
                 scoreText.innerText = `Best: ${user.levelScores[i] || 0}`;
 
                 if (i < user.currentLevel) {
-                    // ด่านที่เคยผ่านไปแล้ว ให้สิทธิ์เล่นซ้ำ
                     btn.className = "p-4 rounded-2xl font-bold flex flex-col items-center justify-center gap-1 transition duration-200 shadow-md bg-emerald-50 border-2 border-emerald-400 text-emerald-700 hover:bg-emerald-100 cursor-pointer transform hover:scale-105";
                     statusText.innerText = "🔄 เล่นอีกครั้ง";
                     statusText.className = "text-[10px] bg-emerald-200 text-emerald-800 px-2 py-0.5 rounded-full font-bold";
                     btn.disabled = false;
                 } else if (i === user.currentLevel) {
-                    // ด่านปัจจุบันที่ต้องเล่น
                     btn.className = "p-4 rounded-2xl font-bold flex flex-col items-center justify-center gap-1 transition duration-200 shadow-xl bg-gradient-to-br from-amber-400 to-orange-500 text-white cursor-pointer scale-105 ring-4 ring-orange-200 transform";
                     statusText.innerText = "🎮 กดเล่นด่านนี้";
                     statusText.className = "text-[10px] bg-white/20 text-white px-2 py-0.5 rounded-full font-bold";
@@ -547,7 +618,6 @@
                     scoreText.classList.remove('text-emerald-600');
                     btn.disabled = false;
                 } else {
-                    // ด่านที่ยังล็อกอยู่
                     btn.className = "p-4 rounded-2xl font-bold flex flex-col items-center justify-center gap-1 transition duration-200 bg-slate-50 border border-slate-200 text-slate-400 cursor-not-allowed";
                     statusText.innerText = "🔒 ล็อก";
                     statusText.className = "text-[10px] bg-slate-200 text-slate-500 px-2 py-0.5 rounded-full";
@@ -557,9 +627,21 @@
             }
         }
 
-        // ================= มินิเกมด่าน 1 (คลังข้อสอบใหญ่ 60 ข้อ) =================
+        // ================= Utils =================
+        function shuffleArray(array) {
+            let curId = array.length;
+            while (0 !== curId) {
+                let randId = Math.floor(Math.random() * curId);
+                curId -= 1;
+                let tmp = array[curId];
+                array[curId] = array[randId];
+                array[randId] = tmp;
+            }
+            return array;
+        }
+
+        // ================= มินิเกมด่าน 1 (เงินได้พึงประเมิน) =================
         const level1Bank = [
-            // 40(1)
             { icon: "💼", text: "เงินเดือนประจำ และโบนัสปลายปีที่บริษัทจ่ายให้", type: "ม.40(1)", wrong: ["ม.40(2)", "ม.40(8)", "ได้รับยกเว้นภาษี"] },
             { icon: "💵", text: "ค่าล่วงเวลา (OT) ที่ได้รับจากบริษัท", type: "ม.40(1)", wrong: ["ม.40(2)", "ม.40(8)", "ได้รับยกเว้นภาษี"] },
             { icon: "🏠", text: "ค่าเช่าบ้านที่นายจ้างจ่ายให้ตามสวัสดิการพนักงาน", type: "ม.40(1)", wrong: ["ม.40(5)", "ม.40(8)", "ได้รับยกเว้นภาษี"] },
@@ -568,53 +650,45 @@
             { icon: "🏅", text: "เงินบำเหน็จที่ได้รับเมื่อลาออกจากงาน", type: "ม.40(1)", wrong: ["ม.40(2)", "ม.40(8)", "ได้รับยกเว้นภาษี"] },
             { icon: "🎓", text: "เงินทุนการศึกษาที่บริษัทมอบให้พนักงานไปเรียนต่อ", type: "ม.40(1)", wrong: ["ได้รับยกเว้นภาษี", "ม.40(8)", "ม.40(2)"] },
             { icon: "💸", text: "เบี้ยกันดารที่ได้รับพิเศษในการไปทำงานต่างจังหวัด", type: "ม.40(1)", wrong: ["ม.40(2)", "ม.40(8)", "ได้รับยกเว้นภาษี"] },
-            // 40(2)
             { icon: "📝", text: "ค่านายหน้าจากการชี้ช่องขายที่ดินให้เพื่อน", type: "ม.40(2)", wrong: ["ม.40(1)", "ม.40(6)", "ม.40(8)"] },
-            { icon: "💻", text: "รับจ้างออกแบบเว็บไซต์เป็นรายครั้ง (ฟรีแลนซ์ไม่มีสัญญาจ้างแรงงาน)", type: "ม.40(2)", wrong: ["ม.40(1)", "ม.40(3)", "ม.40(7)"] },
+            { icon: "💻", text: "รับจ้างออกแบบเว็บไซต์เป็นรายครั้ง (ฟรีแลนซ์)", type: "ม.40(2)", wrong: ["ม.40(1)", "ม.40(3)", "ม.40(7)"] },
             { icon: "👨‍🏫", text: "นักศึกษารับจ้างสอนพิเศษตามบ้านเป็นรายครั้ง", type: "ม.40(2)", wrong: ["ม.40(1)", "ม.40(6)", "ม.40(8)"] },
             { icon: "📸", text: "รับจ้างถ่ายรูปงานรับปริญญา (ไม่มีอุปกรณ์ให้เช่า)", type: "ม.40(2)", wrong: ["ม.40(8)", "ม.40(6)", "ม.40(1)"] },
             { icon: "🗣️", text: "ค่าจ้างเป็นวิทยากรบรรยายพิเศษตามมหาวิทยาลัย", type: "ม.40(2)", wrong: ["ม.40(1)", "ม.40(6)", "ม.40(8)"] },
             { icon: "📄", text: "รับจ้างแปลเอกสารภาษาต่างประเทศอยู่บ้าน", type: "ม.40(2)", wrong: ["ม.40(1)", "ม.40(6)", "ม.40(8)"] },
             { icon: "🎟️", text: "ค่าธรรมเนียมในการเป็นนายหน้าจัดหาผู้เช่าห้อง", type: "ม.40(2)", wrong: ["ม.40(1)", "ม.40(5)", "ม.40(8)"] },
-            // 40(3)
             { icon: "🎵", text: "รายได้จากค่าลิขสิทธิ์เพลงที่แต่งเอง", type: "ม.40(3)", wrong: ["ม.40(2)", "ม.40(7)", "ได้รับยกเว้นภาษี"] },
             { icon: "📚", text: "ส่วนแบ่งรายได้จากการขายนิยายบนแอปพลิเคชัน", type: "ม.40(3)", wrong: ["ม.40(2)", "ม.40(8)", "ม.40(4)"] },
             { icon: "💡", text: "ค่าสิทธิบัตรจากการคิดค้นนวัตกรรมใหม่", type: "ม.40(3)", wrong: ["ม.40(2)", "ม.40(8)", "ได้รับยกเว้นภาษี"] },
             { icon: "🍔", text: "ค่าตอบแทนจากการขายแฟรนไชส์สูตรอาหาร", type: "ม.40(3)", wrong: ["ม.40(8)", "ม.40(2)", "ม.40(1)"] },
             { icon: "⭐", text: "เงินได้จากค่ากู๊ดวิลล์ (Goodwill)", type: "ม.40(3)", wrong: ["ม.40(8)", "ม.40(2)", "ม.40(4)"] },
-            // 40(4)
             { icon: "📈", text: "ดอกเบี้ยเงินฝากประจำจากธนาคาร", type: "ม.40(4)", wrong: ["ม.40(5)", "ม.40(8)", "ได้รับยกเว้นภาษี"] },
             { icon: "🪙", text: "กำไรจากการเทรดคริปโทเคอร์เรนซี (Cryptocurrency)", type: "ม.40(4)", wrong: ["ม.40(8)", "ม.40(2)", "ได้รับยกเว้นภาษี"] },
             { icon: "🏢", text: "เงินปันผลที่ได้รับจากการถือหุ้นในบริษัทจำกัด", type: "ม.40(4)", wrong: ["ม.40(8)", "ม.40(3)", "ได้รับยกเว้นภาษี"] },
             { icon: "📉", text: "ดอกเบี้ยหุ้นกู้ภาคเอกชน", type: "ม.40(4)", wrong: ["ม.40(8)", "ม.40(1)", "ได้รับยกเว้นภาษี"] },
             { icon: "📊", text: "เงินส่วนแบ่งกำไรจากกองทุนรวม", type: "ม.40(4)", wrong: ["ม.40(8)", "ม.40(2)", "ได้รับยกเว้นภาษี"] },
-            // 40(5)
             { icon: "🏠", text: "รายได้จากการปล่อยเช่าคอนโดรายเดือน", type: "ม.40(5)", wrong: ["ม.40(4)", "ม.40(6)", "ม.40(8)"] },
             { icon: "🚜", text: "ให้เช่ารถแบ็คโฮและเครื่องจักรทางการเกษตร", type: "ม.40(5)", wrong: ["ม.40(2)", "ม.40(8)", "ม.40(7)"] },
             { icon: "🌾", text: "ให้เช่าที่ดินเพื่อทำนาทำสวน", type: "ม.40(5)", wrong: ["ม.40(8)", "ม.40(4)", "ม.40(2)"] },
             { icon: "🚗", text: "เปิดบริการรถเช่ารายวันให้แก่นักท่องเที่ยว", type: "ม.40(5)", wrong: ["ม.40(8)", "ม.40(2)", "ม.40(7)"] },
             { icon: "🏭", text: "ให้เช่าพื้นที่โกดังเก็บสินค้า", type: "ม.40(5)", wrong: ["ม.40(8)", "ม.40(2)", "ม.40(7)"] },
-            // 40(6)
             { icon: "👨‍⚕️", text: "รายได้จากการเปิดคลินิกรักษาผู้ป่วยหลังเลิกงาน", type: "ม.40(6)", wrong: ["ม.40(1)", "ม.40(2)", "ม.40(8)"] },
             { icon: "⚖️", text: "รายได้จากการว่าความของทนายความอิสระ", type: "ม.40(6)", wrong: ["ม.40(2)", "ม.40(1)", "ม.40(8)"] },
             { icon: "📐", text: "รายได้จากการเซ็นรับรองแบบแปลนของวิศวกร", type: "ม.40(6)", wrong: ["ม.40(2)", "ม.40(8)", "ม.40(7)"] },
             { icon: "🏛️", text: "สถาปนิกรับออกแบบบ้านอิสระ", type: "ม.40(6)", wrong: ["ม.40(2)", "ม.40(7)", "ม.40(8)"] },
             { icon: "📋", text: "ผู้สอบบัญชีรับอนุญาต (CPA) รับตรวจสอบบัญชีบริษัท", type: "ม.40(6)", wrong: ["ม.40(2)", "ม.40(1)", "ม.40(8)"] },
             { icon: "🎨", text: "ศิลปินวาดภาพประณีตศิลปกรรมขาย", type: "ม.40(6)", wrong: ["ม.40(8)", "ม.40(2)", "ม.40(3)"] },
-            // 40(7)
             { icon: "🏗️", text: "รับเหมาก่อสร้างบ้าน (ผู้รับเหมาจัดหาทั้งสัมภาระและแรงงาน)", type: "ม.40(7)", wrong: ["ม.40(2)", "ม.40(6)", "ม.40(8)"] },
             { icon: "🏭", text: "รับทำเฟอร์นิเจอร์บิวท์อินสั่งทำ (ผู้ทำจัดหาไม้และวัสดุเองทั้งหมด)", type: "ม.40(7)", wrong: ["ม.40(2)", "ม.40(8)", "ม.40(6)"] },
             { icon: "🌉", text: "บริษัทรับเหมาสร้างสะพานและถนน", type: "ม.40(7)", wrong: ["ม.40(8)", "ม.40(2)", "ม.40(6)"] },
             { icon: "🛠️", text: "รับเหมาต่อเติมหลังคา (ซื้อเหล็กและหลังคามาเองทั้งหมด)", type: "ม.40(7)", wrong: ["ม.40(2)", "ม.40(8)", "ม.40(1)"] },
-            // 40(8)
             { icon: "🍜", text: "รายได้จากการเปิดร้านขายชาบูหมูกระทะ", type: "ม.40(8)", wrong: ["ม.40(2)", "ม.40(6)", "ม.40(7)"] },
             { icon: "📦", text: "รายได้จากการ Live สด ขายเสื้อผ้าออนไลน์", type: "ม.40(8)", wrong: ["ม.40(2)", "ม.40(1)", "ม.40(4)"] },
             { icon: "🎤", text: "นักร้อง นักแสดงสาธารณะ หรือสตรีมเมอร์", type: "ม.40(8)", wrong: ["ม.40(2)", "ม.40(6)", "ม.40(1)"] },
             { icon: "🛒", text: "เปิดร้านขายของชำหน้าหมู่บ้าน", type: "ม.40(8)", wrong: ["ม.40(2)", "ม.40(7)", "ม.40(5)"] },
             { icon: "👕", text: "รับจ้างซักรีดเสื้อผ้า", type: "ม.40(8)", wrong: ["ม.40(2)", "ม.40(7)", "ม.40(6)"] },
             { icon: "🏡", text: "ขายอสังหาริมทรัพย์ที่ซื้อมาเพื่อเก็งกำไร", type: "ม.40(8)", wrong: ["ม.40(5)", "ม.40(2)", "ม.40(4)"] },
-            // ยกเว้นภาษี
-            { icon: "💸", text: "เงินรางวัลจากการถูกสลากกินแบ่งรัฐบาล (หวยรัฐบาล)", type: "ได้รับยกเว้นภาษี", wrong: ["ม.40(4)", "ม.40(8)", "ม.40(2)"] },
+            { icon: "💸", text: "เงินรางวัลจากการถูกสลากกินแบ่งรัฐบาล", type: "ได้รับยกเว้นภาษี", wrong: ["ม.40(4)", "ม.40(8)", "ม.40(2)"] },
             { icon: "🎫", text: "ดอกเบี้ยและรางวัลที่ได้รับจากสลากออมสิน", type: "ได้รับยกเว้นภาษี", wrong: ["ม.40(4)", "ม.40(8)", "ม.40(2)"] },
             { icon: "🎁", text: "ได้รับเงินมรดกจากบิดามูลค่า 1 ล้านบาท", type: "ได้รับยกเว้นภาษี", wrong: ["ม.40(8)", "ม.40(4)", "ม.40(1)"] },
             { icon: "🏦", text: "ดอกเบี้ยเงินฝากออมทรัพย์ธนาคารพาณิชย์ (ไม่เกิน 20,000 บาท/ปี)", type: "ได้รับยกเว้นภาษี", wrong: ["ม.40(4)", "ม.40(8)", "ม.40(2)"] },
@@ -628,26 +702,12 @@
         let lv1CurrentScore = 0;
         let isAnswering = false;
 
-        function shuffleArray(array) {
-            let curId = array.length;
-            while (0 !== curId) {
-                let randId = Math.floor(Math.random() * curId);
-                curId -= 1;
-                let tmp = array[curId];
-                array[curId] = array[randId];
-                array[randId] = tmp;
-            }
-            return array;
-        }
-
         function startLevel1Game() {
             switchPage('level1');
-            // ดึงข้อสอบมาแบบสุ่ม แค่ 20 ข้อ จากคลัง 60 ข้อ
             currentLv1Questions = shuffleArray([...level1Bank]).slice(0, 20);
             currentQuestionIndex = 0;
             lv1CurrentScore = 0;
             isAnswering = false;
-            
             document.getElementById('lv1-score-display').innerText = '0';
             renderLv1Question();
         }
@@ -692,7 +752,6 @@
         function handleLv1Answer(btnElement, isCorrect) {
             if (isAnswering) return; 
             isAnswering = true;
-
             const allBtns = document.getElementById('lv1-options-container').querySelectorAll('button');
             allBtns.forEach(b => b.disabled = true);
 
@@ -701,7 +760,6 @@
                 btnElement.classList.replace('border-slate-200', 'border-emerald-600');
                 btnElement.classList.replace('text-slate-700', 'text-white');
                 btnElement.classList.add('scale-105', 'transform');
-                
                 lv1CurrentScore += 20;
                 document.getElementById('lv1-score-display').innerText = lv1CurrentScore;
             } else {
@@ -709,7 +767,6 @@
                 btnElement.classList.replace('border-slate-200', 'border-rose-600');
                 btnElement.classList.replace('text-slate-700', 'text-white');
                 btnElement.classList.add('animate-pulse');
-
                 allBtns.forEach(b => {
                     const currentQ = currentLv1Questions[currentQuestionIndex];
                     if (b.innerText === currentQ.type) {
@@ -719,7 +776,6 @@
                     }
                 });
             }
-
             setTimeout(() => {
                 const card = document.getElementById('lv1-question-card');
                 card.classList.add('scale-95', 'opacity-50'); 
@@ -733,11 +789,8 @@
         function finishLevel1Game() {
             const user = db[currentLoggedUser];
             document.getElementById('lv1-progress-bar').style.width = `100%`;
-            
             setTimeout(() => {
-                // อัปเดตคะแนนดีที่สุดของด่านนี้
                 user.levelScores[1] = Math.max(user.levelScores[1] || 0, lv1CurrentScore);
-                
                 if (user.currentLevel === 1) {
                     user.currentLevel = 2; 
                     saveDB();
@@ -750,7 +803,7 @@
             }, 500);
         }
 
-        // ================= มินิเกมด่าน 2 (ค่าใช้จ่าย คลังโจทย์ใหญ่ขึ้น) =================
+        // ================= มินิเกมด่าน 2 (ค่าใช้จ่าย) =================
         const level2BankPart1 = [
             { icon: "💼", text: "เงินได้ประเภท 40(1) เงินเดือน หักค่าใช้จ่ายเหมาได้เท่าไหร่?", type: "choice", answer: "50% ไม่เกิน 100,000 บาท", wrong: ["30%", "60%", "หักไม่ได้เลย"] },
             { icon: "📝", text: "เงินได้ 40(2) รับจ้างอิสระ หักค่าใช้จ่ายเหมาได้เท่าไหร่?", type: "choice", answer: "50% ไม่เกิน 100,000 บาท", wrong: ["30%", "60%", "หักไม่ได้เลย"] },
@@ -769,22 +822,22 @@
         ];
 
         const level2BankPart2 = [
-            { icon: "🧮", text: "สมชายมีเงินเดือนทั้งปี (ม.40(1)) 100,000 บาท เขาจะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 50000 },
+            { icon: "🧮", text: "สมชายมีเงินเดือนทั้งปี 100,000 บาท เขาจะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 50000 },
             { icon: "🧮", text: "สมศรีมีเงินเดือนรวมทั้งปี 500,000 บาท เธอจะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 100000 },
             { icon: "🧮", text: "วินมีเงินเดือนรวมทั้งปี 150,000 บาท เขาจะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 75000 },
-            { icon: "🧮", text: "สมปองเป็นนายหน้าอิสระ (ม.40(2)) ได้เงิน 80,000 บาท หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 40000 },
+            { icon: "🧮", text: "สมปองเป็นนายหน้าอิสระ ได้เงิน 80,000 บาท หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 40000 },
             { icon: "🧮", text: "สมชายมีเงินเดือน 300,000 และนายหน้า 100,000 บาท รวมหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 100000 },
             { icon: "🧮", text: "เอมีเงินเดือน 40,000 บาท และค่านายหน้า 60,000 บาท หักค่าใช้จ่ายรวมได้เท่าไหร่?", type: "input", answer: 50000 },
-            { icon: "🧮", text: "สมหมายได้เงินค่าลิขสิทธิ์ (ม.40(3)) 150,000 บาท หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 75000 },
+            { icon: "🧮", text: "สมหมายได้เงินค่าลิขสิทธิ์ 150,000 บาท หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 75000 },
             { icon: "🧮", text: "มาลีได้เงินลิขสิทธิ์จากการแต่งเพลง 500,000 บาท หักค่าใช้จ่ายได้สูงสุดเท่าไหร่?", type: "input", answer: 100000 },
-            { icon: "🧮", text: "สมหญิงได้ดอกเบี้ยเงินฝาก (ม.40(4)) 20,000 บาท หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 0 },
+            { icon: "🧮", text: "สมหญิงได้ดอกเบี้ยเงินฝาก 20,000 บาท หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 0 },
             { icon: "🧮", text: "ปิติได้เงินปันผลจากหุ้น 50,000 บาท หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 0 },
-            { icon: "🧮", text: "สมเกียรติให้เช่าบ้าน (ม.40(5)) ได้เงิน 200,000 บาท เลือกหักเหมา จะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 60000 },
-            { icon: "🧮", text: "ชัยให้เช่ารถยนต์ (ม.40(5)) ได้เงิน 100,000 บาท เลือกหักเหมา จะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 30000 },
-            { icon: "🧮", text: "หมอสมศักดิ์เปิดคลินิก (ม.40(6)) มีรายได้ 1,000,000 บาท เลือกหักเหมา หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 600000 },
-            { icon: "🧮", text: "วิศวกรสมพลรับออกแบบ (ม.40(6)) มีรายได้ 1,000,000 บาท เลือกหักเหมา หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 300000 },
-            { icon: "🧮", text: "ผู้รับเหมาโชคชัย (ม.40(7)) มีรายได้ 2,000,000 บาท เลือกหักเหมา หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 1200000 },
-            { icon: "🧮", text: "สมพรขายเสื้อผ้าออนไลน์ (ม.40(8)) มีรายได้ 500,000 บาท เลือกหักเหมา หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 300000 }
+            { icon: "🧮", text: "สมเกียรติให้เช่าบ้าน ได้เงิน 200,000 บาท เลือกหักเหมา จะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 60000 },
+            { icon: "🧮", text: "ชัยให้เช่ารถยนต์ ได้เงิน 100,000 บาท เลือกหักเหมา จะหักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 30000 },
+            { icon: "🧮", text: "หมอสมศักดิ์เปิดคลินิก มีรายได้ 1,000,000 บาท เลือกหักเหมา หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 600000 },
+            { icon: "🧮", text: "วิศวกรสมพลรับออกแบบ มีรายได้ 1,000,000 บาท เลือกหักเหมา หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 300000 },
+            { icon: "🧮", text: "ผู้รับเหมาโชคชัย มีรายได้ 2,000,000 บาท เลือกหักเหมา หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 1200000 },
+            { icon: "🧮", text: "สมพรขายเสื้อผ้าออนไลน์ มีรายได้ 500,000 บาท เลือกหักเหมา หักค่าใช้จ่ายได้เท่าไหร่?", type: "input", answer: 300000 }
         ];
 
         let currentLv2Questions = [];
@@ -794,18 +847,14 @@
 
         function startLevel2Game() {
             switchPage('level2');
-            
-            // สุ่มฝั่งตัวเลือก 10 ข้อ และฝั่งพิมพ์ตอบ 10 ข้อ
             let part1 = shuffleArray([...level2BankPart1]).slice(0, 10);
             let part2 = shuffleArray([...level2BankPart2]).slice(0, 10);
             currentLv2Questions = part1.concat(part2);
-            
             currentLv2Index = 0;
             lv2CurrentScore = 0;
             isLv2Answering = false;
-            
             document.getElementById('lv2-score-display').innerText = '0';
-            calcClear(); 
+            calcClearLv2(); 
             renderLv2Question();
         }
 
@@ -859,18 +908,14 @@
                 const submitBtn = document.getElementById('lv2-submit-btn');
                 submitBtn.disabled = false;
                 submitBtn.innerText = 'ตอบคำถาม 🎯';
-                
-                // โฟกัสช่องกรอกออโต้เมื่อถึงข้อพิมพ์ตอบ
                 setTimeout(()=> inputField.focus(), 300);
             }
-            
             isLv2Answering = false;
         }
 
         function handleLv2Choice(btnElement, isCorrect) {
             if (isLv2Answering) return; 
             isLv2Answering = true;
-
             const allBtns = document.getElementById('lv2-options-container').querySelectorAll('button');
             allBtns.forEach(b => b.disabled = true);
 
@@ -879,7 +924,6 @@
                 btnElement.classList.replace('border-slate-200', 'border-emerald-600');
                 btnElement.classList.replace('text-slate-700', 'text-white');
                 btnElement.classList.add('scale-105', 'transform');
-                
                 lv2CurrentScore += 20;
                 document.getElementById('lv2-score-display').innerText = lv2CurrentScore;
             } else {
@@ -887,7 +931,6 @@
                 btnElement.classList.replace('border-slate-200', 'border-rose-600');
                 btnElement.classList.replace('text-slate-700', 'text-white');
                 btnElement.classList.add('animate-pulse');
-
                 allBtns.forEach(b => {
                     const currentQ = currentLv2Questions[currentLv2Index];
                     if (b.innerText === currentQ.answer) {
@@ -910,7 +953,6 @@
 
         function handleLv2Input() {
             if (isLv2Answering) return;
-            
             const inputEl = document.getElementById('lv2-answer-input');
             const btn = document.getElementById('lv2-submit-btn');
             const val = inputEl.value.trim();
@@ -944,10 +986,8 @@
         function finishLevel2Game() {
             const user = db[currentLoggedUser];
             document.getElementById('lv2-progress-bar').style.width = `100%`;
-            
             setTimeout(() => {
                 user.levelScores[2] = Math.max(user.levelScores[2] || 0, lv2CurrentScore);
-                
                 if (user.currentLevel === 2) {
                     user.currentLevel = 3; 
                     saveDB();
@@ -960,34 +1000,317 @@
             }, 500);
         }
 
-        // ================= ระบบเครื่องคิดเลข (ด่าน 2) =================
-        function calcAppend(val) {
-            document.getElementById('calc-display').value += val;
-        }
-        function calcClear() {
-            document.getElementById('calc-display').value = '';
-        }
-        function calcDel() {
-            const display = document.getElementById('calc-display');
+        function calcAppendLv2(val) { document.getElementById('calc-display-lv2').value += val; }
+        function calcClearLv2() { document.getElementById('calc-display-lv2').value = ''; }
+        function calcDelLv2() {
+            const display = document.getElementById('calc-display-lv2');
             display.value = display.value.slice(0, -1);
         }
-        function calcResult() {
-            const display = document.getElementById('calc-display');
+        function calcResultLv2() {
+            const display = document.getElementById('calc-display-lv2');
             try {
                 let expr = display.value.replace(/[^0-9+\-*/.%]/g, '');
                 if(expr) {
-                    // แปลง % ให้หาร 100
                     expr = expr.replace(/%/g, '/100');
                     const result = Function('"use strict";return (' + expr + ')')();
                     display.value = Number.isInteger(result) ? result : parseFloat(result.toFixed(2));
                 }
             } catch(e) {
                 display.value = 'Error';
-                setTimeout(calcClear, 1000);
+                setTimeout(calcClearLv2, 1000);
             }
         }
 
-        // ================= ฟังก์ชันเข้าเล่นเกม =================
+        // ================= มินิเกมด่าน 3 (ค่าลดหย่อน 30 ข้อ พาร์ทละ 15 สำรอง 45) =================
+        const level3BankPart1 = [
+            { icon: "🛡️", text: "ค่าลดหย่อนส่วนตัว (ผู้มีเงินได้) ลดหย่อนได้สูงสุดเท่าไหร่?", type: "choice", answer: "60,000 บาท", wrong: ["30,000 บาท", "100,000 บาท", "150,000 บาท"] },
+            { icon: "👫", text: "ค่าลดหย่อนคู่สมรส (ที่ไม่มีเงินได้) ลดหย่อนได้สูงสุดเท่าไหร่?", type: "choice", answer: "60,000 บาท", wrong: ["30,000 บาท", "120,000 บาท", "ไม่สามารถลดหย่อนได้"] },
+            { icon: "👶", text: "ค่าลดหย่อนบุตร (เกิดก่อน พ.ศ. 2561) คนละเท่าไหร่?", type: "choice", answer: "30,000 บาท", wrong: ["60,000 บาท", "15,000 บาท", "100,000 บาท"] },
+            { icon: "🍼", text: "ค่าลดหย่อนบุตรคนที่ 2 เป็นต้นไป (เกิดตั้งแต่ พ.ศ. 2561) คนละเท่าไหร่?", type: "choice", answer: "60,000 บาท", wrong: ["30,000 บาท", "90,000 บาท", "120,000 บาท"] },
+            { icon: "🧓", text: "ค่าลดหย่อนบิดามารดา (อายุ 60 ปีขึ้นไปและรายได้ไม่เกิน 30,000 บาท/ปี) ได้คนละเท่าไหร่?", type: "choice", answer: "30,000 บาท", wrong: ["60,000 บาท", "15,000 บาท", "100,000 บาท"] },
+            { icon: "♿", text: "ค่าลดหย่อนอุปการะเลี้ยงดูคนพิการหรือคนทุพพลภาพ ได้คนละเท่าไหร่?", type: "choice", answer: "60,000 บาท", wrong: ["30,000 บาท", "100,000 บาท", "120,000 บาท"] },
+            { icon: "🏥", text: "เบี้ยประกันชีวิต ลดหย่อนได้ตามจริงสูงสุดไม่เกินเท่าไหร่?", type: "choice", answer: "100,000 บาท", wrong: ["50,000 บาท", "200,000 บาท", "500,000 บาท"] },
+            { icon: "🩺", text: "เบี้ยประกันสุขภาพ ลดหย่อนได้ตามจริงสูงสุดไม่เกินเท่าไหร่?", type: "choice", answer: "25,000 บาท", wrong: ["15,000 บาท", "50,000 บาท", "100,000 บาท"] },
+            { icon: "🛡️", text: "เบี้ยประกันสุขภาพและประกันชีวิต รวมกันลดหย่อนได้สูงสุดเท่าไหร่?", type: "choice", answer: "100,000 บาท", wrong: ["125,000 บาท", "200,000 บาท", "500,000 บาท"] },
+            { icon: "👴", text: "เบี้ยประกันสุขภาพบิดามารดา ลดหย่อนได้ตามจริงสูงสุดไม่เกินเท่าไหร่?", type: "choice", answer: "15,000 บาท", wrong: ["25,000 บาท", "30,000 บาท", "100,000 บาท"] },
+            { icon: "🏦", text: "เงินสะสมกองทุนสำรองเลี้ยงชีพ ลดหย่อนได้สูงสุดกี่เปอร์เซ็นต์ของค่าจ้าง?", type: "choice", answer: "15% (ไม่เกิน 500,000)", wrong: ["10% (ไม่เกิน 500,000)", "20% (ไม่เกิน 200,000)", "30% (ไม่เกิน 500,000)"] },
+            { icon: "🎗️", text: "เงินสมทบกองทุนประกันสังคม ลดหย่อนได้ตามจริงสูงสุดไม่เกินเท่าไหร่? (อัตราปกติ 5%)", type: "choice", answer: "9,000 บาท", wrong: ["6,000 บาท", "15,000 บาท", "100,000 บาท"] },
+            { icon: "📈", text: "กองทุนรวมเพื่อการออม (SSF) ลดหย่อนได้สูงสุดเท่าไหร่?", type: "choice", answer: "30% ของเงินได้ (ไม่เกิน 200,000)", wrong: ["15% ของเงินได้ (ไม่เกิน 500,000)", "30% ของเงินได้ (ไม่เกิน 500,000)", "100,000 บาท"] },
+            { icon: "👴", text: "กองทุนรวมเพื่อการเลี้ยงชีพ (RMF) ลดหย่อนได้สูงสุดเท่าไหร่?", type: "choice", answer: "30% ของเงินได้ (ไม่เกิน 500,000)", wrong: ["15% ของเงินได้ (ไม่เกิน 500,000)", "30% ของเงินได้ (ไม่เกิน 200,000)", "100,000 บาท"] },
+            { icon: "🏠", text: "ดอกเบี้ยเงินกู้ยืมเพื่อที่อยู่อาศัย ลดหย่อนได้ตามจริงสูงสุดไม่เกินเท่าไหร่?", type: "choice", answer: "100,000 บาท", wrong: ["50,000 บาท", "200,000 บาท", "30,000 บาท"] },
+            { icon: "💸", text: "เงินบริจาคทั่วไป ลดหย่อนได้สูงสุดเท่าไหร่ของเงินได้สุทธิ (หลังหักค่าใช้จ่ายและลดหย่อนอื่นๆ)?", type: "choice", answer: "10%", wrong: ["5%", "20%", "30%"] },
+            { icon: "🏫", text: "เงินบริจาคสนับสนุนการศึกษา/โรงพยาบาลรัฐ หักลดหย่อนได้กี่เท่าของเงินที่บริจาค?", type: "choice", answer: "2 เท่า (ไม่เกิน 10% ของเงินได้สุทธิ)", wrong: ["1 เท่า (ไม่เกิน 10%)", "2 เท่า (ไม่จำกัด)", "1.5 เท่า"] },
+            { icon: "พ", text: "การรวมกลุ่มกองทุนเกษียณอายุ (RMF + SSF + กบข. + ประกันบำนาญ) รวมกันต้องไม่เกินเท่าไหร่?", type: "choice", answer: "500,000 บาท", wrong: ["200,000 บาท", "300,000 บาท", "1,000,000 บาท"] },
+            { icon: "👨‍👩‍👧", text: "ถ้าสามีภรรยามีเงินได้ทั้งคู่และแยกยื่นภาษี จะลดหย่อนบุตรได้คนละเท่าไหร่ (เกิดก่อน 61)?", type: "choice", answer: "คนละ 30,000 บาท", wrong: ["คนละ 15,000 บาท", "ฝ่ายใดฝ่ายหนึ่ง 30,000 บาท", "คนละ 60,000 บาท"] },
+            { icon: "🏥", text: "ประกันชีวิตแบบบำนาญ ลดหย่อนได้สูงสุดกี่เปอร์เซ็นต์ของเงินได้?", type: "choice", answer: "15% (ไม่เกิน 200,000)", wrong: ["30% (ไม่เกิน 500,000)", "10% (ไม่เกิน 100,000)", "15% (ไม่จำกัด)"] },
+            // ข้อสำรองเพิ่ม
+            { icon: "🛡️", text: "เบี้ยประกันสุขภาพตัวเอง ถ้าจ่ายไป 30,000 บาท จะนำมาลดหย่อนได้เท่าไหร่?", type: "choice", answer: "25,000 บาท", wrong: ["30,000 บาท", "15,000 บาท", "100,000 บาท"] },
+            { icon: "👫", text: "หากคู่สมรสมีรายได้และแยกยื่นภาษี สามารถนำคู่สมรสมาลดหย่อนได้หรือไม่?", type: "choice", answer: "ไม่ได้", wrong: ["ได้ 60,000 บาท", "ได้ 30,000 บาท", "ได้ 120,000 บาท"] },
+            { icon: "👶", text: "มีบุตรชอบด้วยกฎหมาย 4 คน (เกิดก่อนปี 61 ทั้งหมด) จะนำมาหักลดหย่อนได้กี่คน?", type: "choice", answer: "4 คน (ลดหย่อนได้ทุกคนที่เข้าเกณฑ์)", wrong: ["3 คน", "2 คน", "1 คน"] },
+            { icon: "🧓", text: "บิดามีรายได้จากบำนาญเดือนละ 5,000 บาท สามารถนำบิดามาลดหย่อนได้หรือไม่?", type: "choice", answer: "ไม่ได้ (รายได้เกิน 30,000/ปี)", wrong: ["ได้ 30,000 บาท", "ได้ 15,000 บาท", "ได้ 60,000 บาท"] },
+            { icon: "♿", text: "ผู้มีเงินได้เป็นคนพิการเอง มีบัตรคนพิการ สามารถหักลดหย่อนคนพิการได้หรือไม่?", type: "choice", answer: "ได้ (หักส่วนตัว 60k + พิการ 60k)", wrong: ["ไม่ได้ (หักได้เฉพาะส่วนตัว)", "หักเพิ่มได้แค่ 30,000", "หักส่วนตัวไม่ได้ถ้าเป็นคนพิการ"] },
+            { icon: "🏥", text: "เงินบริจาคพรรคการเมือง ลดหย่อนได้สูงสุดเท่าไหร่?", type: "choice", answer: "10,000 บาท", wrong: ["5,000 บาท", "15,000 บาท", "100,000 บาท"] },
+            { icon: "🏦", text: "กองทุน กอช. สำหรับข้าราชการ นำมาลดหย่อนได้สูงสุดเท่าไหร่?", type: "choice", answer: "30% (ไม่เกิน 500,000)", wrong: ["15% (ไม่เกิน 500,000)", "30% (ไม่เกิน 200,000)", "15% (ไม่เกิน 200,000)"] },
+            { icon: "🏢", text: "ค่าซื้อหน่วยลงทุนในกองทุน Thai ESG นำมาลดหย่อนได้สูงสุดเท่าไหร่?", type: "choice", answer: "30% (ไม่เกิน 300,000)", wrong: ["30% (ไม่เกิน 500,000)", "15% (ไม่เกิน 200,000)", "100,000 บาท"] },
+            { icon: "🏠", text: "สามีภรรยากู้ร่วมกันซื้อบ้าน จ่ายดอกเบี้ย 120,000 บาท จะลดหย่อนดอกเบี้ยบ้านได้คนละเท่าไหร่?", type: "choice", answer: "คนละ 50,000 บาท", wrong: ["คนละ 60,000 บาท", "คนละ 100,000 บาท", "คนละ 120,000 บาท"] },
+            { icon: "👶", text: "บุตรบุญธรรม สามารถนำมาลดหย่อนได้สูงสุดกี่คน?", type: "choice", answer: "3 คน", wrong: ["ไม่จำกัด", "1 คน", "2 คน"] },
+            { icon: "🛡️", text: "ประกันชีวิตที่มีกำหนดเวลา (Term Insurance) 5 ปี สามารถลดหย่อนภาษีได้หรือไม่?", type: "choice", answer: "ไม่ได้ (ต้อง 10 ปีขึ้นไป)", wrong: ["ได้ 100,000 บาท", "ได้ 50,000 บาท", "ได้ 25,000 บาท"] },
+            { icon: "👴", text: "เบี้ยประกันสุขภาพบิดามารดา ผู้เสียภาษีต้องเป็นบุตรชอบด้วยกฎหมายหรือไม่?", type: "choice", answer: "ใช่", wrong: ["ไม่ใช่ เป็นบุตรบุญธรรมก็ได้", "เป็นหลานก็ได้", "เป็นใครจ่ายให้ก็ได้"] },
+            { icon: "👶", text: "บุตรอายุ 22 ปี กำลังเรียนมหาวิทยาลัย นำมาลดหย่อนได้หรือไม่?", type: "choice", answer: "ได้ (อายุไม่เกิน 25 ปี และกำลังศึกษา)", wrong: ["ไม่ได้ (เกิน 20 ปี)", "ไม่ได้ (เกิน 18 ปี)", "ได้แค่ 15,000 บาท"] },
+            { icon: "🧓", text: "สามารถหักลดหย่อนปู่ ย่า ตา ยาย ได้หรือไม่?", type: "choice", answer: "ไม่ได้", wrong: ["ได้ คนละ 30,000 บาท", "ได้ ถ้าอายุเกิน 60 ปี", "ได้ ถ้าไม่มีรายได้"] },
+            { icon: "💸", text: "การฝากเงินกับธนาคารเพื่อรับดอกเบี้ย นำยอดเงินฝากมาลดหย่อนภาษีได้หรือไม่?", type: "choice", answer: "ไม่ได้", wrong: ["ได้ ไม่เกิน 100,000", "ได้ ไม่เกิน 10%", "ได้ ตามที่ฝากจริง"] },
+            { icon: "🎗️", text: "สมทบประกันสังคม ม.39 ลดหย่อนภาษีได้หรือไม่?", type: "choice", answer: "ได้ (ตามที่จ่ายจริง)", wrong: ["ไม่ได้", "ได้ 9,000 บาท", "ได้ 100,000 บาท"] },
+            { icon: "🎗️", text: "สมทบประกันสังคม ม.40 ลดหย่อนภาษีได้หรือไม่?", type: "choice", answer: "ได้ (ตามที่จ่ายจริง)", wrong: ["ไม่ได้", "ได้ 9,000 บาท", "ได้ 100,000 บาท"] },
+            { icon: "🏥", text: "ค่ารักษาพยาบาลตนเองที่จ่ายไป สามารถนำมาลดหย่อนภาษีได้หรือไม่?", type: "choice", answer: "ไม่ได้ (ลดได้เฉพาะเบี้ยประกันสุขภาพ)", wrong: ["ได้ตามจริง", "ได้ไม่เกิน 25,000", "ได้ไม่เกิน 100,000"] },
+            { icon: "🏦", text: "ซื้อบ้านเงินสด ไม่ได้กู้ยืม สามารถนำค่าบ้านมาลดหย่อนภาษีได้หรือไม่?", type: "choice", answer: "ไม่ได้ (ลดหย่อนได้เฉพาะดอกเบี้ยกู้)", wrong: ["ได้ ไม่เกิน 100,000", "ได้ 20% ของค่าบ้าน", "ได้ตามนโยบายรัฐ"] },
+            { icon: "👶", text: "บุตรอายุ 15 ปี แต่มีรายได้จากการเป็นดารา 100,000 บาท/ปี พ่อแม่นำมาลดหย่อนได้หรือไม่?", type: "choice", answer: "ไม่ได้ (รายได้บุตรเกิน 30,000/ปี)", wrong: ["ได้ 30,000 บาท", "ได้ 60,000 บาท", "ได้ 15,000 บาท"] },
+            { icon: "🧓", text: "พี่น้อง 3 คน จ่ายค่าเลี้ยงดูแม่ร่วมกัน ใครใช้สิทธิลดหย่อนมารดาได้?", type: "choice", answer: "ใช้สิทธิได้แค่คนเดียวเท่านั้น", wrong: ["แบ่งกันคนละ 10,000", "ใช้สิทธิได้ทุกคน คนละ 30,000", "ไม่ได้เลยซักคน"] },
+            { icon: "🛡️", text: "ซื้อประกันชีวิตให้สามี (สามีมีรายได้) ใครสามารถนำเบี้ยประกันไปลดหย่อนได้?", type: "choice", answer: "สามี (ผู้เอาประกัน)", wrong: ["ภรรยา (ผู้จ่ายเงิน)", "แบ่งกันคนละครึ่ง", "ไม่ได้เลย"] },
+            { icon: "🏥", text: "ซื้อประกันสุขภาพให้แม่ของคู่สมรส (แม่ยาย) สามารถนำมาลดหย่อนภาษีเราได้หรือไม่?", type: "choice", answer: "ไม่ได้ (ลดได้เฉพาะพ่อแม่ตนเองและคู่สมรสที่ไม่มีรายได้)", wrong: ["ได้ 15,000 บาท", "ได้ 30,000 บาท", "ได้ 60,000 บาท"] },
+            { icon: "💸", text: "บริจาคให้วัด/ศาสนสถาน หักลดหย่อนได้กี่เท่า?", type: "choice", answer: "1 เท่า (บริจาคทั่วไป)", wrong: ["2 เท่า", "1.5 เท่า", "หักไม่ได้"] },
+            { icon: "🏫", text: "บริจาคอุปกรณ์กีฬาให้โรงเรียนรัฐ หักลดหย่อนได้กี่เท่า?", type: "choice", answer: "2 เท่า (ผ่าน e-Donation)", wrong: ["1 เท่า", "3 เท่า", "หักไม่ได้"] }
+        ];
+
+        const level3BankPart2 = [
+            { icon: "🧮", text: "โสด ไม่มีภาระใดๆ จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 60000 },
+            { icon: "🧮", text: "สมรส ภรรยาไม่มีรายได้ (แยกยื่นไม่ได้) จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 120000 },
+            { icon: "🧮", text: "โสด ดูแลพ่ออายุ 65 ปี (ไม่มีรายได้) จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 90000 },
+            { icon: "🧮", text: "โสด ดูแลพ่อและแม่อายุ 65 ปี (ไม่มีรายได้ทั้งคู่) จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 120000 },
+            { icon: "🧮", text: "สมรส ภรรยาไม่มีรายได้ และมีบุตร 1 คน (เกิดปี 2560) จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 150000 },
+            { icon: "🧮", text: "โสด มีบุตร 1 คน (เกิดปี 2562) จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 120000 },
+            { icon: "🧮", text: "โสด จ่ายประกันสังคมทั้งปี 9,000 บาท จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 69000 },
+            { icon: "🧮", text: "โสด ซื้อประกันชีวิต 50,000 บาท จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 110000 },
+            { icon: "🧮", text: "โสด ซื้อประกันสุขภาพ 20,000 บาท จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 80000 },
+            { icon: "🧮", text: "โสด ซื้อประกันสุขภาพ 30,000 บาท (หักได้สูงสุด 25,000) จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 85000 },
+            { icon: "🧮", text: "โสด จ่ายดอกเบี้ยบ้าน 50,000 บาท จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 110000 },
+            { icon: "🧮", text: "โสด จ่ายดอกเบี้ยบ้าน 150,000 บาท (หักได้สูงสุด 100,000) จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 160000 },
+            { icon: "🧮", text: "โสด อุปการะคนพิการ 1 คน จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 120000 },
+            { icon: "🧮", text: "โสด ซื้อประกันชีวิต 80,000 และสุขภาพ 30,000 (รวมกันสูงสุด 100,000) จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 160000 },
+            { icon: "🧮", text: "โสด จ่ายประกันสุขภาพให้พ่อแม่ 10,000 บาท จะมีค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 70000 },
+            { icon: "🧮", text: "สมรส ภรรยาไม่มีรายได้, มีบุตร 1 คน (เกิดปี 60) และดูแลพ่อตัวเอง 1 คน ค่าลดหย่อนรวม?", type: "input", answer: 180000 },
+            { icon: "🧮", text: "โสด จ่ายประกันสังคม 9,000 และซื้อกองทุน SSF 50,000 ค่าลดหย่อนรวม?", type: "input", answer: 119000 },
+            { icon: "🧮", text: "โสด จ่ายประกันชีวิต 120,000 บาท (หักได้สูงสุด 100,000) ค่าลดหย่อนรวม?", type: "input", answer: 160000 },
+            { icon: "🧮", text: "โสด มีบุตรแฝดเกิดปี 2562 (คนแรก 30k คนที่สอง 60k) ค่าลดหย่อนรวม?", type: "input", answer: 150000 },
+            { icon: "🧮", text: "โสด จ่ายเบี้ยสุขภาพพ่อแม่ 20,000 (หักได้สูงสุด 15,000) ค่าลดหย่อนรวม?", type: "input", answer: 75000 },
+            // ข้อสำรอง 25 ข้อ
+            { icon: "🧮", text: "โสด มีบุตร 2 คน เกิดปี 2555 และ 2558 ค่าลดหย่อนรวมเท่าไหร่?", type: "input", answer: 120000 },
+            { icon: "🧮", text: "สมรส ภรรยาไม่มีรายได้ และสามีจ่ายประกันชีวิตตัวเอง 40,000 บาท ค่าลดหย่อนรวม?", type: "input", answer: 160000 },
+            { icon: "🧮", text: "โสด อุปการะพ่อ (65 ปี) และแม่ (62 ปี) พร้อมซื้อประกันสุขภาพให้พ่อแม่ 10,000 บาท ค่าลดหย่อนรวม?", type: "input", answer: 130000 },
+            { icon: "🧮", text: "โสด ซื้อประกันชีวิต 100,000 บาท และประกันสุขภาพตัวเอง 25,000 บาท (รวมลดได้ 100,000) ค่าลดหย่อนรวม?", type: "input", answer: 160000 },
+            { icon: "🧮", text: "โสด จ่ายประกันสังคม 9,000 และดอกเบี้ยกู้ยืมบ้าน 80,000 บาท ค่าลดหย่อนรวม?", type: "input", answer: 149000 },
+            { icon: "🧮", text: "โสด ซื้อกองทุน RMF 100,000 บาท และไม่มีค่าลดหย่อนอื่นนอกจากส่วนตัว ค่าลดหย่อนรวม?", type: "input", answer: 160000 },
+            { icon: "🧮", text: "โสด เป็นคนพิการ (60k) และดูแลแม่ (30k) ค่าลดหย่อนรวม?", type: "input", answer: 150000 },
+            { icon: "🧮", text: "สมรส ภรรยาไม่มีรายได้ มีบุตร 3 คน (เกิดก่อนปี 61 ทั้งหมด) ค่าลดหย่อนรวม?", type: "input", answer: 210000 },
+            { icon: "🧮", text: "โสด เลี้ยงดูคนพิการ 2 คน (คนละ 60k) ค่าลดหย่อนรวม?", type: "input", answer: 180000 },
+            { icon: "🧮", text: "โสด ซื้อประกันบำนาญ 50,000 บาท ค่าลดหย่อนรวม?", type: "input", answer: 110000 },
+            { icon: "🧮", text: "โสด ซื้อประกันชีวิต 50,000 และประกันสุขภาพ 25,000 บาท ค่าลดหย่อนรวม?", type: "input", answer: 135000 },
+            { icon: "🧮", text: "สมรส ภรรยาไม่มีรายได้ มีบุตร 1 คน (เกิดปี 62) ค่าลดหย่อนรวม?", type: "input", answer: 150000 },
+            { icon: "🧮", text: "โสด ดูแลตากับยาย (หักไม่ได้) ค่าลดหย่อนรวม?", type: "input", answer: 60000 },
+            { icon: "🧮", text: "โสด มีบุตรบุญธรรม 1 คน (30k) ค่าลดหย่อนรวม?", type: "input", answer: 90000 },
+            { icon: "🧮", text: "โสด มีบุตร 1 คน(30k) จ่ายประกันสังคม 9,000 บาท ค่าลดหย่อนรวม?", type: "input", answer: 99000 },
+            { icon: "🧮", text: "สมรส ภรรยาไม่มีรายได้ และภรรยามีประกันชีวิตที่สามีจ่ายให้ 30,000 บาท ค่าลดหย่อนรวม (รวมลดภรรยา)?", type: "input", answer: 150000 },
+            { icon: "🧮", text: "โสด ซื้อประกันชีวิต 200,000 (หักได้สูงสุด 100,000) จ่ายดอกเบี้ยบ้าน 150,000 (หักสูงสุด 100,000) ค่าลดหย่อนรวม?", type: "input", answer: 260000 },
+            { icon: "🧮", text: "โสด ซื้อกองทุน SSF 250,000 บาท (หักได้สูงสุด 200,000) ค่าลดหย่อนรวม?", type: "input", answer: 260000 },
+            { icon: "🧮", text: "โสด จ่ายประกันสังคม 5,000 บาท ค่าลดหย่อนรวม?", type: "input", answer: 65000 },
+            { icon: "🧮", text: "สมรส ภรรยาไม่มีรายได้ ดูแลพ่อแม่สามี 2 คน (60k) และพ่อแม่ภรรยา 2 คน (60k) ค่าลดหย่อนรวม?", type: "input", answer: 240000 },
+            { icon: "🧮", text: "โสด บริจาคเงิน 5,000 บาท (สมมติหักได้เต็มจำนวนหลังคำนวณ) ถ้าคิดแค่ส่วนตัวและบริจาค ค่าลดหย่อนรวม?", type: "input", answer: 65000 },
+            { icon: "🧮", text: "โสด จ่ายประกันชีวิต 90,000 บาท และสุขภาพ 20,000 บาท (รวมสูงสุด 100,000) ค่าลดหย่อนรวม?", type: "input", answer: 160000 },
+            { icon: "🧮", text: "โสด มีบุตร 3 คน เกิดปี 2560 (30k), 2562 (60k), 2564 (60k) ค่าลดหย่อนรวม?", type: "input", answer: 210000 },
+            { icon: "🧮", text: "โสด จ่ายประกันสุขภาพพ่อแม่ 20,000 บาท (ลดได้ 15,000) ค่าลดหย่อนรวม?", type: "input", answer: 75000 },
+            { icon: "🧮", text: "สมรส ภรรยาไม่มีรายได้ มีเงินจ่ายประกันสังคม 9,000 บาท ค่าลดหย่อนรวม?", type: "input", answer: 129000 }
+        ];
+
+        let currentLv3Questions = [];
+        let currentLv3Index = 0;
+        let lv3CurrentScore = 0;
+        let isLv3Answering = false;
+
+        function startLevel3Game() {
+            switchPage('level3');
+            
+            // สุ่มฝั่งตัวเลือก 15 ข้อ และฝั่งพิมพ์ตอบ 15 ข้อ จากคลัง 45+45
+            let part1 = shuffleArray([...level3BankPart1]).slice(0, 15);
+            let part2 = shuffleArray([...level3BankPart2]).slice(0, 15);
+            currentLv3Questions = part1.concat(part2); // รวมเป็น 30 ข้อ
+            
+            currentLv3Index = 0;
+            lv3CurrentScore = 0;
+            isLv3Answering = false;
+            
+            document.getElementById('lv3-score-display').innerText = '0';
+            calcClearLv3(); 
+            renderLv3Question();
+        }
+
+        function renderLv3Question() {
+            if (currentLv3Index >= currentLv3Questions.length) {
+                finishLevel3Game();
+                return;
+            }
+
+            const qData = currentLv3Questions[currentLv3Index];
+            const progressPercent = (currentLv3Index / 30) * 100;
+            document.getElementById('lv3-progress-bar').style.width = `${progressPercent === 0 ? 3.33 : progressPercent}%`;
+            document.getElementById('lv3-progress-text').innerText = `${currentLv3Index + 1}/30`;
+            
+            const card = document.getElementById('lv3-question-card');
+            card.classList.remove('scale-95', 'opacity-50'); 
+            document.getElementById('lv3-icon').innerText = qData.icon;
+            document.getElementById('lv3-question-text').innerText = qData.text;
+
+            const optsContainer = document.getElementById('lv3-options-container');
+            const inputContainer = document.getElementById('lv3-input-container');
+
+            if (qData.type === 'choice') {
+                optsContainer.classList.remove('hidden');
+                inputContainer.classList.add('hidden');
+                
+                let options = [
+                    { text: qData.answer, isCorrect: true },
+                    { text: qData.wrong[0], isCorrect: false },
+                    { text: qData.wrong[1], isCorrect: false },
+                    { text: qData.wrong[2], isCorrect: false }
+                ];
+                options = shuffleArray(options);
+                optsContainer.innerHTML = ''; 
+
+                options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.className = "w-full py-3 px-4 bg-slate-50 border-2 border-slate-200 hover:border-cyan-400 hover:bg-cyan-50 text-slate-700 font-semibold rounded-xl transition duration-200 shadow-sm text-sm sm:text-base";
+                    btn.innerText = opt.text;
+                    btn.onclick = () => handleLv3Choice(btn, opt.isCorrect);
+                    optsContainer.appendChild(btn);
+                });
+            } else {
+                optsContainer.classList.add('hidden');
+                inputContainer.classList.remove('hidden');
+                
+                const inputField = document.getElementById('lv3-answer-input');
+                inputField.value = '';
+                inputField.classList.remove('border-emerald-500', 'border-rose-500', 'bg-emerald-50', 'bg-rose-50', 'text-emerald-700', 'text-rose-700');
+                
+                const submitBtn = document.getElementById('lv3-submit-btn');
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'ตอบคำถาม 🎯';
+                
+                setTimeout(()=> inputField.focus(), 300);
+            }
+            isLv3Answering = false;
+        }
+
+        function handleLv3Choice(btnElement, isCorrect) {
+            if (isLv3Answering) return; 
+            isLv3Answering = true;
+            const allBtns = document.getElementById('lv3-options-container').querySelectorAll('button');
+            allBtns.forEach(b => b.disabled = true);
+
+            if (isCorrect) {
+                btnElement.classList.replace('bg-slate-50', 'bg-emerald-500');
+                btnElement.classList.replace('border-slate-200', 'border-emerald-600');
+                btnElement.classList.replace('text-slate-700', 'text-white');
+                btnElement.classList.add('scale-105', 'transform');
+                lv3CurrentScore += 20; // 30 ข้อ ข้อละ 20 แต้ม รวม 600 แต้ม
+                document.getElementById('lv3-score-display').innerText = lv3CurrentScore;
+            } else {
+                btnElement.classList.replace('bg-slate-50', 'bg-rose-500');
+                btnElement.classList.replace('border-slate-200', 'border-rose-600');
+                btnElement.classList.replace('text-slate-700', 'text-white');
+                btnElement.classList.add('animate-pulse');
+
+                allBtns.forEach(b => {
+                    const currentQ = currentLv3Questions[currentLv3Index];
+                    if (b.innerText === currentQ.answer) {
+                        b.classList.replace('bg-slate-50', 'bg-emerald-100');
+                        b.classList.replace('border-slate-200', 'border-emerald-400');
+                        b.classList.replace('text-slate-700', 'text-emerald-800');
+                    }
+                });
+            }
+
+            setTimeout(() => {
+                const card = document.getElementById('lv3-question-card');
+                card.classList.add('scale-95', 'opacity-50'); 
+                setTimeout(() => {
+                    currentLv3Index++;
+                    renderLv3Question();
+                }, 200);
+            }, 1200);
+        }
+
+        function handleLv3Input() {
+            if (isLv3Answering) return;
+            const inputEl = document.getElementById('lv3-answer-input');
+            const btn = document.getElementById('lv3-submit-btn');
+            const val = inputEl.value.trim();
+            if (val === '') return;
+
+            isLv3Answering = true;
+            btn.disabled = true;
+
+            const currentQ = currentLv3Questions[currentLv3Index];
+            if (parseFloat(val) === currentQ.answer) {
+                inputEl.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
+                btn.innerText = '✅ ถูกต้อง!';
+                lv3CurrentScore += 20;
+                document.getElementById('lv3-score-display').innerText = lv3CurrentScore;
+            } else {
+                inputEl.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-700');
+                inputEl.value = `ผิด! (ตอบ: ${currentQ.answer})`;
+                btn.innerText = '❌ ผิดพลาด';
+            }
+
+            setTimeout(() => {
+                const card = document.getElementById('lv3-question-card');
+                card.classList.add('scale-95', 'opacity-50'); 
+                setTimeout(() => {
+                    currentLv3Index++;
+                    renderLv3Question();
+                }, 200);
+            }, 1500);
+        }
+
+        function finishLevel3Game() {
+            const user = db[currentLoggedUser];
+            document.getElementById('lv3-progress-bar').style.width = `100%`;
+            
+            setTimeout(() => {
+                user.levelScores[3] = Math.max(user.levelScores[3] || 0, lv3CurrentScore);
+                
+                if (user.currentLevel === 3) {
+                    user.currentLevel = 4; 
+                    saveDB();
+                    alert(`🎉 ภารกิจสำเร็จ!\nคุณทำได้ ${lv3CurrentScore} แต้ม (คะแนนเต็ม 600)\nระบบปลดล็อก "ด่านคำนวณภาษี" ให้คุณแล้ว!`);
+                } else {
+                    saveDB();
+                    alert(`🔄 เล่นซ้ำสำเร็จ!\nคุณทำได้รอบนี้ ${lv3CurrentScore} แต้ม\nคะแนนสูงสุดด่านนี้ของคุณคือ: ${user.levelScores[3]} แต้ม`);
+                }
+                switchPage('player');
+            }, 500);
+        }
+
+        // ================= ระบบเครื่องคิดเลข (ด่าน 3) =================
+        function calcAppendLv3(val) { document.getElementById('calc-display-lv3').value += val; }
+        function calcClearLv3() { document.getElementById('calc-display-lv3').value = ''; }
+        function calcDelLv3() {
+            const display = document.getElementById('calc-display-lv3');
+            display.value = display.value.slice(0, -1);
+        }
+        function calcResultLv3() {
+            const display = document.getElementById('calc-display-lv3');
+            try {
+                let expr = display.value.replace(/[^0-9+\-*/.%]/g, '');
+                if(expr) {
+                    expr = expr.replace(/%/g, '/100');
+                    const result = Function('"use strict";return (' + expr + ')')();
+                    display.value = Number.isInteger(result) ? result : parseFloat(result.toFixed(2));
+                }
+            } catch(e) {
+                display.value = 'Error';
+                setTimeout(calcClearLv3, 1000);
+            }
+        }
+
+        // ================= ฟังก์ชันเข้าเล่นเกม (Main) =================
         function playGame(level) {
             currentPlayingLevel = level;
             const user = db[currentLoggedUser];
@@ -997,8 +1320,10 @@
                 startLevel1Game();
             } else if (level === 2) {
                 startLevel2Game();
+            } else if (level === 3) {
+                startLevel3Game();
             } else {
-                // จำลองการเล่นด่าน 3 และ 4 ไปก่อน
+                // จำลองการเล่นด่าน 4 ไปก่อน
                 const earnedPoints = Math.floor(Math.random() * 401) + 100;
                 user.levelScores[level] = Math.max(user.levelScores[level] || 0, earnedPoints);
                 if (user.currentLevel === level) {
@@ -1023,8 +1348,8 @@
             currentLoggedUser = null;
             isAdminLoggedIn = false;
             try {
-                localStorage.removeItem('game_curr_v9');
-                localStorage.removeItem('game_adm_v9');
+                localStorage.removeItem('game_curr_v10');
+                localStorage.removeItem('game_adm_v10');
             } catch(e){}
             switchPage('login');
         }
