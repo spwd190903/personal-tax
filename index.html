@@ -8,6 +8,12 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Prompt', sans-serif; }
+        
+        /* Custom scrollbar for form container */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
 <body class="bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 min-h-screen flex flex-col items-center justify-center p-4 text-slate-800">
@@ -332,6 +338,80 @@
             </div>
         </div>
 
+        <!-- ================= ด่านที่ 4: ฟอร์มคำนวณภาษี (Final Boss) ================= -->
+        <div id="level4-view" class="p-4 sm:p-6 hidden flex flex-col h-full min-h-[500px]">
+            <div class="flex justify-between items-center mb-4">
+                <div class="bg-pink-100 text-pink-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                    <span>ด่านคำนวณภาษี (Final Boss) 👑</span>
+                </div>
+                <div class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                    🎯 ตอบถูกรับ: 1,000 แต้ม
+                </div>
+            </div>
+
+            <div class="flex flex-col lg:flex-row gap-6 items-start justify-center w-full max-w-6xl mx-auto flex-grow">
+                
+                <!-- ฝั่งโจทย์และเครื่องคิดเลข ด่าน 4 -->
+                <div class="w-full lg:w-2/5 flex flex-col gap-4">
+                    <div id="lv4-scenario-card" class="bg-white border-2 border-pink-100 rounded-3xl p-5 shadow-xl">
+                        <span class="text-4xl block mb-2">📜</span>
+                        <h3 id="lv4-scenario-title" class="text-md font-bold text-slate-800 mb-2">กรณีศึกษา...</h3>
+                        <p id="lv4-scenario-desc" class="text-sm text-slate-700 leading-relaxed bg-pink-50 p-4 rounded-xl border border-pink-100"></p>
+                    </div>
+
+                    <!-- เครื่องคิดเลข ด่าน 4 -->
+                    <div class="bg-slate-800 rounded-3xl p-5 shadow-2xl w-full max-w-xs mx-auto text-white">
+                        <div class="text-center text-xs text-slate-400 mb-2 font-semibold">เครื่องคิดเลข 🧮✨</div>
+                        <input type="text" id="calc-display-lv4" readonly class="w-full bg-slate-900 border border-slate-700 text-right p-3 rounded-xl mb-4 font-mono text-2xl text-pink-400 tracking-wider shadow-inner outline-none">
+                        <div class="grid grid-cols-4 gap-2">
+                            <button type="button" onclick="calcClearLv4()" class="bg-rose-500 hover:bg-rose-400 py-2 rounded-lg font-bold">AC</button>
+                            <button type="button" onclick="calcDelLv4()" class="bg-amber-500 hover:bg-amber-400 py-2 rounded-lg font-bold">Del</button>
+                            <button type="button" onclick="calcAppendLv4('%')" class="bg-sky-500 hover:bg-sky-400 py-2 rounded-lg font-bold">%</button>
+                            <button type="button" onclick="calcAppendLv4('/')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">÷</button>
+                            
+                            <button type="button" onclick="calcAppendLv4('7')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">7</button>
+                            <button type="button" onclick="calcAppendLv4('8')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">8</button>
+                            <button type="button" onclick="calcAppendLv4('9')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">9</button>
+                            <button type="button" onclick="calcAppendLv4('*')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">×</button>
+                            
+                            <button type="button" onclick="calcAppendLv4('4')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">4</button>
+                            <button type="button" onclick="calcAppendLv4('5')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">5</button>
+                            <button type="button" onclick="calcAppendLv4('6')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">6</button>
+                            <button type="button" onclick="calcAppendLv4('-')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">-</button>
+                            
+                            <button type="button" onclick="calcAppendLv4('1')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">1</button>
+                            <button type="button" onclick="calcAppendLv4('2')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">2</button>
+                            <button type="button" onclick="calcAppendLv4('3')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">3</button>
+                            <button type="button" onclick="calcAppendLv4('+')" class="bg-indigo-500 hover:bg-indigo-400 py-2 rounded-lg font-bold">+</button>
+                            
+                            <button type="button" onclick="calcAppendLv4('0')" class="col-span-2 bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">0</button>
+                            <button type="button" onclick="calcAppendLv4('.')" class="bg-slate-600 hover:bg-slate-500 py-2 rounded-lg font-bold">.</button>
+                            <button type="button" onclick="calcResultLv4()" class="bg-pink-500 hover:bg-pink-400 py-2 rounded-lg font-bold">=</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ฝั่งแบบฟอร์ม -->
+                <div class="w-full lg:w-3/5 bg-white border-2 border-slate-100 rounded-3xl p-5 shadow-xl">
+                    <h3 class="text-lg font-bold text-slate-800 mb-3 text-center border-b pb-2 border-slate-100">แบบฟอร์มคำนวณภาษีเงินได้บุคคลธรรมดา 📝<br><span class="text-xs text-rose-500 font-normal">(*หากไม่มีให้เว้นว่างหรือเติม 0)</span></h3>
+                    
+                    <div id="lv4-form-container" class="space-y-2 text-xs sm:text-sm max-h-[55vh] overflow-y-auto custom-scrollbar px-1">
+                        <!-- JS injected -->
+                    </div>
+
+                    <button onclick="checkLevel4Answers()" class="mt-5 w-full py-3 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-400 hover:to-rose-400 text-white font-bold rounded-xl transition shadow-md shadow-pink-500/30 text-base">
+                        ส่งคำตอบและตรวจสอบความถูกต้อง 🎯
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-6 text-center">
+                <button onclick="switchPage('player')" class="text-xs text-slate-400 hover:text-slate-600 underline">
+                    🏳️ ออกจากการเล่น (กลับไปแผนที่)
+                </button>
+            </div>
+        </div>
+
         <!-- ================= 4. หน้าแดชบอร์ดแอดมิน ================= -->
         <div id="admin-view" class="p-8 hidden">
             <div class="flex flex-col sm:flex-row justify-between sm:items-center border-b border-slate-100 pb-4 mb-6 gap-3">
@@ -379,7 +459,7 @@
 
     <!-- ================= JAVASCRIPT LOGIC ================= -->
     <script>
-        // โครงสร้าง Database เวอร์ชัน 10 รองรับการเก็บคะแนนด่าน 3
+        // โครงสร้าง Database เวอร์ชัน 11 รองรับด่านที่ 4
         let db = {};
         let currentLoggedUser = null;
         let isAdminLoggedIn = false;
@@ -390,9 +470,9 @@
 
         function initData() {
             try {
-                db = JSON.parse(localStorage.getItem('game_db_v10')) || {};
-                currentLoggedUser = localStorage.getItem('game_curr_v10') || null;
-                isAdminLoggedIn = localStorage.getItem('game_adm_v10') === 'true';
+                db = JSON.parse(localStorage.getItem('game_db_v11')) || {};
+                currentLoggedUser = localStorage.getItem('game_curr_v11') || null;
+                isAdminLoggedIn = localStorage.getItem('game_adm_v11') === 'true';
             } catch (e) {
                 console.error("Storage Error:", e);
                 db = {};
@@ -401,7 +481,7 @@
 
         function saveDB() {
             try {
-                localStorage.setItem('game_db_v10', JSON.stringify(db));
+                localStorage.setItem('game_db_v11', JSON.stringify(db));
             } catch (e) { console.error("Save Error:", e); }
         }
 
@@ -411,7 +491,7 @@
 
         function switchPage(page) {
             try {
-                const pages = ['login-view', 'register-view', 'player-view', 'admin-view', 'level1-view', 'level2-view', 'level3-view'];
+                const pages = ['login-view', 'register-view', 'player-view', 'admin-view', 'level1-view', 'level2-view', 'level3-view', 'level4-view'];
                 pages.forEach(id => {
                     const el = document.getElementById(id);
                     if (el) el.classList.add('hidden');
@@ -444,6 +524,11 @@
                 else if (page === 'level3') {
                     if (container) container.className = "w-full max-w-5xl min-h-[500px] bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
                     document.getElementById('level3-view').classList.remove('hidden');
+                    if (adminGate) adminGate.classList.add('hidden');
+                }
+                else if (page === 'level4') {
+                    if (container) container.className = "w-full max-w-6xl min-h-[500px] bg-white/95 backdrop-blur-md rounded-3xl shadow-2xl border border-white/50 overflow-hidden mb-4 transition-all duration-300";
+                    document.getElementById('level4-view').classList.remove('hidden');
                     if (adminGate) adminGate.classList.add('hidden');
                 }
                 else if (page === 'admin') {
@@ -493,7 +578,7 @@
                 loginAttemptCount = 0;
                 if (user.password === password) {
                     currentLoggedUser = username;
-                    try { localStorage.setItem('game_curr_v10', username); } catch(e){}
+                    try { localStorage.setItem('game_curr_v11', username); } catch(e){}
                     switchPage('player');
                     document.getElementById('login-username').value = '';
                     document.getElementById('login-password').value = '';
@@ -534,7 +619,7 @@
             const password = document.getElementById('admin-pass').value;
             if (password === 'coco') {
                 isAdminLoggedIn = true;
-                try { localStorage.setItem('game_adm_v10', 'true'); } catch(e){}
+                try { localStorage.setItem('game_adm_v11', 'true'); } catch(e){}
                 switchPage('admin');
                 document.getElementById('admin-pass').value = '';
                 document.getElementById('admin-login-box').classList.add('hidden');
@@ -1021,7 +1106,7 @@
             }
         }
 
-        // ================= มินิเกมด่าน 3 (ค่าลดหย่อน 30 ข้อ พาร์ทละ 15 สำรอง 45) =================
+        // ================= มินิเกมด่าน 3 (ค่าลดหย่อน) =================
         const level3BankPart1 = [
             { icon: "🛡️", text: "ค่าลดหย่อนส่วนตัว (ผู้มีเงินได้) ลดหย่อนได้สูงสุดเท่าไหร่?", type: "choice", answer: "60,000 บาท", wrong: ["30,000 บาท", "100,000 บาท", "150,000 บาท"] },
             { icon: "👫", text: "ค่าลดหย่อนคู่สมรส (ที่ไม่มีเงินได้) ลดหย่อนได้สูงสุดเท่าไหร่?", type: "choice", answer: "60,000 บาท", wrong: ["30,000 บาท", "120,000 บาท", "ไม่สามารถลดหย่อนได้"] },
@@ -1043,7 +1128,6 @@
             { icon: "พ", text: "การรวมกลุ่มกองทุนเกษียณอายุ (RMF + SSF + กบข. + ประกันบำนาญ) รวมกันต้องไม่เกินเท่าไหร่?", type: "choice", answer: "500,000 บาท", wrong: ["200,000 บาท", "300,000 บาท", "1,000,000 บาท"] },
             { icon: "👨‍👩‍👧", text: "ถ้าสามีภรรยามีเงินได้ทั้งคู่และแยกยื่นภาษี จะลดหย่อนบุตรได้คนละเท่าไหร่ (เกิดก่อน 61)?", type: "choice", answer: "คนละ 30,000 บาท", wrong: ["คนละ 15,000 บาท", "ฝ่ายใดฝ่ายหนึ่ง 30,000 บาท", "คนละ 60,000 บาท"] },
             { icon: "🏥", text: "ประกันชีวิตแบบบำนาญ ลดหย่อนได้สูงสุดกี่เปอร์เซ็นต์ของเงินได้?", type: "choice", answer: "15% (ไม่เกิน 200,000)", wrong: ["30% (ไม่เกิน 500,000)", "10% (ไม่เกิน 100,000)", "15% (ไม่จำกัด)"] },
-            // ข้อสำรองเพิ่ม
             { icon: "🛡️", text: "เบี้ยประกันสุขภาพตัวเอง ถ้าจ่ายไป 30,000 บาท จะนำมาลดหย่อนได้เท่าไหร่?", type: "choice", answer: "25,000 บาท", wrong: ["30,000 บาท", "15,000 บาท", "100,000 บาท"] },
             { icon: "👫", text: "หากคู่สมรสมีรายได้และแยกยื่นภาษี สามารถนำคู่สมรสมาลดหย่อนได้หรือไม่?", type: "choice", answer: "ไม่ได้", wrong: ["ได้ 60,000 บาท", "ได้ 30,000 บาท", "ได้ 120,000 บาท"] },
             { icon: "👶", text: "มีบุตรชอบด้วยกฎหมาย 4 คน (เกิดก่อนปี 61 ทั้งหมด) จะนำมาหักลดหย่อนได้กี่คน?", type: "choice", answer: "4 คน (ลดหย่อนได้ทุกคนที่เข้าเกณฑ์)", wrong: ["3 คน", "2 คน", "1 คน"] },
@@ -1092,7 +1176,6 @@
             { icon: "🛡️", text: "ฟ้าใสเป็นคนโสด จ่ายประกันชีวิต 120,000 บาท (หักได้สูงสุด 100,000) ค่าลดหย่อนรวม? 📜", type: "input", answer: 160000 },
             { icon: "👯", text: "มรกตเป็นคนโสด มีบุตรแฝดเกิดปี 2562 (คนแรก 30k คนที่สอง 60k) ค่าลดหย่อนรวม? 👶👶", type: "input", answer: 150000 },
             { icon: "👴", text: "จีนเป็นคนโสด จ่ายเบี้ยสุขภาพพ่อแม่ 20,000 (หักได้สูงสุด 15,000) ค่าลดหย่อนรวม? 🏥", type: "input", answer: 75000 },
-            // ข้อสำรอง 25 ข้อ
             { icon: "👧", text: "อำพรเป็นคนโสด มีบุตร 2 คน เกิดปี 2555 และ 2558 ค่าลดหย่อนรวมเท่าไหร่? 🎒", type: "input", answer: 120000 },
             { icon: "👫", text: "ยงยุทธเป็นคนสมรส ภรรยาไม่มีรายได้ และสามีจ่ายประกันชีวิตตัวเอง 40,000 บาท ค่าลดหย่อนรวม? 💼", type: "input", answer: 160000 },
             { icon: "🧓", text: "นับพรเป็นคนโสด อุปการะพ่อ (65 ปี) และแม่ (62 ปี) พร้อมซื้อประกันสุขภาพให้พ่อแม่ 10,000 บาท ค่าลดหย่อนรวม? 🩺", type: "input", answer: 130000 },
@@ -1127,16 +1210,12 @@
 
         function startLevel3Game() {
             switchPage('level3');
-            
-            // สุ่มฝั่งตัวเลือก 15 ข้อ และฝั่งพิมพ์ตอบ 15 ข้อ จากคลัง 45+45
             let part1 = shuffleArray([...level3BankPart1]).slice(0, 15);
             let part2 = shuffleArray([...level3BankPart2]).slice(0, 15);
-            currentLv3Questions = part1.concat(part2); // รวมเป็น 30 ข้อ
-            
+            currentLv3Questions = part1.concat(part2); 
             currentLv3Index = 0;
             lv3CurrentScore = 0;
             isLv3Answering = false;
-            
             document.getElementById('lv3-score-display').innerText = '0';
             calcClearLv3(); 
             renderLv3Question();
@@ -1209,7 +1288,7 @@
                 btnElement.classList.replace('border-slate-200', 'border-emerald-600');
                 btnElement.classList.replace('text-slate-700', 'text-white');
                 btnElement.classList.add('scale-105', 'transform');
-                lv3CurrentScore += 20; // 30 ข้อ ข้อละ 20 แต้ม รวม 600 แต้ม
+                lv3CurrentScore += 20; 
                 document.getElementById('lv3-score-display').innerText = lv3CurrentScore;
             } else {
                 btnElement.classList.replace('bg-slate-50', 'bg-rose-500');
@@ -1288,7 +1367,6 @@
             }, 500);
         }
 
-        // ================= ระบบเครื่องคิดเลข (ด่าน 3) =================
         function calcAppendLv3(val) { document.getElementById('calc-display-lv3').value += val; }
         function calcClearLv3() { document.getElementById('calc-display-lv3').value = ''; }
         function calcDelLv3() {
@@ -1310,6 +1388,208 @@
             }
         }
 
+        // ================= มินิเกมด่าน 4 (แบบฟอร์มคำนวณภาษี) =================
+        const level4Bank = [
+            {
+                title: "กรณีศึกษาที่ 1: นางแดง (เจ้าของร้านมินิมาร์ท) 🏪",
+                description: "นางแดงเปิดร้านมินิมาร์ท (เงินได้ ม.40(8)) ตลอดปีมีรายได้ 1,300,000 บาท เลือกหักค่าใช้จ่ายตามจริง 790,000 บาท นางแดงมีบุตร 2 คน (เกิดก่อนปี 2561 ทั้งคู่) และจ่ายเบี้ยประกันชีวิต 25,000 บาท ในช่วงครึ่งปีแรกนางแดงได้ยื่นแบบและชำระภาษีครึ่งปีไปแล้วจำนวน 2,000 บาท จงคำนวณภาษีสิ้นปี",
+                answers: {
+                    income: 1300000,
+                    expense: 790000,
+                    incomeAfterExpense: 510000,
+                    deduction: 145000, // ส่วนตัว 60k + บุตร(60k) + ประกันชีวิต(25k)
+                    netIncome: 365000,
+                    taxStep2: 7500, // 150k * 5%
+                    taxStep3: 6500, // 65k * 10%
+                    taxStep4: 0,
+                    taxStep5: 0,
+                    taxMethod1: 14000, // 7500 + 6500
+                    taxMethod2: 6500, // 1.3M * 0.5%
+                    taxMax: 14000,
+                    taxHalfYear: 2000,
+                    taxNetPay: 12000
+                }
+            },
+            {
+                title: "กรณีศึกษาที่ 2: นายเอก (พนักงานบริษัท) 💼",
+                description: "นายเอก เป็นคนโสด มีรายได้จากเงินเดือน (ม.40(1)) ทั้งปีรวม 800,000 บาท (หักค่าใช้จ่ายแบบเหมา) เขาดูแลบิดามารดาที่อายุเกิน 60 ปี และไม่มีรายได้ทั้ง 2 คน จ่ายเงินสมทบกองทุนประกันสังคมทั้งปี 9,000 บาท (นายเอกไม่ต้องคำนวณภาษีวิธีที่ 2 ให้ระบุเป็น 0 ไม่ต้องนำมาเทียบ และไม่มีการเสียภาษีครึ่งปี)",
+                answers: {
+                    income: 800000,
+                    expense: 100000, // หักเหมาสูงสุด 100k
+                    incomeAfterExpense: 700000,
+                    deduction: 129000, // ส่วนตัว 60k + บิดามารดา 60k + ประกันสังคม 9k
+                    netIncome: 571000,
+                    taxStep2: 7500, // 150k * 5%
+                    taxStep3: 20000, // 200k * 10%
+                    taxStep4: 10650, // 71k * 15%
+                    taxStep5: 0,
+                    taxMethod1: 38150, 
+                    taxMethod2: 0, 
+                    taxMax: 38150,
+                    taxHalfYear: 0,
+                    taxNetPay: 38150
+                }
+            },
+            {
+                title: "กรณีศึกษาที่ 3: นางสาวฟ้าใส (ฟรีแลนซ์กราฟิก) 🎨",
+                description: "ฟ้าใส เป็นคนโสด มีอาชีพรับจ้างทำกราฟิกอิสระ (ม.40(2)) มีรายได้ทั้งปี 1,200,000 บาท (หักค่าใช้จ่ายแบบเหมา) เธอได้ซื้อกองทุน SSF จำนวน 150,000 บาท ซื้อประกันชีวิต 50,000 บาท และประกันสุขภาพ 25,000 บาท ไม่มีภาระอื่น และไม่เคยเสียภาษีครึ่งปี",
+                answers: {
+                    income: 1200000,
+                    expense: 100000, // หักเหมาสูงสุด 100k
+                    incomeAfterExpense: 1100000,
+                    deduction: 285000, // ส่วนตัว 60k + SSF 150k + ชีวิต 50k + สุขภาพ 25k
+                    netIncome: 815000,
+                    taxStep2: 7500, // 150k * 5%
+                    taxStep3: 20000, // 200k * 10%
+                    taxStep4: 37500, // 250k * 15%
+                    taxStep5: 13000, // 65k * 20%
+                    taxMethod1: 78000, // 7500 + 20000 + 37500 + 13000
+                    taxMethod2: 6000, // 1.2M * 0.5%
+                    taxMax: 78000,
+                    taxHalfYear: 0,
+                    taxNetPay: 78000
+                }
+            },
+            {
+                title: "กรณีศึกษาที่ 4: นายดำ (เปิดร้านขายอาหาร) 🍲",
+                description: "นายดำ เปิดร้านขายอาหาร (ม.40(8)) มีรายได้ทั้งปี 2,000,000 บาท เลือกหักค่าใช้จ่ายแบบเหมา (60%) นายดำมีภรรยาที่ไม่มีรายได้ และมีบุตร 1 คน (เกิดปี 2562) จ่ายประกันชีวิตให้ตัวเอง 100,000 บาท เคยเสียภาษีครึ่งปีไว้แล้ว 5,000 บาท",
+                answers: {
+                    income: 2000000,
+                    expense: 1200000, // 2M * 60%
+                    incomeAfterExpense: 800000,
+                    deduction: 280000, // ส่วนตัว 60k + ภรรยา 60k + บุตร(ปี62) 60k + ประกันชีวิต 100k
+                    netIncome: 520000,
+                    taxStep2: 7500, // 150k * 5%
+                    taxStep3: 20000, // 200k * 10%
+                    taxStep4: 3000, // 20k * 15%
+                    taxStep5: 0,
+                    taxMethod1: 30500, // 7500 + 20000 + 3000
+                    taxMethod2: 10000, // 2M * 0.5%
+                    taxMax: 30500, // มากกว่า
+                    taxHalfYear: 5000,
+                    taxNetPay: 25500 // 30500 - 5000
+                }
+            }
+        ];
+
+        let currentLv4Scenario = null;
+
+        function startLevel4Game() {
+            switchPage('level4');
+            currentLv4Scenario = shuffleArray([...level4Bank])[0];
+            calcClearLv4();
+
+            document.getElementById('lv4-scenario-title').innerText = currentLv4Scenario.title;
+            document.getElementById('lv4-scenario-desc').innerText = currentLv4Scenario.description;
+
+            const container = document.getElementById('lv4-form-container');
+            container.innerHTML = '';
+
+            const fields = [
+                { label: '1. เงินได้พึงประเมินรวม (ทั้งปี)', key: 'income' },
+                { label: '2. หัก ค่าใช้จ่าย', key: 'expense' },
+                { label: '3. เงินได้หลังหักค่าใช้จ่าย', key: 'incomeAfterExpense' },
+                { label: '4. หัก ลดหย่อนรวม', key: 'deduction' },
+                { label: '5. เงินได้สุทธิ (ข้อ 3 - 4)', key: 'netIncome' },
+                { label: '6. ภาษีขั้น 150,001 - 300,000 บาท (5%)', key: 'taxStep2' },
+                { label: '7. ภาษีขั้น 300,001 - 500,000 บาท (10%)', key: 'taxStep3' },
+                { label: '8. ภาษีขั้น 500,001 - 750,000 บาท (15%)', key: 'taxStep4' },
+                { label: '9. ภาษีขั้น 750,001 - 1,000,000 บาท (20%)', key: 'taxStep5' },
+                { label: '10. สรุปภาษีตามวิธีที่ 1', key: 'taxMethod1' },
+                { label: '11. ภาษีวิธีที่ 2 (รายได้ x 0.5%)', key: 'taxMethod2' },
+                { label: '12. ภาษีที่ต้องชำระ (วิธีที่ 1 หรือ 2 ที่มากกว่า)', key: 'taxMax' },
+                { label: '13. หัก ภาษีครึ่งปีที่ชำระไว้แล้ว', key: 'taxHalfYear' },
+                { label: '14. ภาษีสุทธิที่ต้องชำระสิ้นปี', key: 'taxNetPay' }
+            ];
+
+            fields.forEach(f => {
+                const row = document.createElement('div');
+                row.className = "flex justify-between items-center bg-slate-50 p-2 rounded-lg border border-slate-100";
+                
+                const label = document.createElement('span');
+                label.className = "font-medium text-slate-700 flex-1";
+                label.innerText = f.label;
+
+                const inputWrapper = document.createElement('div');
+                inputWrapper.className = "flex items-center gap-2 w-1/3 min-w-[120px]";
+
+                const input = document.createElement('input');
+                input.type = "number";
+                input.id = `lv4-input-${f.key}`;
+                input.placeholder = "0";
+                input.className = "w-full text-right border-2 border-slate-200 rounded-md p-1.5 focus:border-pink-400 focus:outline-none font-bold text-pink-700";
+                
+                input.onkeydown = (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        checkLevel4Answers();
+                    }
+                };
+
+                inputWrapper.appendChild(input);
+                row.appendChild(label);
+                row.appendChild(inputWrapper);
+                container.appendChild(row);
+            });
+        }
+
+        function checkLevel4Answers() {
+            const answers = currentLv4Scenario.answers;
+            let allCorrect = true;
+
+            Object.keys(answers).forEach(key => {
+                const inputEl = document.getElementById(`lv4-input-${key}`);
+                if (inputEl) {
+                    const userVal = parseFloat(inputEl.value) || 0; 
+                    if (userVal === answers[key]) {
+                        inputEl.classList.remove('border-rose-500', 'bg-rose-50', 'text-rose-700', 'border-slate-200');
+                        inputEl.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-700');
+                    } else {
+                        inputEl.classList.remove('border-emerald-500', 'bg-emerald-50', 'text-emerald-700', 'border-slate-200');
+                        inputEl.classList.add('border-rose-500', 'bg-rose-50', 'text-rose-700');
+                        allCorrect = false;
+                    }
+                }
+            });
+
+            if (allCorrect) {
+                const user = db[currentLoggedUser];
+                user.levelScores[4] = Math.max(user.levelScores[4] || 0, 1000);
+                if (user.currentLevel === 4) {
+                    user.currentLevel = 5; 
+                    saveDB();
+                    alert('🎉 ยอดเยี่ยมมาก! คำนวณถูกต้องทั้งหมด\nคุณพิชิตด่านที่ 4 และเคลียร์เกมภาษีบุคคลธรรมดาสำเร็จ! 🏆✨');
+                } else {
+                    saveDB();
+                    alert('🔄 ทบทวนความรู้สำเร็จ!\nคุณคำนวณแบบฟอร์มได้อย่างแม่นยำ เก่งมากครับ! 👏');
+                }
+                switchPage('player');
+            } else {
+                alert('❌ ยังมีจุดที่คำนวณไม่ถูกต้อง (ช่องกรอบสีแดง) ลองตรวจสอบตัวเลขใหม่อีกครั้งนะ! ✌️');
+            }
+        }
+
+        function calcAppendLv4(val) { document.getElementById('calc-display-lv4').value += val; }
+        function calcClearLv4() { document.getElementById('calc-display-lv4').value = ''; }
+        function calcDelLv4() {
+            const display = document.getElementById('calc-display-lv4');
+            display.value = display.value.slice(0, -1);
+        }
+        function calcResultLv4() {
+            const display = document.getElementById('calc-display-lv4');
+            try {
+                let expr = display.value.replace(/[^0-9+\-*/.%]/g, '');
+                if(expr) {
+                    expr = expr.replace(/%/g, '/100');
+                    const result = Function('"use strict";return (' + expr + ')')();
+                    display.value = Number.isInteger(result) ? result : parseFloat(result.toFixed(2));
+                }
+            } catch(e) {
+                display.value = 'Error';
+                setTimeout(calcClearLv4, 1000);
+            }
+        }
+
         // ================= ฟังก์ชันเข้าเล่นเกม (Main) =================
         function playGame(level) {
             currentPlayingLevel = level;
@@ -1322,16 +1602,8 @@
                 startLevel2Game();
             } else if (level === 3) {
                 startLevel3Game();
-            } else {
-                // จำลองการเล่นด่าน 4 ไปก่อน
-                const earnedPoints = Math.floor(Math.random() * 401) + 100;
-                user.levelScores[level] = Math.max(user.levelScores[level] || 0, earnedPoints);
-                if (user.currentLevel === level) {
-                    user.currentLevel += 1; 
-                }
-                saveDB();
-                alert(`🎉 จบด่าน${levelNames[level - 1]}!\nได้รับแต้มรอบนี้: ${earnedPoints} คะแนน\nคะแนนสูงสุดด่านนี้: ${user.levelScores[level]}`);
-                renderPlayerMap();
+            } else if (level === 4) {
+                startLevel4Game();
             }
         }
 
@@ -1348,8 +1620,8 @@
             currentLoggedUser = null;
             isAdminLoggedIn = false;
             try {
-                localStorage.removeItem('game_curr_v10');
-                localStorage.removeItem('game_adm_v10');
+                localStorage.removeItem('game_curr_v11');
+                localStorage.removeItem('game_adm_v11');
             } catch(e){}
             switchPage('login');
         }
